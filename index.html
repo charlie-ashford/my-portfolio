@@ -18,16 +18,20 @@
       href="https://api.communitrics.com/youtube/profile?channel=communitrics"
       type="image/png"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <link rel="canonical" href="https://www.charlieashford.com" />
     <meta
       name="description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones, in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
     />
     <meta name="theme-color" content="#0f172a" />
     <meta property="og:title" content="Charlie Ashford" />
     <meta
       property="og:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones, in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
     />
     <meta
       property="og:image"
@@ -39,7 +43,7 @@
     <meta name="twitter:title" content="Charlie Ashford" />
     <meta
       name="twitter:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones, in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
     />
     <meta
       name="twitter:image"
@@ -57,43 +61,75 @@
         --gradient-start: #3b82f6;
         --gradient-end: #8b5cf6;
         --icon-size: 30px;
+        --modal-bg: rgba(15, 23, 42, 0.98);
       }
 
-      * {
+      *,
+      *::before,
+      *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
-        font-family: "Inter", sans-serif;
+        font-family: 'Inter', sans-serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
         overflow-x: hidden;
-        overflow-y: scroll;
-        position: relative;
-        z-index: 0;
-        scroll-behavior: smooth;
       }
 
-      .canvas-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
+      .modal-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 10px auto 20px;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
       }
 
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        background: var(--tile-color);
+        padding: 10px 15px;
+        border-radius: 8px;
+        max-width: fit-content;
+        margin-top: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .status i {
+        font-size: 1.4rem;
+      }
+
+      .status.complete {
+        color: #34d399;
+      }
+
+      .status.in-progress {
+        color: #facc15;
+      }
+
+      .status.pending {
+        color: #f87171;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .canvas-container,
       .background {
         position: fixed;
         top: 0;
@@ -101,26 +137,39 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
+        z-index: -1;
+      }
+
+      .background {
         background: radial-gradient(
           circle at var(--mouse-x) var(--mouse-y),
-          rgba(59, 130, 246, 0.1),
-          rgba(139, 92, 246, 0.1) 10%,
-          rgba(15, 23, 42, 0.3) 20%
+          rgba(59, 130, 246, 0.08),
+          rgba(139, 92, 246, 0.08) 15%,
+          rgba(15, 23, 42, 0.35) 40%
         );
-        z-index: -1;
-        transition: all 0.5s ease;
+        transition: background 0.45s ease;
       }
 
       .container {
-        max-width: 1400px;
+        max-width: 900px;
         margin: 0 auto;
-        padding: 2rem 2rem 4rem;
+        padding: 2rem;
       }
 
-      h1 {
-        font-family: "Poppins", sans-serif;
+      header,
+      main,
+      footer {
+        padding-bottom: 1rem;
+      }
+
+      header {
         text-align: center;
-        font-size: 4.5rem;
+        margin-bottom: 2rem;
+      }
+
+      header h1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 3.5rem;
         font-weight: 800;
         background: linear-gradient(
           to right,
@@ -131,16 +180,15 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
         letter-spacing: -0.5px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
         animation: textGlow 3s infinite alternate;
+        margin-bottom: 1rem;
       }
 
       .subtitle {
-        font-family: "Poppins", sans-serif;
-        text-align: center;
+        font-family: 'Poppins', sans-serif;
         font-size: 1.2rem;
         font-weight: 400;
-        margin-bottom: 2rem;
         background: linear-gradient(
           to right,
           var(--gradient-start),
@@ -150,9 +198,8 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
         letter-spacing: -0.5px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         animation: textGlow 3s infinite alternate;
-        margin-top: -1rem;
       }
 
       @keyframes textGlow {
@@ -165,175 +212,143 @@
         }
       }
 
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
+      .projects-list {
+        list-style: none;
       }
 
-      @media (min-width: 1200px) {
-        .grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-
-      .popup img.big-image {
-        max-width: 256px;
-      }
-
-      .popup img.wide-image {
-        max-width: 300px;
-      }
-
-      .popup img.wider-image {
-        max-width: 330px;
-      }
-
-      .popup img.widest-image {
-        max-width: 350px;
-      }
-
-      .tile {
-        background-color: var(--tile-color);
-        border-radius: 20px;
-        padding: 2rem;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        height: 100%;
+      .status {
         display: flex;
-        flex-direction: column;
-        animation: tileFadeIn 1s ease forwards;
-        z-index: 1;
+        align-items: center;
       }
 
-      @keyframes tileFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .tile:hover {
-        transform: translateY(-5px) scale(1.03);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      }
-
-      .tile::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          45deg,
-          var(--gradient-start),
-          var(--gradient-end)
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
-        border-radius: 20px;
-      }
-
-      .tile:hover::before {
-        opacity: 0.1;
-      }
-
-      .tile h2 {
-        font-family: "Poppins", sans-serif;
-        color: var(--accent-color);
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      }
-
-      .tile p {
-        font-weight: 300;
+      .status i {
         font-size: 1rem;
-        color: rgba(248, 250, 252, 0.8);
-        flex-grow: 1;
+        color: var(--accent-color);
       }
 
-      .popup {
+      .project-item {
+        background-color: var(--tile-color);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease, border-left 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        border-left: 6px solid transparent;
+      }
+
+      .project-item:hover {
+        transform: scale(1.02);
+        border-left: 6px solid var(--gradient-start);
+      }
+
+      .project-item h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--accent-color);
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .project-desc {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 5px;
+        padding-right: 30px;
+        padding-left: 10px;
+        text-align: right;
+        margin-left: auto;
+      }
+
+      .modal {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(15, 23, 42, 0.95);
+        background-color: var(--modal-bg);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 1000;
         opacity: 0;
         visibility: hidden;
-        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: opacity 0.3s ease;
+        padding: 1rem;
       }
 
-      .popup.active {
+      .modal.active {
         opacity: 1;
         visibility: visible;
       }
 
-      .subtitle-later {
-        font-family: "Poppins", sans-serif;
-        text-align: center;
-        margin-top: 3rem;
-        margin-bottom: -2rem;
-        font-size: 1.2rem;
-        font-weight: 400;
+      .modal-content {
+        background-color: var(--tile-color);
+        padding: 2.5rem 2rem 2rem;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        transform: translateY(-30px);
+        opacity: 0;
+        transition: transform 0.4s ease, opacity 0.4s ease;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+      }
+
+      .modal.active .modal-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .modal-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 20px auto 20px;
+        border-radius: 10px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-content h2 {
+        font-family: 'Poppins', sans-serif;
+        color: var(--accent-color);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+      .modal-content p {
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .modal-content a {
+        display: inline-block;
         background: linear-gradient(
           to right,
           var(--gradient-start),
           var(--gradient-end)
         );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        letter-spacing: -0.5px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        animation: textGlow 3s infinite alternate;
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
 
-      .popup-content {
-        background-color: var(--tile-color);
-        padding: 3rem;
-        border-radius: 20px;
-        max-width: 1000px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-        position: relative;
-        transform: scale(0.7);
-        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-      }
-
-      .popup img {
-        max-width: 128px;
-        float: right;
-        margin-left: 20px;
-        margin-top: -30px;
-        margin-bottom: 20px;
-        border-radius: 10px;
-      }
-
-      .popup.active .popup-content {
-        transform: scale(1);
+      .modal-content a:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
       }
 
       .close-btn {
@@ -343,7 +358,7 @@
         font-size: 1.5rem;
         color: var(--text-color);
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
         background: none;
         border: none;
         width: 40px;
@@ -360,77 +375,44 @@
         transform: rotate(90deg);
       }
 
-      .popup h2 {
-        font-family: "Poppins", sans-serif;
-        color: var(--accent-color);
-        font-size: 2.2rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      }
-
-      .popup p {
-        margin-bottom: 1.5rem;
-        font-weight: 300;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: rgba(248, 250, 252, 0.9);
-      }
-
-      a {
-        text-decoration: underline;
-        color: inherit;
-      }
-
-      .popup a {
-        display: inline-block;
-        background: linear-gradient(
-          to right,
-          var(--gradient-start),
-          var(--gradient-end)
-        );
-        color: var(--text-color);
-        text-decoration: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      .popup a:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-      }
-
       .socials {
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 1.5rem;
         padding: 2rem 0;
-        gap: 1rem;
       }
 
       .socials a {
         color: var(--text-color);
-        transition: color 0.3s ease;
+        transition: color 0.35s ease;
       }
 
       .socials a:hover {
         color: var(--accent-color);
       }
 
-      .socials svg {
-        width: var(--icon-size);
-        height: var(--icon-size);
+      .socials i {
+        font-size: 30px;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       @media (max-width: 768px) {
         .container {
-          padding: 1rem 1rem 2rem;
+          padding: 1rem;
         }
 
-        h1 {
+        header h1 {
           font-size: 2.5rem;
         }
 
@@ -438,41 +420,33 @@
           font-size: 1rem;
         }
 
-        .grid {
-          grid-template-columns: 1fr;
-          gap: 1rem;
+        .project-item {
+          flex-direction: column;
+          align-items: flex-start;
         }
 
-        .tile {
+        .project-item h2 {
+          font-size: 1.4rem;
+        }
+
+        .modal-content {
           padding: 1.5rem;
-        }
-
-        .tile h2 {
-          font-size: 1.5rem;
-        }
-
-        .tile p {
-          font-size: 0.9rem;
-        }
-
-        .popup-content {
-          padding: 2rem;
           width: 95%;
         }
 
-        .popup h2 {
+        .modal-content h2 {
           font-size: 1.8rem;
         }
 
-        .popup p {
+        .modal-content p {
           font-size: 1rem;
         }
 
-        .popup img {
-          max-width: 50%;
-          height: auto;
+        .modal-content img {
+          max-width: 80%;
           float: none;
-          margin: 0 0 1rem 0;
+          margin: 0 auto 1rem;
+          display: block;
         }
 
         .close-btn {
@@ -480,17 +454,16 @@
           height: 50px;
         }
 
-        .socials svg {
-          width: 24px;
-          height: 24px;
+        .socials i {
+          font-size: 24px;
         }
 
         .background {
           background: radial-gradient(
             circle at center,
-            rgba(59, 130, 246, 0.1),
-            rgba(139, 92, 246, 0.1) 10%,
-            rgba(15, 23, 42, 0.3) 20%
+            rgba(59, 130, 246, 0.08),
+            rgba(139, 92, 246, 0.08) 15%,
+            rgba(15, 23, 42, 0.35) 40%
           );
         }
       }
@@ -500,334 +473,329 @@
   <body>
     <div class="canvas-container"></div>
     <div class="background"></div>
+
     <div class="container">
-      <h1>Charlie Ashford</h1>
-      <p class="subtitle">
-        Welcome! I've been making projects for the past 4 years. <br />Here you
-        can see my best ones, in one place.
-      </p>
-      <div class="grid">
-        <div class="tile" data-project="1">
-          <h2>Communitrics Discord Bot</h2>
-          <p>
-            Communitrics is your all-in-one Discord Bot for tracking YouTube
-            milestones in real-time.
-          </p>
-        </div>
-        <div class="tile" data-project="2">
-          <h2>Top 10,000 YouTube Channels</h2>
-          <p>
-            A list of the top 10,000 YouTube channels, sorted by subscriber
-            count.
-          </p>
-        </div>
-        <div class="tile" data-project="3">
-          <h2>Communitrics Graphs</h2>
-          <p>
-            Full historic subscriber and daily average graphs of any channel
-            that Communitrics is tracking.
-          </p>
-        </div>
-        <div class="tile" data-project="4">
-          <h2>Global Clicker</h2>
-          <p>
-            A global clicker website, that anyone can access and increase the
-            count.
-          </p>
-        </div>
-        <div class="tile" data-project="5">
-          <h2>MrBeast Studio Graph</h2>
-          <p>
-            Real-time graph of MrBeast's studio subscriber count, powered by
-            <a href="https://viewstats.com/">Viewstats</a>.
-          </p>
-        </div>
-        <div class="tile" data-project="6">
-          <h2>Communitrics Live Count Site</h2>
-          <p>
-            Communitrics live counter is the best way to keep up to date on your
-            favourite channels subscriber counts.
-          </p>
-        </div>
-        <div class="tile" data-project="7">
-          <h2>Communitrics Counting</h2>
-          <p>
-            Data, analytics, leaderboards and graphs of Discord channels using
-            the Communitrics counting feature.
-          </p>
-        </div>
-        <div class="tile" data-project="8">
-          <h2>Channel + Video Data Exporter</h2>
-          <p>
-            See the views, likes, comments of any video with graphs and data
-            that can be exported to a CSV.
-          </p>
-        </div>
-        <div class="tile" data-project="9">
-          <h2>MrBeast Video Data</h2>
-          <p>See 5-minutely data of any MrBeast video, updated in real-time.</p>
-        </div>
-      </div>
-      <p class="subtitle-later">
-        More projects will be added soon, so check back later!<br /><br />Feel
-        free to contact me at any of these methods to reach out about any of my
-        projects, <br />or inquire about a custom-made project for yourself!
-      </p>
+      <header>
+        <h1>Charlie Ashford</h1>
+        <p class="subtitle">
+          Welcome! I've been making projects for the past 4 years. <br />
+          Here you can see my best ones all in one place.
+        </p>
+      </header>
 
-      <div class="popup">
-        <div class="popup-content">
-          <button class="close-btn">&times;</button>
-          <h2></h2>
-          <p></p>
-          <a href="#" target="_blank">View Project</a>
+      <main>
+        <ul class="projects-list">
+          <li class="project-item" data-project="1">
+            <h2>Communitrics Discord Bot</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="2">
+            <h2>Communitrics Graphs</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="3">
+            <h2>MrBeast Subscriber Graph</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="4">
+            <h2>Top 1,000 YouTube Channels</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="5">
+            <h2>Old YouTube Channels</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="6">
+            <h2>Data Exporter</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="7">
+            <h2>MrBeast Video Data</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="8">
+            <h2>Global Clicker</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="9">
+            <h2>Communitrics Counting</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+          <li class="project-item" data-project="10">
+            <h2>Bluesky User Statistics</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
+        </ul>
+
+        <p class="subtitle" style="text-align: center">
+          More projects coming soon!<br /><br />
+          Contact me via any of the methods below for inquiries or custom
+          projects.
+        </p>
+
+        <div class="modal" role="dialog" aria-modal="true">
+          <div class="modal-content">
+            <button class="close-btn" aria-label="Close Modal">&times;</button>
+            <img src="" alt="" class="modal-image" />
+            <h2></h2>
+            <p></p>
+            <p class="status">
+              <i class="fas fa-check-circle"></i> Complete (Started February
+              2024)
+            </p>
+            <a href="#" target="_blank" rel="noopener">View Project</a>
+          </div>
         </div>
-      </div>
+      </main>
+
+      <footer>
+        <div class="socials">
+          <a
+            href="https://discord.com/users/1158588351943811142"
+            target="_blank"
+            title="Discord"
+            rel="noopener"
+          >
+            <i class="fab fa-discord"></i>
+          </a>
+          <a
+            href="https://twitter.com/charlieashfordd"
+            target="_blank"
+            title="Twitter"
+            rel="noopener"
+          >
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a
+            href="https://github.com/charlie-ashford"
+            target="_blank"
+            title="GitHub"
+            rel="noopener"
+          >
+            <i class="fab fa-github"></i>
+          </a>
+          <a
+            href="https://www.youtube.com/@Communitrics"
+            target="_blank"
+            title="YouTube"
+            rel="noopener"
+          >
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a
+            href="mailto:admin@communitrics.com"
+            target="_blank"
+            title="Email"
+            rel="noopener"
+          >
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </footer>
     </div>
 
-    <div class="socials">
-      <a href="https://discord.com/users/1158588351943811142" target="_blank">
-        <svg
-          viewBox="0 0 256 199"
-          width="256"
-          height="199"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M216.856 16.597A208.502 208.502 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046-19.692-2.961-39.203-2.961-58.533 0-1.832-4.4-4.55-9.933-6.846-14.046a207.809 207.809 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161.094 161.094 0 0 0 79.735 175.3a136.413 136.413 0 0 1-21.846-10.632 108.636 108.636 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a131.66 131.66 0 0 0 5.355 4.237 136.07 136.07 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848 21.142-6.58 42.646-16.637 64.815-33.213 5.316-56.288-9.08-105.09-38.056-148.36ZM85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2c12.867 0 23.236 11.804 23.015 26.2.02 14.375-10.148 26.18-23.015 26.18Zm85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2 0 14.375-10.148 26.18-23.015 26.18Z"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
-      <a href="https://twitter.com/charlieashfordd" target="_blank">
-        <svg
-          viewBox="0 0 256 209"
-          width="256"
-          height="209"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M256 25.45c-9.42 4.177-19.542 7-30.166 8.27 10.845-6.5 19.172-16.793 23.093-29.057a105.183 105.183 0 0 1-33.351 12.745C205.995 7.201 192.346.822 177.239.822c-29.006 0-52.523 23.516-52.523 52.52 0 4.117.465 8.125 1.36 11.97-43.65-2.191-82.35-23.1-108.255-54.876-4.52 7.757-7.11 16.78-7.11 26.404 0 18.222 9.273 34.297 23.365 43.716a52.312 52.312 0 0 1-23.79-6.57c-.003.22-.003.44-.003.661 0 25.447 18.104 46.675 42.13 51.5a52.592 52.592 0 0 1-23.718.9c6.683 20.866 26.08 36.05 49.062 36.475-17.975 14.086-40.622 22.483-65.228 22.483-4.24 0-8.42-.249-12.529-.734 23.243 14.902 50.85 23.597 80.51 23.597 96.607 0 149.434-80.031 149.434-149.435 0-2.278-.05-4.543-.152-6.795A106.748 106.748 0 0 0 256 25.45"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
-      <a href="https://github.com/charlie-ashford" target="_blank">
-        <svg
-          viewBox="0 0 256 250"
-          width="256"
-          height="250"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M128.001 0C57.317 0 0 57.307 0 128.001c0 56.554 36.676 104.535 87.535 121.46 6.397 1.185 8.746-2.777 8.746-6.158 0-3.052-.12-13.135-.174-23.83-35.61 7.742-43.124-15.103-43.124-15.103-5.823-14.795-14.213-18.73-14.213-18.73-11.613-7.944.876-7.78.876-7.78 12.853.902 19.621 13.19 19.621 13.19 11.417 19.568 29.945 13.911 37.249 10.64 1.149-8.272 4.466-13.92 8.127-17.116-28.431-3.236-58.318-14.212-58.318-63.258 0-13.975 5-25.394 13.188-34.358-1.329-3.224-5.71-16.242 1.24-33.874 0 0 10.749-3.44 35.21 13.121 10.21-2.836 21.16-4.258 32.038-4.307 10.878.049 21.837 1.47 32.066 4.307 24.431-16.56 35.165-13.12 35.165-13.12 6.967 17.63 2.584 30.65 1.255 33.873 8.207 8.964 13.173 20.383 13.173 34.358 0 49.163-29.944 59.988-58.447 63.157 4.591 3.972 8.682 11.762 8.682 23.704 0 17.126-.148 30.91-.148 35.126 0 3.407 2.304 7.398 8.792 6.14C219.37 232.5 256 184.537 256 128.002 256 57.307 198.691 0 128.001 0Zm-80.06 182.34c-.282.636-1.283.827-2.194.39-.929-.417-1.45-1.284-1.15-1.922.276-.655 1.279-.838 2.205-.399.93.418 1.46 1.293 1.139 1.931Zm6.296 5.618c-.61.566-1.804.303-2.614-.591-.837-.892-.994-2.086-.375-2.66.63-.566 1.787-.301 2.626.591.838.903 1 2.088.363 2.66Zm4.32 7.188c-.785.545-2.067.034-2.86-1.104-.784-1.138-.784-2.503.017-3.05.795-.547 2.058-.055 2.861 1.075.782 1.157.782 2.522-.019 3.08Zm7.304 8.325c-.701.774-2.196.566-3.29-.49-1.119-1.032-1.43-2.496-.726-3.27.71-.776 2.213-.558 3.315.49 1.11 1.03 1.45 2.505.701 3.27Zm9.442 2.81c-.31 1.003-1.75 1.459-3.199 1.033-1.448-.439-2.395-1.613-2.103-2.626.301-1.01 1.747-1.484 3.207-1.028 1.446.436 2.396 1.602 2.095 2.622Zm10.744 1.193c.036 1.055-1.193 1.93-2.715 1.95-1.53.034-2.769-.82-2.786-1.86 0-1.065 1.202-1.932 2.733-1.958 1.522-.03 2.768.818 2.768 1.868Zm10.555-.405c.182 1.03-.875 2.088-2.387 2.37-1.485.271-2.861-.365-3.05-1.386-.184-1.056.893-2.114 2.376-2.387 1.514-.263 2.868.356 3.061 1.403Z"
-          />
-        </svg>
-      </a>
-      <a
-        href="https://www.youtube.com/channel/UCQuILwtULF0iymF5XDN6_qg"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 256 180"
-          width="256"
-          height="180"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            d="M250.346 28.075A32.18 32.18 0 0 0 227.69 5.418C207.824 0 127.87 0 127.87 0S47.912.164 28.046 5.582A32.18 32.18 0 0 0 5.39 28.24c-6.009 35.298-8.34 89.084.165 122.97a32.18 32.18 0 0 0 22.656 22.657c19.866 5.418 99.822 5.418 99.822 5.418s79.955 0 99.82-5.418a32.18 32.18 0 0 0 22.657-22.657c6.338-35.348 8.291-89.1-.164-123.134Z"
-            fill="currentColor"
-          />
-          <path d="m102.421 128.06 66.328-38.418-66.328-38.418z" />
-        </svg>
-      </a>
-      <a href="mailto:communitrics@gmail.com" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 49.4 512 399.42">
-          <g fill="none" fill-rule="evenodd">
-            <g fill-rule="nonzero">
-              <path
-                fill="currentColor"
-                d="M34.91 448.818h81.454V251L0 163.727V413.91c0 19.287 15.622 34.91 34.91 34.91z"
-              />
-              <path
-                fill="currentColor"
-                d="M395.636 448.818h81.455c19.287 0 34.909-15.622 34.909-34.909V163.727L395.636 251z"
-              />
-              <path
-                fill="currentColor"
-                d="M395.636 99.727V251L512 163.727v-46.545c0-43.142-49.25-67.782-83.782-41.891z"
-              />
-            </g>
-            <path
-              fill="currentColor"
-              d="M116.364 251V99.727L256 204.455 395.636 99.727V251L256 355.727z"
-            />
-            <path
-              fill="currentColor"
-              fill-rule="nonzero"
-              d="M0 117.182v46.545L116.364 251V99.727L83.782 75.291C49.25 49.4 0 74.04 0 117.18z"
-            />
-          </g>
-        </svg>
-      </a>
-    </div>
     <script>
       const projects = {
         1: {
-          title: "Communitrics Discord Bot",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">Feb 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete / Making Improvements</span><br><br>Communitrics is your all-in-one Discord Bot for tracking YouTube milestones in real-time.<br><br>Currently tracking 1,700+ YouTube channels, we allow for average calculations, overtaking date estimations, video upload notifying, future subscriber estimations, and of course, the main feature being real-time embeds and messages when your favorite channels reach new milestones.`,
-          image: "images/project1.png",
-          link: "https://communitrics.com/invite",
+          title: 'Communitrics Discord Bot',
+          description:
+            'Communitrics is your all-in-one Discord Bot for tracking YouTube milestones.',
+          image: 'images/project1.png',
+          link: 'https://communitrics.com/invite',
+          status: 'Complete (Started February 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         2: {
-          title: "Top 10,000 YouTube Channels",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">March 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>A list of the top 10,000 YouTube channels, sorted by subscriber count.<br><br>An always-updating list of the top 10,000 YouTube channels. The list allows for sorting or filtering by subscriber count, average monthly views and more The list is also downloadable as a CSV file.`,
-          image: "images/project2.png",
-          imageClass: "wider-image",
-          link: "https://toplist.communitrics.com/",
+          title: 'Communitrics Graphs',
+          description:
+            'Full subscriber and average graphs of any channel that Communitrics is tracking.',
+          image: 'images/project2.png',
+          link: 'https://graphs.communitrics.com/',
+          status: 'Complete (Started May 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         3: {
-          title: "Communitrics Graphs",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">April 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>Full historic subscriber and daily average graphs of any channel that Communitrics is tracking.<br><br>A site to view historical subscriber and daily average graphs of any channel that Communitrics is tracking. The graphs are updated whenever a subscriber count change happens through the YouTube API.`,
-          image: "images/project3.png",
-          imageClass: "widest-image",
-          link: "https://graphs.communitrics.com/",
+          title: 'MrBeast Subscriber Graph',
+          description: "Real-time graph of MrBeast's studio subscriber count.",
+          image: 'images/project3.png',
+          link: 'https://mrbeastgraph.com/',
+          status: 'Complete (Started May 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         4: {
-          title: "Global Clicker",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">May 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>A global clicker website, that anyone can access and increase the count.<br><br>The global clicker is a simple website that anyone can access, and increase the global number by clicking. You can choose to increase the number by a higher amount, but this adds a cooldown time for everyone else.`,
-          image: "images/project4.png",
-          imageClass: "wide-image",
-          link: "https://clicker.communitrics.com/",
+          title: 'Top 1,000 YouTube Channels',
+          description: 'View the top 1,000 most-subscribed YouTube channels.',
+          image: 'images/project4.png',
+          link: 'https://toplist.communitrics.com/',
+          status: 'Complete (Started April 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         5: {
-          title: "MrBeast Studio Graph",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">May 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>Real-time graph of MrBeast's studio subscriber count, powered by <span style="text-decoration: underline; cursor: pointer;" onclick="window.location.href='https://viewstats.com';">Viewstats</span>.<br><br>A complete graph of the MrBeast channel studio subscriber count, with historic hourly and daily data, and a live graph of the current count. All powered by Viewstats.`,
-          image: "images/project5.png",
-          imageClass: "widest-image",
-          link: "https://mrbeastgraph.com/",
+          title: 'Old YouTube Channels',
+          description: 'Discover and explore all YouTube channels from 2005.',
+          image: 'images/project5.png',
+          link: 'https://oldtube.communitrics.com/',
+          status: 'Complete (Started October 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         6: {
-          title: "Communitrics Live Count Site",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">June 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>Communitrics live counter is the best way to keep up to date on your favourite channels subscriber counts.<br><br>Using the Communitrics API and linear estimations, view the current estimated subscriber counts for your favourite channels, watch as it increases and see the subscriber graph in real-time.`,
-          image: "images/project6.png",
-          imageClass: "widest-image",
-          link: "https://communitrics.vercel.app/",
+          title: 'Data Exporter',
+          description:
+            'Get subs, views, likes and comments of any YouTube channel or video.',
+          image: 'images/project6.png',
+          link: 'https://export.communitrics.com/',
+          status: 'Complete (Started August 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         7: {
-          title: "Communitrics Counting",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">July 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>Data, analytics, leaderboards and graphs of Discord channels using the Communitrics counting feature.<br><br>A site to view the counting data of any Discord channel, with graphs and leaderboards. The data is updated in real-time, and the graphs are updated whenever a new count is added.`,
-          image: "images/project7.png",
-          imageClass: "widest-image",
-          link: "https://counting.communitrics.com//",
+          title: 'MrBeast Video Data',
+          description:
+            'Hourly data of all MrBeast videos with combined channel statistics.',
+          image: 'images/project7.png',
+          link: 'https://mbvideostats.communitrics.com/',
+          status: 'Complete (Started August 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         8: {
-          title: "Channel + Video Data Exporter",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">July 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete</span><br><br>See the views, likes, comments of any video with graphs and data that can be exported to a CSV.<br><br>A site to view the data of any video, with graphs and data that can be exported to a CSV. The data uses a combination of API sources, and is shown in an easy-to-view website.`,
-          image: "images/project8.png",
-          imageClass: "wider-image",
-          link: "https://export.communitrics.com/",
+          title: 'Global Clicker',
+          description:
+            'A global clicker website, that anyone can access and increase the count.',
+          image: 'images/project8.png',
+          link: 'https://clicker.communitrics.com/',
+          status: 'Complete (Started May 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
         9: {
-          title: "MrBeast Video Data",
-          description: `<strong style="font-size: 110%;">Began:</strong> <span style="font-size: 110%;">August 2024</span><br><strong style="font-size: 110%;">Status:</strong> <span style="font-size: 110%;">Complete / Making Improvements</span><br><br>See 5-minutely data of any MrBeast video, updated in real-time.<br><br>A site to view the 5-minutely data of any MrBeast video, with graphs and data that can be exported to a CSV. Data history tables are also available for combined channel data.`,
-          image: "images/project9.png",
-          imageClass: "widest-image",
-          link: "https://mbvideostats.communitrics.com/",
+          title: 'Communitrics Counting',
+          description:
+            'Analytics and leaderboards of Discord channels using Communitrics counting.',
+          image: 'images/project9.png',
+          link: 'https://counting.communitrics.com/',
+          status: 'Complete (Started July 2024)',
+          statusIcon: 'fas fa-check-circle',
+        },
+        10: {
+          title: 'Bluesky User Statistics',
+          description:
+            'Track the total user count of Bluesky and see hourly growth over time.',
+          image: 'images/project10.png',
+          link: 'https://bluesky.communitrics.com/',
+          status: 'Complete (Started Nov 2024)',
+          statusIcon: 'fas fa-check-circle',
         },
       };
 
-      const popup = document.querySelector(".popup");
-      const popupContent = popup.querySelector(".popup-content");
-      const closeBtn = popup.querySelector(".close-btn");
+      const modal = document.querySelector('.modal');
+      const modalContent = modal.querySelector('.modal-content');
+      const closeBtn = modalContent.querySelector('.close-btn');
+      const projectItems = document.querySelectorAll('.project-item');
 
-      document.querySelectorAll(".tile").forEach((tile) => {
-        tile.addEventListener("click", () => {
-          const projectId = tile.getAttribute("data-project");
-          const project = projects[projectId];
+      projectItems.forEach(item => {
+        const projectId = item.getAttribute('data-project');
+        const project = projects[projectId];
 
-          popupContent.querySelector("h2").innerHTML = project.title;
-          popupContent.querySelector("p").innerHTML = project.description;
-          popupContent.querySelector("a").href = project.link;
+        if (project) {
+          const descElement = item.querySelector('.project-desc');
+          if (descElement) descElement.innerText = project.description;
 
-          const existingImage = popupContent.querySelector("img");
-          if (project.image) {
-            if (existingImage) {
-              existingImage.src = project.image;
-              if (project.imageClass) {
-                existingImage.className = project.imageClass;
-              } else {
-                existingImage.className = "";
-              }
+          item.addEventListener('click', () => {
+            modalContent.querySelector('h2').innerText = project.title;
+            modalContent.querySelector('p').innerText =
+              project.description || 'No description available.';
+            modalContent.querySelector('a').href = project.link;
+            modalContent.querySelector(
+              '.status'
+            ).innerHTML = `<i class="${project.statusIcon}"></i> ${project.status}`;
+
+            const statusElement = modalContent.querySelector('.status');
+            if (project.status.includes('Complete')) {
+              statusElement.classList.add('complete');
+            } else if (project.status.includes('In Progress')) {
+              statusElement.classList.add('in-progress');
             } else {
-              const img = document.createElement("img");
-              img.src = project.image;
-              if (project.imageClass) {
-                img.className = project.imageClass;
-              }
-              popupContent.insertBefore(img, popupContent.querySelector("p"));
+              statusElement.classList.add('pending');
             }
-          } else if (existingImage) {
-            existingImage.remove();
-          }
+            let existingImg = modalContent.querySelector('.modal-image');
+            if (project.image) {
+              if (!existingImg) {
+                existingImg = document.createElement('img');
+                existingImg.className = 'modal-image';
+                modalContent.insertBefore(
+                  existingImg,
+                  modalContent.querySelector('p')
+                );
+              }
+              existingImg.src = project.image;
+              existingImg.alt = project.title;
+              existingImg.className = 'modal-image';
+              if (project.imageClass)
+                existingImg.classList.add(project.imageClass);
+            } else if (existingImg) {
+              existingImg.remove();
+            }
 
-          popup.classList.add("active");
-        });
-      });
-
-      closeBtn.addEventListener("click", () => {
-        popup.classList.remove("active");
-      });
-
-      popup.addEventListener("click", (e) => {
-        if (e.target === popup) {
-          popup.classList.remove("active");
+            modal.classList.add('active');
+          });
         }
       });
 
-      let mouseX = 0,
-        mouseY = 0;
-      let currentX = 0,
-        currentY = 0;
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
 
-      document.addEventListener("mousemove", (e) => {
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+
+      modal.addEventListener('click', e => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+
+      let mouseX = 0,
+        mouseY = 0,
+        currentX = 0,
+        currentY = 0;
+      document.addEventListener('mousemove', e => {
         mouseX = e.clientX;
         mouseY = e.clientY;
       });
-
-      function animate() {
+      function animateGradient() {
         currentX += (mouseX - currentX) * 0.1;
         currentY += (mouseY - currentY) * 0.1;
-
         document.documentElement.style.setProperty(
-          "--mouse-x",
+          '--mouse-x',
           `${currentX}px`
         );
         document.documentElement.style.setProperty(
-          "--mouse-y",
+          '--mouse-y',
           `${currentY}px`
         );
-
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animateGradient);
       }
+      animateGradient();
 
-      animate();
-
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.style.position = "fixed";
-      canvas.style.top = "0";
-      canvas.style.left = "0";
-      canvas.style.zIndex = "-1";
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
+      canvas.style.zIndex = '-1';
       document.body.appendChild(canvas);
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       let particlesArray = [];
-
       let isMobile = window.innerWidth <= 768;
       let maxParticles = isMobile ? 35 : 100;
 
@@ -840,13 +808,11 @@
           this.speedY = Math.random() * 15 - 5;
           this.color = `rgba(255,255,255,${Math.random() * 0.5})`;
         }
-
         update() {
           this.x += this.speedX;
           this.y += this.speedY;
           if (this.size > 0.2) this.size -= 0.1;
         }
-
         draw() {
           ctx.fillStyle = this.color;
           ctx.beginPath();
@@ -874,15 +840,15 @@
       animateParticles();
 
       function createParticle(e) {
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
+        const mX = e.clientX;
+        const mY = e.clientY;
         for (let i = 0; i < maxParticles; i++) {
-          particlesArray.push(new Particle(mouseX, mouseY));
+          particlesArray.push(new Particle(mX, mY));
         }
       }
 
       if (!isMobile) {
-        document.addEventListener("click", createParticle);
+        document.addEventListener('click', createParticle);
       }
 
       setInterval(() => {
@@ -896,21 +862,20 @@
         }
       }, 100);
 
-      window.addEventListener("resize", function () {
+      window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         isMobile = window.innerWidth <= 768;
         maxParticles = isMobile ? 35 : 100;
         if (isMobile) {
-          document.removeEventListener("click", createParticle);
+          document.removeEventListener('click', createParticle);
         } else {
-          document.addEventListener("click", createParticle);
+          document.addEventListener('click', createParticle);
         }
       });
 
-      let lastTime = performance.now();
-      let frameCount = 0;
-
+      let lastTime = performance.now(),
+        frameCount = 0;
       function checkPerformance() {
         const currentTime = performance.now();
         frameCount++;
@@ -925,6 +890,20 @@
         requestAnimationFrame(checkPerformance);
       }
       checkPerformance();
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const elements = document.querySelectorAll(
+          '.container h1, .container h2, .container p, .container .socials, .container .project-item'
+        );
+
+        elements.forEach((el, index) => {
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(5px)';
+
+          el.style.animation = 'fadeInUp 1s ease forwards';
+          el.style.animationDelay = `${index * 0.1}s`;
+        });
+      });
     </script>
   </body>
 </html>
