@@ -25,13 +25,13 @@
     <link rel="canonical" href="https://www.charlieashford.com" />
     <meta
       name="description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
     />
     <meta name="theme-color" content="#0f172a" />
     <meta property="og:title" content="Charlie Ashford" />
     <meta
       property="og:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
     />
     <meta
       property="og:image"
@@ -43,7 +43,7 @@
     <meta name="twitter:title" content="Charlie Ashford" />
     <meta
       name="twitter:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see all of my newer public ones in one place."
+      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
     />
     <meta
       name="twitter:image"
@@ -120,11 +120,11 @@
         color: #34d399;
       }
 
-      .status.in-progress {
+      .status.developing {
         color: #facc15;
       }
 
-      .status.pending {
+      .status.archived {
         color: #f87171;
       }
 
@@ -516,17 +516,17 @@
             <i class="fas fa-chevron-right"></i>
           </li>
           <li class="project-item" data-project="2">
-            <h2>Communitrics Graphs</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="3">
             <h2>MrBeast Subscriber Graph</h2>
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
+          <li class="project-item" data-project="3">
+            <h2>Communitrics Graphs</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
           <li class="project-item" data-project="4">
-            <h2>Top 1,000 YouTube Channels</h2>
+            <h2>MrBeast Video Data</h2>
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
@@ -541,17 +541,17 @@
             <i class="fas fa-chevron-right"></i>
           </li>
           <li class="project-item" data-project="7">
-            <h2>MrBeast Video Data</h2>
+            <h2>Top 1,000 YouTube Channels</h2>
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
           <li class="project-item" data-project="8">
-            <h2>Global Clicker</h2>
+            <h2>Communitrics Counting</h2>
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
           <li class="project-item" data-project="9">
-            <h2>Communitrics Counting</h2>
+            <h2>Global Clicker</h2>
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
@@ -560,10 +560,15 @@
             <p class="project-desc"></p>
             <i class="fas fa-chevron-right"></i>
           </li>
+          <li class="project-item" data-project="11">
+            <h2>MrBeast vs ...</h2>
+            <p class="project-desc"></p>
+            <i class="fas fa-chevron-right"></i>
+          </li>
         </ul>
 
         <p class="subtitle" style="text-align: center">
-          More projects coming soon!<br /><br />
+          More projects coming soon!<br />
           Contact me via any of the methods below for inquiries or custom
           projects.
         </p>
@@ -574,10 +579,7 @@
             <img src="" alt="" class="modal-image" />
             <h2></h2>
             <p></p>
-            <p class="status">
-              <i class="fas fa-check-circle"></i> Complete (Started February
-              2024)
-            </p>
+            <p class="status"><i class="fas fa-check-circle"></i> Complete</p>
             <a href="#" class="view-project-btn" target="_blank" rel="noopener"
               >See the project</a
             >
@@ -643,31 +645,32 @@
           statusIcon: 'fas fa-check-circle',
         },
         2: {
-          title: 'Communitrics Graphs',
-          description:
-            'Full subscriber and average graphs of any channel that Communitrics is tracking.',
-          image: 'images/project2.png',
-          link: 'https://graphs.communitrics.com/',
-          code: 'https://github.com/charlie-ashford/channel-graphs',
-          status: 'Complete (Started May 2024)',
-          statusIcon: 'fas fa-check-circle',
-        },
-        3: {
           title: 'MrBeast Subscriber Graph',
           description: "Real-time graph of MrBeast's studio subscriber count.",
-          image: 'images/project3.png',
+          image: 'images/project2.png',
           link: 'https://mrbeastgraph.com/',
           code: 'https://github.com/charlie-ashford/mrbeast-graph',
           status: 'Complete (Started May 2024)',
           statusIcon: 'fas fa-check-circle',
         },
+        3: {
+          title: 'Communitrics Graphs',
+          description:
+            'Full subscriber and average graphs of any channel that Communitrics is tracking.',
+          image: 'images/project3.png',
+          link: 'https://graphs.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/channel-graphs',
+          status: 'Complete (Started May 2024)',
+          statusIcon: 'fas fa-check-circle',
+        },
         4: {
-          title: 'Top 1,000 YouTube Channels',
-          description: 'View the top 1,000 most-subscribed YouTube channels.',
+          title: 'MrBeast Video Data',
+          description:
+            'Hourly data of all MrBeast videos with combined channel statistics.',
           image: 'images/project4.png',
-          link: 'https://toplist.communitrics.com/',
-          code: 'https://github.com/charlie-ashford/top-channels',
-          status: 'Complete (Started April 2024)',
+          link: 'https://mbvideostats.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/video-stats',
+          status: 'Complete (Started August 2024)',
           statusIcon: 'fas fa-check-circle',
         },
         5: {
@@ -690,33 +693,32 @@
           statusIcon: 'fas fa-check-circle',
         },
         7: {
-          title: 'MrBeast Video Data',
-          description:
-            'Hourly data of all MrBeast videos with combined channel statistics.',
+          title: 'Top 1,000 YouTube Channels',
+          description: 'View the top 1,000 most-subscribed YouTube channels.',
           image: 'images/project7.png',
-          link: 'https://mbvideostats.communitrics.com/',
-          code: 'https://github.com/charlie-ashford/video-stats',
-          status: 'Complete (Started August 2024)',
+          link: 'https://toplist.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/top-channels',
+          status: 'Complete (Started April 2024)',
           statusIcon: 'fas fa-check-circle',
         },
         8: {
-          title: 'Global Clicker',
-          description:
-            'A global clicker website, that anyone can access and increase the count.',
-          image: 'images/project8.png',
-          link: 'https://clicker.communitrics.com/',
-          code: 'https://github.com/charlie-ashford/global-clicker',
-          status: 'Complete (Started May 2024)',
-          statusIcon: 'fas fa-check-circle',
-        },
-        9: {
           title: 'Communitrics Counting',
           description:
             'Analytics and leaderboards of Discord channels using Communitrics counting.',
-          image: 'images/project9.png',
+          image: 'images/project8.png',
           link: 'https://counting.communitrics.com/',
           code: 'https://github.com/charlie-ashford/counting-data',
           status: 'Complete (Started July 2024)',
+          statusIcon: 'fas fa-check-circle',
+        },
+        9: {
+          title: 'Global Clicker',
+          description:
+            'A global clicker website, that anyone can access and increase the count.',
+          image: 'images/project9.png',
+          link: 'https://clicker.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/global-clicker',
+          status: 'Complete (Started May 2024)',
           statusIcon: 'fas fa-check-circle',
         },
         10: {
@@ -726,7 +728,17 @@
           image: 'images/project10.png',
           link: 'https://bluesky.communitrics.com/',
           code: 'https://github.com/charlie-ashford/bluesky-stats',
-          status: 'Complete (Started Nov 2024)',
+          status: 'Complete (Started November 2024)',
+          statusIcon: 'fas fa-check-circle',
+        },
+        11: {
+          title: 'MrBeast vs ...',
+          description:
+            'Compare the subscriber count of MrBeast to a target, currently US population.',
+          image: 'images/project11.png',
+          link: 'https://mbvsus.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/mrbeast-us',
+          status: 'Complete (Started December 2024)',
           statusIcon: 'fas fa-check-circle',
         },
       };
@@ -749,8 +761,9 @@
             modalContent.querySelector('p').innerText =
               project.description || 'No description available.';
             modalContent.querySelector('.view-project-btn').href = project.link;
+            const statusElement = modalContent.querySelector('.status');
 
-            if (projectId !== '1') {
+            if (projectId !== '1' && projectId !== '3') {
               let codeBtn = modalContent.querySelector('.view-code-btn');
               if (!codeBtn) {
                 codeBtn = document.createElement('a');
@@ -766,17 +779,19 @@
               if (codeBtn) codeBtn.remove();
             }
 
-            modalContent.querySelector(
-              '.status'
-            ).innerHTML = `<i class="${project.statusIcon}"></i> ${project.status}`;
+            statusElement.innerHTML = `<i class="${project.statusIcon}"></i> ${project.status}`;
+            statusElement.classList.remove(
+              'complete',
+              'developing',
+              'archived'
+            );
 
-            const statusElement = modalContent.querySelector('.status');
             if (project.status.includes('Complete')) {
               statusElement.classList.add('complete');
-            } else if (project.status.includes('In Progress')) {
-              statusElement.classList.add('in-progress');
+            } else if (project.status.includes('Developing')) {
+              statusElement.classList.add('developing');
             } else {
-              statusElement.classList.add('pending');
+              statusElement.classList.add('archived');
             }
             let existingImg = modalContent.querySelector('.modal-image');
             if (project.image) {
