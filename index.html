@@ -333,17 +333,13 @@
 
       .modal-content a {
         display: inline-block;
-        background: linear-gradient(
-          to right,
-          var(--gradient-start),
-          var(--gradient-end)
-        );
-        color: var(--text-color);
+        background: transparent;
         text-decoration: none;
         padding: 0.75rem 1.5rem;
         border-radius: 8px;
         font-weight: 600;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease,
+          background 0.3s ease, color 0.3s ease;
       }
 
       .modal-content a:hover {
@@ -367,6 +363,31 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
+      }
+
+      .modal-content .view-code-btn {
+        border: 2px dashed var(--gradient-start);
+        color: var(--gradient-start);
+        margin-left: 10px;
+      }
+
+      .modal-content .view-code-btn:hover {
+        background: var(--gradient-start);
+        color: var(--text-color);
+        transform: scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-content .view-project-btn {
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+      }
+
+      .modal-content .view-project-btn:hover {
+        background: var(--accent-color);
+        color: var(--text-color);
+        transform: scale(1.05);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
       }
 
       .close-btn:hover {
@@ -553,7 +574,9 @@
               <i class="fas fa-check-circle"></i> Complete (Started February
               2024)
             </p>
-            <a href="#" target="_blank" rel="noopener">View Project</a>
+            <a href="#" class="view-project-btn" target="_blank" rel="noopener"
+              >See the project</a
+            >
           </div>
         </div>
       </main>
@@ -621,6 +644,7 @@
             'Full subscriber and average graphs of any channel that Communitrics is tracking.',
           image: 'images/project2.png',
           link: 'https://graphs.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/channel-graphs',
           status: 'Complete (Started May 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -629,6 +653,7 @@
           description: "Real-time graph of MrBeast's studio subscriber count.",
           image: 'images/project3.png',
           link: 'https://mrbeastgraph.com/',
+          code: 'https://github.com/charlie-ashford/mrbeast-graph',
           status: 'Complete (Started May 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -637,6 +662,7 @@
           description: 'View the top 1,000 most-subscribed YouTube channels.',
           image: 'images/project4.png',
           link: 'https://toplist.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/top-channels',
           status: 'Complete (Started April 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -645,6 +671,7 @@
           description: 'Discover and explore all YouTube channels from 2005.',
           image: 'images/project5.png',
           link: 'https://oldtube.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/old-youtube/',
           status: 'Complete (Started October 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -654,6 +681,7 @@
             'Get subs, views, likes and comments of any YouTube channel or video.',
           image: 'images/project6.png',
           link: 'https://export.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/data-exporter',
           status: 'Complete (Started August 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -663,6 +691,7 @@
             'Hourly data of all MrBeast videos with combined channel statistics.',
           image: 'images/project7.png',
           link: 'https://mbvideostats.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/video-stats',
           status: 'Complete (Started August 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -672,6 +701,7 @@
             'A global clicker website, that anyone can access and increase the count.',
           image: 'images/project8.png',
           link: 'https://clicker.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/global-clicker',
           status: 'Complete (Started May 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -681,6 +711,7 @@
             'Analytics and leaderboards of Discord channels using Communitrics counting.',
           image: 'images/project9.png',
           link: 'https://counting.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/counting-data',
           status: 'Complete (Started July 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -690,6 +721,7 @@
             'Track the total user count of Bluesky and see hourly growth over time.',
           image: 'images/project10.png',
           link: 'https://bluesky.communitrics.com/',
+          code: 'https://github.com/charlie-ashford/bluesky-stats',
           status: 'Complete (Started Nov 2024)',
           statusIcon: 'fas fa-check-circle',
         },
@@ -712,7 +744,24 @@
             modalContent.querySelector('h2').innerText = project.title;
             modalContent.querySelector('p').innerText =
               project.description || 'No description available.';
-            modalContent.querySelector('a').href = project.link;
+            modalContent.querySelector('.view-project-btn').href = project.link;
+
+            if (projectId !== '1') {
+              let codeBtn = modalContent.querySelector('.view-code-btn');
+              if (!codeBtn) {
+                codeBtn = document.createElement('a');
+                codeBtn.className = 'view-code-btn';
+                codeBtn.target = '_blank';
+                codeBtn.rel = 'noopener';
+                codeBtn.innerText = 'View the code';
+                modalContent.appendChild(codeBtn);
+              }
+              codeBtn.href = project.code || '#';
+            } else {
+              const codeBtn = modalContent.querySelector('.view-code-btn');
+              if (codeBtn) codeBtn.remove();
+            }
+
             modalContent.querySelector(
               '.status'
             ).innerHTML = `<i class="${project.statusIcon}"></i> ${project.status}`;
@@ -900,7 +949,7 @@
           el.style.opacity = 0;
           el.style.transform = 'translateY(5px)';
 
-          el.style.animation = 'fadeInUp 1s ease forwards';
+          el.style.animation = 'fadeInUp 0.5s ease forwards';
           el.style.animationDelay = `${index * 0.1}s`;
         });
       });
