@@ -762,6 +762,20 @@
         },
       };
 
+      function preloadImages() {
+        const imageCache = new Map();
+
+        Object.values(projects).forEach(project => {
+          if (project.image) {
+            const img = new Image();
+            img.src = project.image;
+            imageCache.set(project.image, img);
+          }
+        });
+
+        return imageCache;
+      }
+
       function renderProjects() {
         const projectsGrid = document.querySelector('.projects-grid');
         Object.entries(projects).forEach(([id, project]) => {
@@ -775,7 +789,7 @@
             <p class="project-desc">${project.description}</p>
             <div class="project-meta">
               <span class="project-status">
-                <i class="fas fa-circle"></i>
+                <i class="fas fa-calendar-days"></i>
                 ${project.date}
               </span>
             </div>
@@ -793,9 +807,6 @@
         const viewProjectBtn = modal.querySelector('.modal-btn.primary');
         const viewCodeBtn = modal.querySelector('.modal-btn.secondary');
 
-        modalTitle.textContent = project.title;
-        modalDescription.textContent = project.description;
-
         if (project.image) {
           modalImage.src = project.image;
           modalImage.alt = project.title;
@@ -804,6 +815,8 @@
           modalImage.style.display = 'none';
         }
 
+        modalTitle.textContent = project.title;
+        modalDescription.textContent = project.description;
         viewProjectBtn.href = project.link;
 
         if (project.code) {
@@ -815,6 +828,11 @@
 
         modal.classList.add('active');
       }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        preloadImages();
+        renderProjects();
+      });
 
       const modal = document.querySelector('.modal');
       const closeBtn = modal.querySelector('.close-btn');
@@ -837,7 +855,6 @@
         }
       });
 
-      renderProjects();
       document.documentElement.style.scrollBehavior = 'smooth';
 
       document.querySelectorAll('.project-card').forEach(card => {
