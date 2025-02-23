@@ -3,260 +3,203 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Charlie Ashford</title>
+    <title>charlie ashford</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="icon"
-      href="https://api.communitrics.com/youtube/profile?channel=communitrics"
-      type="image/png"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="https://api.communitrics.com/youtube/profile?channel=communitrics"
-      type="image/png"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <link rel="canonical" href="https://www.charlieashford.com" />
-    <meta
-      name="description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
-    />
-    <meta name="theme-color" content="#0f172a" />
-    <meta property="og:title" content="Charlie Ashford" />
-    <meta
-      property="og:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
-    />
-    <meta property="og:url" content="https://www.charlieashford.com" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Charlie Ashford" />
-    <meta
-      name="twitter:description"
-      content="Welcome! I've been making projects for the past 4 years. Here you can see my best ones all in one place."
-    />
-    <meta name="twitter:url" content="https://www.charlieashford.com" />
 
     <style>
       :root {
-        --bg-color: #0f172a;
-        --tile-color: #1e293b;
-        --text-color: #f8fafc;
-        --accent-color: #60a5fa;
-        --secondary-color: #34d399;
-        --gradient-start: #3b82f6;
-        --gradient-end: #8b5cf6;
-        --icon-size: 30px;
-        --modal-bg: rgba(15, 23, 42, 0.98);
+        --bg-color: #0a0a0a;
+        --card-bg: #141414;
+        --text-color: #ffffff;
+        --text-secondary: #9a9a9a;
+        --accent-color: #3d3d3d;
+        --border-color: #2a2a2a;
+        --hover-bg: #1a1a1a;
+        --modal-bg: rgba(0, 0, 0, 0.9);
+        --transition-speed: 0.3s;
+        --border-radius: 8px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
-      *,
-      *::before,
-      *::after {
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      html {
-        scroll-behavior: smooth;
       }
 
       body {
         font-family: 'Inter', sans-serif;
         background-color: var(--bg-color);
         color: var(--text-color);
-        line-height: 1.6;
+        line-height: 1.7;
+        padding: 4rem;
         min-height: 100vh;
-        overflow-x: hidden;
-      }
-
-      .modal-image {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 10px auto 20px;
-        border-radius: 10px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .status {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        background: var(--tile-color);
-        padding: 10px 15px;
-        border-radius: 8px;
-        max-width: fit-content;
-        margin-top: 10px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .status i {
-        font-size: 1.4rem;
-      }
-
-      .status.complete {
-        color: #34d399;
-      }
-
-      .status.developing {
-        color: #facc15;
-      }
-
-      .status.archived {
-        color: #f87171;
-      }
-
-      img {
-        max-width: 80%;
-        height: auto;
-      }
-
-      .canvas-container,
-      .background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-      }
-
-      .background {
-        background: radial-gradient(
-          circle at var(--mouse-x) var(--mouse-y),
-          rgba(59, 130, 246, 0.08),
-          rgba(139, 92, 246, 0.08) 15%,
-          rgba(15, 23, 42, 0.35) 40%
-        );
-        transition: background 0.45s ease;
       }
 
       .container {
-        max-width: 900px;
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem;
-      }
-
-      header,
-      main,
-      footer {
-        padding-bottom: 1rem;
       }
 
       header {
-        text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 4rem;
       }
 
-      header h1 {
-        font-family: 'Poppins', sans-serif;
-        font-size: 3.5rem;
-        font-weight: 800;
-        background: linear-gradient(
-          to right,
-          var(--gradient-start),
-          var(--gradient-end)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        letter-spacing: -0.5px;
-        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-        animation: textGlow 3s infinite alternate;
-        margin-bottom: 1rem;
-      }
-
-      .subtitle {
-        font-family: 'Poppins', sans-serif;
-        font-size: 1.2rem;
+      .intro {
+        font-size: 2rem;
         font-weight: 400;
+        margin-bottom: 1.5rem;
         background: linear-gradient(
           to right,
-          var(--gradient-start),
-          var(--gradient-end)
+          var(--text-color),
+          var(--text-secondary)
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        background-clip: text;
-        letter-spacing: -0.5px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-        animation: textGlow 3s infinite alternate;
       }
 
-      @keyframes textGlow {
-        from {
-          text-shadow: 0 0 5px rgba(96, 165, 250, 0.3);
-        }
-
-        to {
-          text-shadow: 0 0 15px rgba(96, 165, 250, 0.5);
-        }
+      .bio {
+        font-size: 1.1rem;
+        max-width: 600px;
+        color: var(--text-secondary);
+        opacity: 0.9;
+        line-height: 1.8;
       }
 
-      .projects-list {
-        list-style: none;
+      .projects-section {
+        margin-bottom: 4rem;
       }
 
-      .status {
-        display: flex;
-        align-items: center;
+      .section-title {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-weight: 500;
       }
 
-      .status i {
-        font-size: 1rem;
-        color: var(--accent-color);
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
       }
 
-      .project-item {
-        background-color: var(--tile-color);
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
+      .project-card {
+        background: var(--card-bg);
+        padding: 1.75rem;
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
+        transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
         cursor: pointer;
-        transition: transform 0.3s ease, border-left 0.3s ease;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        border-left: 6px solid transparent;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
       }
 
-      .project-item:hover {
+      .project-card:hover {
         transform: scale(1.02);
-        border-left: 6px solid var(--gradient-start);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 20px rgba(61, 61, 61, 0.3);
       }
 
-      .project-item h2 {
-        font-family: 'Poppins', sans-serif;
-        color: var(--accent-color);
-        font-size: 1.5rem;
-        font-weight: 600;
+      .project-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          rgba(61, 61, 61, 0.1) 0%,
+          rgba(61, 61, 61, 0) 100%
+        );
+        opacity: 0;
+        transition: opacity var(--transition-speed) ease;
+      }
+
+      .project-card:hover::after {
+        opacity: 1;
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .project-title {
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--text-color);
+      }
+
+      .project-icon {
+        color: var(--text-secondary);
+        font-size: 1.25rem;
       }
 
       .project-desc {
-        font-size: 0.95rem;
-        font-weight: 300;
-        color: rgba(255, 255, 255, 0.7);
-        margin-top: 5px;
-        padding-right: 30px;
-        padding-left: 10px;
-        text-align: right;
-        margin-left: auto;
+        font-size: 0.925rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      .project-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: auto;
+      }
+
+      .project-status {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .project-status i {
+        font-size: 0.625rem;
+      }
+
+      .socials {
+        position: fixed;
+        bottom: 3rem;
+        left: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        z-index: 10;
+      }
+
+      .socials a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 1.4rem;
+        transition: var(--transition-speed);
+        opacity: 0.7;
+        padding: 8px;
+        margin: -8px;
+        border-radius: 4px;
+      }
+
+      .socials a:hover {
+        color: var(--text-color);
+        transform: translateX(4px);
+        opacity: 1;
       }
 
       .modal {
@@ -265,15 +208,16 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--modal-bg);
+        background: var(--modal-bg);
+        backdrop-filter: blur(10px);
         display: flex;
-        justify-content: center;
         align-items: center;
-        z-index: 1000;
+        justify-content: center;
+        padding: 2rem;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease;
-        padding: 1rem;
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        z-index: 1000;
       }
 
       .modal.active {
@@ -282,688 +226,627 @@
       }
 
       .modal-content {
-        background-color: var(--tile-color);
-        padding: 2.5rem 2rem 2rem;
-        border-radius: 15px;
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+        border: 1px solid var(--border-color);
+        padding-top: 12px;
         max-width: 600px;
         width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
         position: relative;
-        transform: translateY(-30px);
+        transform: scale(0.9);
         opacity: 0;
-        transition: transform 0.4s ease, opacity 0.4s ease;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
+        transition: transform 0.2s ease-out, opacity 0.2s ease-out;
       }
 
       .modal.active .modal-content {
-        transform: translateY(0);
+        transform: scale(1);
         opacity: 1;
       }
 
-      .modal-content img {
-        max-width: 90%;
+      .modal-image-container {
+        position: relative;
+        z-index: 0;
+      }
+
+      .modal-image {
+        width: 100%;
         height: auto;
         display: block;
-        margin: 20px auto 20px;
-        border-radius: 10px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .modal-content h2 {
-        font-family: 'Poppins', sans-serif;
-        color: var(--accent-color);
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        font-weight: 700;
-      }
-
-      .modal-content p {
-        margin-bottom: 1.5rem;
-        font-weight: 300;
-        font-size: 1rem;
-        line-height: 1.8;
-      }
-
-      .modal-content a {
-        display: inline-block;
-        background: transparent;
-        text-decoration: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: transform 0.3s ease, box-shadow 0.3s ease,
-          background 0.3s ease, color 0.3s ease;
-      }
-
-      .modal-content a:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
       }
 
       .close-btn {
         position: absolute;
         top: 1rem;
         right: 1rem;
-        font-size: 1.5rem;
-        color: var(--text-color);
-        cursor: pointer;
-        transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
-        background: none;
-        border: none;
-        width: 40px;
-        height: 40px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-      }
-
-      .modal-content .view-code-btn {
-        border: 2px dashed var(--gradient-start);
-        color: var(--gradient-start);
-        margin-left: 10px;
-      }
-
-      .modal-content .view-code-btn:hover {
-        background: var(--gradient-start);
-        color: var(--text-color);
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      .modal-content .view-project-btn {
-        border: 2px solid var(--accent-color);
-        color: var(--accent-color);
-      }
-
-      .modal-content .view-project-btn:hover {
-        background: var(--accent-color);
-        color: var(--text-color);
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 1001;
+        transition: all var(--transition-speed) ease;
       }
 
       .close-btn:hover {
-        color: var(--accent-color);
-        background-color: rgba(255, 255, 255, 0.1);
+        background: var(--hover-bg);
         transform: rotate(90deg);
       }
 
-      .socials {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1.5rem;
-        padding: 2rem 0;
-      }
-
-      .socials a {
+      .close-btn i {
+        font-size: 14px;
         color: var(--text-color);
-        transition: color 0.35s ease;
       }
 
-      .socials a:hover {
-        color: var(--accent-color);
+      .modal-info {
+        padding: 2rem;
+        width: 100%;
+        box-sizing: border-box;
       }
 
-      .socials i {
-        font-size: 30px;
+      .modal-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+        font-weight: 500;
       }
 
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(5px);
+      .modal-description {
+        font-weight: 300;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-actions {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        gap: 1rem;
+      }
+
+      .modal-btn {
+        padding: 0.875rem 1.75rem;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all var(--transition-speed) ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .modal-btn.primary {
+        background: linear-gradient(
+          45deg,
+          var(--accent-color),
+          var(--border-color)
+        );
+        color: var(--text-color);
+      }
+
+      .modal-btn.secondary {
+        background: var(--border-color);
+        color: var(--text-color);
+      }
+
+      .modal-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        transition: opacity var(--transition-speed) ease;
+      }
+
+      .modal-btn:hover {
+        transform: scale(1.02);
+      }
+
+      .modal-btn:hover::after {
+        opacity: 1;
+      }
+
+      @keyframes subtle-pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.4);
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        70% {
+          box-shadow: 0 0 0 10px rgba(61, 61, 61, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(61, 61, 61, 0);
+        }
+      }
+
+      .modal-btn:hover {
+        animation: subtle-pulse 2s infinite;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 2px;
+        border-radius: var(--border-radius);
+      }
+
+      :focus:not(:focus-visible) {
+        outline: none;
+      }
+
+      a:focus,
+      button:focus,
+      .project-card:focus,
+      .socials a:focus,
+      .modal-btn:focus,
+      .close-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--accent-color);
+      }
+
+      .socials a:focus {
+        padding: 8px;
+        margin: -8px;
+        border-radius: 4px;
+      }
+
+      .project-card:focus {
+        border-color: var(--accent-color);
+      }
+
+      ::selection {
+        background: var(--accent-color);
+        color: var(--text-color);
+      }
+
+      ::-moz-selection {
+        background: var(--accent-color);
+        color: var(--text-color);
+      }
+
+      .intro::selection {
+        background: var(--accent-color);
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: var(--text-color);
+      }
+
+      .intro::-moz-selection {
+        background: var(--accent-color);
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: var(--text-color);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-color);
+      }
+
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-color) var(--bg-color);
+      }
+
+      a,
+      button,
+      .project-card,
+      .modal-btn,
+      .close-btn {
+        transition: box-shadow 0.3s ease, transform 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      @media (max-width: 768px) {
+        .modal-actions {
+          flex-direction: column;
+        }
+
+        .modal-btn {
+          width: 100%;
+          justify-content: center;
         }
       }
 
       @media (max-width: 768px) {
-        .container {
+        body {
+          padding: 2rem;
+        }
+
+        .intro {
+          font-size: 1.75rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .socials {
+          position: static;
+          flex-direction: row;
+          margin-top: 3rem;
+          justify-content: center;
+        }
+
+        .socials a:hover {
+          transform: translateY(-3px);
+        }
+
+        .modal {
           padding: 1rem;
         }
 
-        header h1 {
-          font-size: 2.5rem;
-        }
-
-        .subtitle {
-          font-size: 1rem;
-        }
-
-        .project-item {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .project-item h2 {
-          font-size: 1.4rem;
-        }
-
         .modal-content {
+          margin: 1rem;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .modal-info {
           padding: 1.5rem;
-          width: 95%;
         }
 
-        .modal-content h2 {
-          font-size: 1.8rem;
+        .modal-actions {
+          flex-direction: column;
         }
 
-        .modal-content p {
-          font-size: 1rem;
+        .modal-btn {
+          width: 100%;
+          justify-content: center;
         }
+      }
 
-        .modal-content img {
-          max-width: 90%;
-          float: none;
-          margin: 0 auto 1rem;
-          display: block;
-        }
+      .custom-project-section {
+        margin-top: 4rem;
+        text-align: center;
+        color: var(--text-secondary);
+      }
 
-        .close-btn {
-          width: 50px;
-          height: 50px;
-        }
+      .custom-project-section a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px solid var(--accent-color);
+        padding-bottom: 2px;
+        transition: color 0.3s ease, border-color 0.3s ease;
+      }
 
-        .socials i {
-          font-size: 24px;
-        }
-
-        .background {
-          background: radial-gradient(
-            circle at center,
-            rgba(59, 130, 246, 0.08),
-            rgba(139, 92, 246, 0.08) 15%,
-            rgba(15, 23, 42, 0.35) 40%
-          );
-        }
+      .custom-project-section a:hover {
+        color: var(--text-color);
+        border-color: var(--text-color);
       }
     </style>
   </head>
 
   <body>
-    <div class="canvas-container"></div>
-    <div class="background"></div>
-
     <div class="container">
       <header>
-        <h1>Charlie Ashford</h1>
-        <p class="subtitle">
-          Welcome! I've been making projects for the past 4 years. <br />
-          Here you can see my best ones all in one place.
+        <p class="intro">hi, i'm charlie</p>
+        <p class="bio">
+          i make stuff that people on the internet use. i'm mostly focused on
+          visualising data and tracking youtube statistics.
         </p>
       </header>
 
-      <main>
-        <ul class="projects-list">
-          <li class="project-item" data-project="1">
-            <h2>Communitrics Discord Bot</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="2">
-            <h2>MrBeast Subscriber Graph</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="3">
-            <h2>Communitrics Graphs</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="4">
-            <h2>MrBeast Video Data</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="5">
-            <h2>Old YouTube Channels</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="6">
-            <h2>Data Exporter</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="7">
-            <h2>Top 1,000 YouTube Channels</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="8">
-            <h2>Communitrics Counting</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="9">
-            <h2>Global Clicker</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="10">
-            <h2>Bluesky User Statistics</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li class="project-item" data-project="11">
-            <h2>MrBeast vs ...</h2>
-            <p class="project-desc"></p>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-        </ul>
+      <section class="projects-section">
+        <h2 class="section-title">projects</h2>
+        <div class="projects-grid"></div>
+      </section>
 
-        <p class="subtitle" style="text-align: center">
-          More projects coming soon!<br />
-          Contact me via any of the methods below for inquiries or custom
-          projects.
+      <section class="custom-project-section">
+        <p>
+          interested in a custom project?
+          <a href="mailto:admin@communitrics.com">shoot me an email</a>
+          to get in touch.
         </p>
-
-        <div class="modal" role="dialog" aria-modal="true">
-          <div class="modal-content">
-            <button class="close-btn" aria-label="Close Modal">&times;</button>
-            <img src="" alt="" class="modal-image" />
-            <h2></h2>
-            <p></p>
-            <p class="status"><i class="fas fa-check-circle"></i> Complete</p>
-            <a href="#" class="view-project-btn" target="_blank" rel="noopener"
-              >See the project</a
-            >
-          </div>
-        </div>
-      </main>
-
-      <footer>
-        <div class="socials">
-          <a
-            href="https://discord.com/users/1158588351943811142"
-            target="_blank"
-            title="Discord"
-            rel="noopener"
-          >
-            <i class="fab fa-discord"></i>
-          </a>
-          <a
-            href="https://twitter.com/charlieashfordd"
-            target="_blank"
-            title="Twitter"
-            rel="noopener"
-          >
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a
-            href="https://github.com/charlie-ashford"
-            target="_blank"
-            title="GitHub"
-            rel="noopener"
-          >
-            <i class="fab fa-github"></i>
-          </a>
-          <a
-            href="https://www.youtube.com/@Communitrics"
-            target="_blank"
-            title="YouTube"
-            rel="noopener"
-          >
-            <i class="fab fa-youtube"></i>
-          </a>
-          <a
-            href="mailto:admin@communitrics.com"
-            target="_blank"
-            title="Email"
-            rel="noopener"
-          >
-            <i class="fas fa-envelope"></i>
-          </a>
-        </div>
-      </footer>
+      </section>
     </div>
 
+    <div class="socials">
+      <a href="https://twitter.com/charlieashfordd" target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://github.com/charlie-ashford" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://discord.com/users/1158588351943811142" target="_blank">
+        <i class="fab fa-discord"></i>
+      </a>
+      <a href="https://www.youtube.com/@Communitrics" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="mailto:admin@communitrics.com">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+
+    <div class="modal">
+      <div class="modal-content">
+        <button class="close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-image-container">
+          <img class="modal-image" src="" alt="" />
+        </div>
+        <div class="modal-info">
+          <h2 class="modal-title"></h2>
+          <p class="modal-description"></p>
+          <div class="modal-actions">
+            <a class="modal-btn primary" target="_blank">
+              <i class="fas fa-external-link-alt"></i>
+              view project
+            </a>
+            <a class="modal-btn secondary" target="_blank">
+              <i class="fab fa-github"></i>
+              view code
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
       const projects = {
         1: {
-          title: 'Communitrics Discord Bot',
+          title: 'communitrics discord bot',
           description:
-            'Communitrics is your all-in-one Discord Bot for tracking YouTube milestones.',
+            'discord bot for tracking youtube milestones in real-time.',
           image: 'images/project1.png',
           link: 'https://communitrics.com',
-          status: 'Complete (Started February 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'feb 2024',
+          icon: 'fab fa-discord',
         },
         2: {
-          title: 'MrBeast Subscriber Graph',
-          description: "Real-time graph of MrBeast's studio subscriber count.",
+          title: 'mrbeast subscriber graph',
+          description:
+            'real-time graph of mrbeast subscriber count with historical data.',
           image: 'images/project2.png',
           link: 'https://mrbeastgraph.com/',
           code: 'https://github.com/charlie-ashford/mrbeast-graph',
-          status: 'Complete (Started May 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'may 2024',
+          icon: 'fas fa-chart-line',
         },
         3: {
-          title: 'Communitrics Graphs',
-          description:
-            'Full subscriber and average graphs of any channel that Communitrics is tracking.',
+          title: 'communitrics graphs',
+          description: 'subscriber and average graphs for communitrics tracked channels.',
           image: 'images/project3.png',
           link: 'https://graphs.communitrics.com/',
           code: 'https://github.com/charlie-ashford/channel-graphs',
-          status: 'Complete (Started May 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'may 2024',
+          icon: 'fas fa-chart-area',
         },
         4: {
-          title: 'MrBeast Video Data',
+          title: 'mrbeast video data',
           description:
-            'Hourly data of all MrBeast videos with combined channel statistics.',
+            'hourly statistics for all mrbeast videos with daily analytics.',
           image: 'images/project4.png',
           link: 'https://mbvideostats.communitrics.com/',
           code: 'https://github.com/charlie-ashford/video-stats',
-          status: 'Complete (Started August 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'aug 2024',
+          icon: 'fas fa-video',
         },
         5: {
-          title: 'Old YouTube Channels',
-          description: 'Discover and explore all YouTube channels from 2005.',
+          title: 'old youtube channels',
+          description: 'explore all youtube channels from 2005.',
           image: 'images/project5.png',
           link: 'https://oldtube.communitrics.com/',
           code: 'https://github.com/charlie-ashford/old-youtube/',
-          status: 'Complete (Started October 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'oct 2024',
+          icon: 'fas fa-history',
         },
         6: {
-          title: 'Data Exporter',
+          title: 'data exporter',
           description:
-            'Get subs, views, likes and comments of any YouTube channel or video.',
+            'export youtube statistics for any channel or video.',
           image: 'images/project6.png',
           link: 'https://export.communitrics.com/',
           code: 'https://github.com/charlie-ashford/data-exporter',
-          status: 'Complete (Started August 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'aug 2024',
+          icon: 'fas fa-file-export',
         },
         7: {
-          title: 'Top 1,000 YouTube Channels',
-          description: 'View the top 1,000 most-subscribed YouTube channels.',
+          title: 'top 1,000 channels',
+          description:
+            'list of top 1,000 most-subscribed youtube channels.',
           image: 'images/project7.png',
           link: 'https://top.communitrics.com/',
           code: 'https://github.com/charlie-ashford/top-channels',
-          status: 'Complete (Started April 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'apr 2024',
+          icon: 'fas fa-trophy',
         },
         8: {
-          title: 'Communitrics Counting',
+          title: 'communitrics counting',
           description:
-            'Analytics and leaderboards of Discord channels using Communitrics counting.',
+            'analytics and leaderboards for discord counting channels using communitrics.',
           image: 'images/project8.png',
           link: 'https://counting.communitrics.com/',
           code: 'https://github.com/charlie-ashford/counting-data',
-          status: 'Complete (Started July 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'jul 2024',
+          icon: 'fas fa-sort-numeric-up',
         },
         9: {
-          title: 'Global Clicker',
+          title: 'global clicker',
           description:
-            'A global clicker website, that anyone can access and increase the count.',
+            'global clicker with real-time counter.',
           image: 'images/project9.png',
           link: 'https://clicker.communitrics.com/',
           code: 'https://github.com/charlie-ashford/global-clicker',
-          status: 'Complete (Started May 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'may 2024',
+          icon: 'fas fa-mouse-pointer',
         },
         10: {
-          title: 'Bluesky User Statistics',
+          title: 'bluesky statistics',
           description:
-            'Track the total user count of Bluesky and see hourly growth over time.',
+            'track total user count and growth statistics for bluesky.',
           image: 'images/project10.png',
           link: 'https://bluesky.communitrics.com/',
           code: 'https://github.com/charlie-ashford/bluesky-stats',
-          status: 'Complete (Started November 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'nov 2024',
+          icon: 'fas fa-cloud',
         },
         11: {
-          title: 'MrBeast vs ...',
-          description:
-            'Compare the subscriber count of MrBeast to a target, currently US population.',
+          title: 'mrbeast vs population',
+          description: 'compare mrbeast subscriber count to a target (currently us population).',
           image: 'images/project11.png',
           link: 'https://mbvsus.communitrics.com/',
           code: 'https://github.com/charlie-ashford/mrbeast-us',
-          status: 'Complete (Started December 2024)',
-          statusIcon: 'fas fa-check-circle',
+          status: 'active',
+          date: 'dec 2024',
+          icon: 'fas fa-users',
         },
       };
 
-      const modal = document.querySelector('.modal');
-      const modalContent = modal.querySelector('.modal-content');
-      const closeBtn = modalContent.querySelector('.close-btn');
-      const projectItems = document.querySelectorAll('.project-item');
+      function renderProjects() {
+        const projectsGrid = document.querySelector('.projects-grid');
+        Object.entries(projects).forEach(([id, project]) => {
+          const card = document.createElement('div');
+          card.className = 'project-card';
+          card.innerHTML = `
+            <div class="project-header">
+              <h3 class="project-title">${project.title}</h3>
+              <i class="${project.icon} project-icon"></i>
+            </div>
+            <p class="project-desc">${project.description}</p>
+            <div class="project-meta">
+              <span class="project-status">
+                <i class="fas fa-circle"></i>
+                ${project.date}
+              </span>
+            </div>
+          `;
+          card.addEventListener('click', () => showProjectModal(project));
+          projectsGrid.appendChild(card);
+        });
+      }
 
-      projectItems.forEach(item => {
-        const projectId = item.getAttribute('data-project');
-        const project = projects[projectId];
+      function showProjectModal(project) {
+        const modal = document.querySelector('.modal');
+        const modalImage = modal.querySelector('.modal-image');
+        const modalTitle = modal.querySelector('.modal-title');
+        const modalDescription = modal.querySelector('.modal-description');
+        const viewProjectBtn = modal.querySelector('.modal-btn.primary');
+        const viewCodeBtn = modal.querySelector('.modal-btn.secondary');
 
-        if (project) {
-          const descElement = item.querySelector('.project-desc');
-          if (descElement) descElement.innerText = project.description;
+        modalTitle.textContent = project.title;
+        modalDescription.textContent = project.description;
 
-          item.addEventListener('click', () => {
-            modalContent.querySelector('h2').innerText = project.title;
-            modalContent.querySelector('p').innerText =
-              project.description || 'No description available.';
-            modalContent.querySelector('.view-project-btn').href = project.link;
-            const statusElement = modalContent.querySelector('.status');
-
-            if (projectId !== '1') {
-              let codeBtn = modalContent.querySelector('.view-code-btn');
-              if (!codeBtn) {
-                codeBtn = document.createElement('a');
-                codeBtn.className = 'view-code-btn';
-                codeBtn.target = '_blank';
-                codeBtn.rel = 'noopener';
-                codeBtn.innerText = 'View the code';
-                modalContent.appendChild(codeBtn);
-              }
-              codeBtn.href = project.code || '#';
-            } else {
-              const codeBtn = modalContent.querySelector('.view-code-btn');
-              if (codeBtn) codeBtn.remove();
-            }
-
-            statusElement.innerHTML = `<i class="${project.statusIcon}"></i> ${project.status}`;
-            statusElement.classList.remove(
-              'complete',
-              'developing',
-              'archived'
-            );
-
-            if (project.status.includes('Complete')) {
-              statusElement.classList.add('complete');
-            } else if (project.status.includes('Developing')) {
-              statusElement.classList.add('developing');
-            } else {
-              statusElement.classList.add('archived');
-            }
-            let existingImg = modalContent.querySelector('.modal-image');
-            if (project.image) {
-              if (!existingImg) {
-                existingImg = document.createElement('img');
-                existingImg.className = 'modal-image';
-                modalContent.insertBefore(
-                  existingImg,
-                  modalContent.querySelector('p')
-                );
-              }
-              existingImg.src = project.image;
-              existingImg.alt = project.title;
-              existingImg.className = 'modal-image';
-              if (project.imageClass)
-                existingImg.classList.add(project.imageClass);
-            } else if (existingImg) {
-              existingImg.remove();
-            }
-
-            modal.classList.add('active');
-          });
+        if (project.image) {
+          modalImage.src = project.image;
+          modalImage.alt = project.title;
+          modalImage.style.display = 'block';
+        } else {
+          modalImage.style.display = 'none';
         }
-      });
 
-      closeBtn.addEventListener('click', () => {
+        viewProjectBtn.href = project.link;
+
+        if (project.code) {
+          viewCodeBtn.href = project.code;
+          viewCodeBtn.style.display = 'inline-flex';
+        } else {
+          viewCodeBtn.style.display = 'none';
+        }
+
+        modal.classList.add('active');
+      }
+
+      const modal = document.querySelector('.modal');
+      const closeBtn = modal.querySelector('.close-btn');
+
+      function closeModal() {
         modal.classList.remove('active');
-      });
+      }
+
+      closeBtn.addEventListener('click', closeModal);
 
       modal.addEventListener('click', e => {
         if (e.target === modal) {
-          modal.classList.remove('active');
+          closeModal();
         }
       });
 
-      modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-      });
-
-      let mouseX = 0,
-        mouseY = 0,
-        currentX = 0,
-        currentY = 0;
-      document.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-      function animateGradient() {
-        currentX += (mouseX - currentX) * 0.1;
-        currentY += (mouseY - currentY) * 0.1;
-        document.documentElement.style.setProperty(
-          '--mouse-x',
-          `${currentX}px`
-        );
-        document.documentElement.style.setProperty(
-          '--mouse-y',
-          `${currentY}px`
-        );
-        requestAnimationFrame(animateGradient);
-      }
-      animateGradient();
-
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.style.position = 'fixed';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.zIndex = '-1';
-      document.body.appendChild(canvas);
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      let particlesArray = [];
-      let isMobile = window.innerWidth <= 768;
-      let maxParticles = isMobile ? 35 : 100;
-
-      class Particle {
-        constructor(x, y) {
-          this.x = x;
-          this.y = y;
-          this.size = Math.random() * 5 + 1;
-          this.speedX = Math.random() * 15 - 5;
-          this.speedY = Math.random() * 15 - 5;
-          this.color = `rgba(255,255,255,${Math.random() * 0.5})`;
-        }
-        update() {
-          this.x += this.speedX;
-          this.y += this.speedY;
-          if (this.size > 0.2) this.size -= 0.1;
-        }
-        draw() {
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-
-      function handleParticles() {
-        for (let i = 0; i < particlesArray.length; i++) {
-          particlesArray[i].update();
-          particlesArray[i].draw();
-          if (particlesArray[i].size <= 0.3) {
-            particlesArray.splice(i, 1);
-            i--;
-          }
-        }
-      }
-
-      function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        handleParticles();
-        requestAnimationFrame(animateParticles);
-      }
-      animateParticles();
-
-      function createParticle(e) {
-        const mX = e.clientX;
-        const mY = e.clientY;
-        for (let i = 0; i < maxParticles; i++) {
-          particlesArray.push(new Particle(mX, mY));
-        }
-      }
-
-      if (!isMobile) {
-        document.addEventListener('click', createParticle);
-      }
-
-      setInterval(() => {
-        for (let i = 0; i < 5; i++) {
-          particlesArray.push(
-            new Particle(
-              Math.random() * canvas.width,
-              Math.random() * canvas.height
-            )
-          );
-        }
-      }, 100);
-
-      window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        isMobile = window.innerWidth <= 768;
-        maxParticles = isMobile ? 35 : 100;
-        if (isMobile) {
-          document.removeEventListener('click', createParticle);
-        } else {
-          document.addEventListener('click', createParticle);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
         }
       });
 
-      let lastTime = performance.now(),
-        frameCount = 0;
-      function checkPerformance() {
-        const currentTime = performance.now();
-        frameCount++;
-        if (currentTime - lastTime >= 1000) {
-          const fps = frameCount / ((currentTime - lastTime) / 1000);
-          if (fps < 30 && maxParticles > 100) {
-            maxParticles -= 70;
-          }
-          frameCount = 0;
-          lastTime = currentTime;
-        }
-        requestAnimationFrame(checkPerformance);
-      }
-      checkPerformance();
+      renderProjects();
+      document.documentElement.style.scrollBehavior = 'smooth';
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const elements = document.querySelectorAll(
-          '.container h1, .container h2, .container p, .container .socials, .container .project-item'
-        );
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'translateY(-4px)';
+        });
 
-        elements.forEach((el, index) => {
-          el.style.opacity = 0;
-          el.style.transform = 'translateY(5px)';
-
-          el.style.animation = 'fadeInUp 0.5s ease forwards';
-          el.style.animationDelay = `${index * 0.1}s`;
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'translateY(0)';
         });
       });
+
+      function checkSocialsOverlap() {
+        const socials = document.querySelector('.socials');
+        const container = document.querySelector('.container');
+
+        const containerRect = container.getBoundingClientRect();
+        const availableSpace = containerRect.left;
+
+        if (availableSpace < 100) {
+          socials.style.position = 'static';
+          socials.style.flexDirection = 'row';
+          socials.style.justifyContent = 'center';
+          socials.style.marginTop = '3rem';
+          socials.style.marginBottom = '2rem';
+        } else {
+          socials.style.position = 'fixed';
+          socials.style.flexDirection = 'column';
+          socials.style.justifyContent = 'flex-start';
+          socials.style.marginTop = '0';
+          socials.style.marginBottom = '0';
+          socials.style.left = '3rem';
+          socials.style.bottom = '3rem';
+        }
+      }
+
+      window.addEventListener('load', checkSocialsOverlap);
+      window.addEventListener('resize', checkSocialsOverlap);
     </script>
   </body>
 </html>
