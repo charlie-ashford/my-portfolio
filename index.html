@@ -920,7 +920,9 @@
 
       function updateTime() {
         const timeElement = document.getElementById('my-time');
-        const now = new Date().toLocaleString(undefined, {
+        const now = new Date();
+
+        const formattedTime = now.toLocaleString(undefined, {
           timeZone: 'Australia/Sydney',
           day: 'numeric',
           month: 'short',
@@ -930,10 +932,12 @@
           second: '2-digit',
         });
 
-        timeElement.textContent = now;
+        timeElement.textContent = formattedTime;
+        const msUntilNextSecond = 1000 - now.getMilliseconds();
+
+        setTimeout(updateTime, msUntilNextSecond);
       }
 
-      setInterval(updateTime, 1000);
       updateTime();
     </script>
   </body>
