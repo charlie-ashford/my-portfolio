@@ -920,7 +920,7 @@
       window.addEventListener('load', checkSocialsOverlap);
       window.addEventListener('resize', checkSocialsOverlap);
 
-      function updateSydneyTime() {
+      function updateTime() {
         const sydneyTimeElement = document.getElementById('sydney-time');
         const now = new Date();
 
@@ -965,8 +965,8 @@
         sydneyTimeElement.innerHTML = html;
       }
 
-      setInterval(updateSydneyTime, 1000);
-      updateSydneyTime();
+      setInterval(updateTime, 1000);
+      updateTime();
     </script>
   </body>
 </html>
