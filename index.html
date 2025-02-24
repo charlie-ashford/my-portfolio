@@ -602,9 +602,7 @@
   <body>
     <div class="container">
       <header>
-        <div class="my-time-section">
-          my time: <time id="sydney-time"></time>
-        </div>
+        <div class="my-time-section">my time: <time id="my-time"></time></div>
         <p class="intro">hi, i'm charlie</p>
         <p class="bio">
           i make stuff that people on the internet use. i'm mostly focused on
@@ -921,48 +919,18 @@
       window.addEventListener('resize', checkSocialsOverlap);
 
       function updateTime() {
-        const sydneyTimeElement = document.getElementById('sydney-time');
-        const now = new Date();
-
-        const formatter = new Intl.DateTimeFormat(undefined, {
+        const timeElement = document.getElementById('my-time');
+        const now = new Date().toLocaleString(undefined, {
           timeZone: 'Australia/Sydney',
           day: 'numeric',
           month: 'short',
           year: 'numeric',
-          hour: 'numeric',
+          hour: '2-digit',
           minute: '2-digit',
           second: '2-digit',
         });
 
-        const parts = formatter.formatToParts(now);
-        let html = '';
-
-        parts.forEach(part => {
-          const type = part.type.toLowerCase();
-          const value = part.value;
-
-          switch (type) {
-            case 'month':
-              html += `<span class="month">${value}</span>`;
-              break;
-
-            case 'day':
-            case 'year':
-              html += `<span class="date-num">${value}</span>`;
-              break;
-
-            case 'hour':
-            case 'minute':
-            case 'second':
-              html += `<span class="time-part">${value}</span>`;
-              break;
-
-            default:
-              html += value;
-          }
-        });
-
-        sydneyTimeElement.innerHTML = html;
+        timeElement.textContent = now;
       }
 
       setInterval(updateTime, 1000);
