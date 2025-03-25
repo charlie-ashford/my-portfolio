@@ -340,8 +340,8 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        gap: 0.5rem;
         margin-left: auto;
+        width: fit-content;
       }
 
       .my-time-section {
@@ -354,6 +354,8 @@
         display: flex;
         align-items: center;
         gap: 1rem;
+        justify-content: flex-end;
+        margin-bottom: 0.5rem;
       }
 
       .my-time-section:hover {
@@ -365,6 +367,30 @@
       }
 
       .my-time-section time {
+        color: var(--text-color);
+      }
+
+      .age-section {
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+        opacity: 0.75;
+        transition: opacity 0.3s ease;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      .age-section:hover {
+        opacity: 1;
+      }
+
+      .age-section .age-label {
+        color: var(--text-secondary);
+      }
+
+      .age-section .age-value {
         color: var(--text-color);
       }
 
@@ -688,6 +714,38 @@
         }
       }
 
+      @media (min-width: 730px) and (max-width: 950px) {
+        .top-container {
+          position: relative;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 2rem;
+          gap: 0.75rem;
+        }
+
+        .my-time-section,
+        .age-section,
+        .discord-presence {
+          width: 100%;
+          text-align: left;
+          word-break: break-word;
+        }
+
+        .discord-presence {
+          margin-bottom: 0;
+        }
+
+        .my-time-section {
+          justify-content: flex-start;
+        }
+
+        .age-section {
+          align-items: flex-start;
+        }
+      }
+
       @media (max-width: 768px) {
         body {
           padding: 2rem;
@@ -700,13 +758,30 @@
         .top-container {
           position: relative;
           width: 100%;
-          gap: 0.5rem 1.5rem;
           display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          align-items: center;
+          flex-direction: column; 
+          align-items: flex-start;
           margin-bottom: 2rem;
+          gap: 0.75rem;
+        }
+
+        .my-time-section,
+        .age-section,
+        .discord-presence {
+          width: 100%; 
+          text-align: left; 
+        }
+
+        .discord-presence {
+          margin-bottom: 0; 
+        }
+
+        .my-time-section {
+          justify-content: flex-start; 
+        }
+
+        .age-section {
+          align-items: flex-start; 
         }
 
         .my-time-section,
@@ -769,7 +844,6 @@
     <div class="container">
       <header>
         <div class="top-container">
-          <div class="my-time-section">my time: <time id="my-time"></time></div>
           <div class="discord-presence">
             <div class="discord-user-info">
               <div class="discord-status-wrapper">
@@ -784,6 +858,13 @@
               </div>
               <div id="discord-tooltip" class="tooltip"></div>
             </div>
+          </div>
+          <div class="my-time-section">my time: <time id="my-time"></time></div>
+          <div class="age-section">
+            <span style="display: inline-block; text-align: right">
+              <span class="age-label">age:</span>
+              <span class="age-value" id="my-age"></span>
+            </span>
           </div>
         </div>
         <p class="intro">hi, i'm charlie</p>
@@ -1117,8 +1198,9 @@
         });
 
         timeElement.textContent = formattedTime;
-        const msUntilNextSecond = 1000 - now.getMilliseconds();
+        updateAge();
 
+        const msUntilNextSecond = 1000 - now.getMilliseconds();
         setTimeout(updateTime, msUntilNextSecond);
       }
 
@@ -1208,6 +1290,30 @@
       }
 
       updateDiscordPresence();
+
+      function updateAge() {
+        const birthdate = new Date('2005-10-25T00:00:00+11:00');
+        const now = new Date();
+        const diff = now.getTime() - birthdate.getTime();
+
+        const ageInSeconds = diff / 1000;
+        const ageInMinutes = ageInSeconds / 60;
+        const ageInHours = ageInMinutes / 60;
+        const ageInDays = ageInHours / 24;
+        const ageInYears = ageInDays / 365.25;
+
+        const years = Math.floor(ageInYears);
+        const days = Math.floor(ageInDays % 365.25);
+        const hours = Math.floor(ageInHours % 24);
+        const minutes = Math.floor(ageInMinutes % 60);
+        const seconds = Math.floor(ageInSeconds % 60);
+
+        document.getElementById(
+          'my-age'
+        ).innerHTML = `${years} years, ${days} days, ${hours} hours,<br>${minutes} minutes, ${seconds} seconds`;
+      }
+
+      updateAge();
     </script>
   </body>
 </html>
