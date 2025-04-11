@@ -759,7 +759,7 @@
           position: relative;
           width: 100%;
           display: flex;
-          flex-direction: column; 
+          flex-direction: column;
           align-items: flex-start;
           margin-bottom: 2rem;
           gap: 0.75rem;
@@ -768,20 +768,20 @@
         .my-time-section,
         .age-section,
         .discord-presence {
-          width: 100%; 
-          text-align: left; 
+          width: 100%;
+          text-align: left;
         }
 
         .discord-presence {
-          margin-bottom: 0; 
+          margin-bottom: 0;
         }
 
         .my-time-section {
-          justify-content: flex-start; 
+          justify-content: flex-start;
         }
 
         .age-section {
-          align-items: flex-start; 
+          align-items: flex-start;
         }
 
         .my-time-section,
@@ -837,6 +837,35 @@
           justify-content: center;
         }
       }
+
+      .song-section {
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        font-weight: 500;
+        opacity: 0.75;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-bottom: 0.5rem;
+      }
+
+      .song-section:hover {
+        opacity: 1;
+      }
+
+      .song-section .song-info {
+        color: var(--text-color);
+      }
+
+      .song-section img {
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        object-fit: cover;
+      }
     </style>
   </head>
 
@@ -858,6 +887,19 @@
               </div>
               <div id="discord-tooltip" class="tooltip"></div>
             </div>
+          </div>
+          <div class="song-section" id="song-section">
+            <a
+              href="#"
+              id="song-link"
+              class="song-section"
+              target="_blank"
+              rel="noopener"
+              style="text-decoration: none; color: inherit"
+            >
+              <img id="song-image" src="" alt="Album Art" />
+              <span class="song-info" id="song-info"></span>
+            </a>
           </div>
           <div class="my-time-section">my time: <time id="my-time"></time></div>
           <div class="age-section">
@@ -1270,17 +1312,58 @@
             }
 
             discordStatusText.textContent = statusText;
+
+            const songSection = document.getElementById('song-section');
+            const songImage = document.getElementById('song-image');
+            const songInfo = document.getElementById('song-info');
+            const songLink = document.getElementById('song-link');
+
+            if (lanyardData.listening_to_spotify && lanyardData.spotify) {
+              const { artist, song, album_art_url, track_id } =
+                lanyardData.spotify;
+              songImage.src = album_art_url;
+              songInfo.textContent = `${song} - ${artist}`;
+              songSection.style.display = 'flex';
+
+              const spotifyUrl = `spotify:track:${track_id}`;
+              songLink.href = spotifyUrl;
+            } else {
+              songImage.src = '';
+              songInfo.textContent = 'Not listening to Spotify';
+              songSection.style.display = 'none';
+              songLink.href = '#';
+            }
           } else {
             document.getElementById('discord-status-text').textContent = '';
             document
               .getElementById('discord-status-circle')
               .classList.add('status-offline');
+
+            const songSection = document.getElementById('song-section');
+            const songImage = document.getElementById('song-image');
+            const songInfo = document.getElementById('song-info');
+            const songLink = document.getElementById('song-link');
+
+            songImage.src = '';
+            songInfo.textContent = '';
+            songSection.style.display = 'none';
+            songLink.href = '#';
           }
         } catch (error) {
           document.getElementById('discord-status-text').textContent = '';
           document
             .getElementById('discord-status-circle')
             .classList.add('status-offline');
+
+          const songSection = document.getElementById('song-section');
+          const songImage = document.getElementById('song-image');
+          const songInfo = document.getElementById('song-info');
+          const songLink = document.getElementById('song-link');
+
+          songImage.src = '';
+          songInfo.textContent = '';
+          songSection.style.display = 'none';
+          songLink.href = '#';
         }
       }
 
