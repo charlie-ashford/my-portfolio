@@ -399,6 +399,12 @@
         position: relative;
         animation: slideDown 0.6s ease-out;
         padding: 0.5rem 0;
+        opacity: 0.75;
+        transition: opacity 0.3s ease;
+      }
+
+      .discord-presence:hover {
+        opacity: 1;
       }
 
       .discord-user-info {
@@ -422,7 +428,7 @@
 
       .discord-status-text {
         font-size: 0.875rem;
-        color: var(--text-secondary);
+        color: var(--text-primary);
       }
 
       .tooltip {
