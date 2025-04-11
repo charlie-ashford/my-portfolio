@@ -377,6 +377,7 @@
         transition: opacity 0.3s ease;
         display: inline-flex;
         flex-direction: column;
+        text-align: right;
       }
 
       .age-section:hover {
@@ -1527,9 +1528,17 @@
         const minutes = Math.floor(ageInMinutes % 60);
         const seconds = Math.floor(ageInSeconds % 60);
 
-        document.getElementById(
-          'my-age'
-        ).innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        const isMobile = window.matchMedia('(max-width: 950px)').matches;
+
+        if (isMobile) {
+          document.getElementById(
+            'my-age'
+          ).innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        } else {
+          document.getElementById(
+            'my-age'
+          ).innerHTML = `${years} years, ${days} days, ${hours} hours, <br>${minutes} minutes, ${seconds} seconds`;
+        }
       }
 
       updateAge();
