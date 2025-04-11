@@ -984,7 +984,7 @@
           </div>
           <div class="my-time-section">my time: <time id="my-time"></time></div>
           <div class="age-section">
-            <span style="display: inline-block;">
+            <span style="display: inline-block">
               <span class="age-label">age:</span>
               <span class="age-value" id="my-age"></span>
             </span>
@@ -1381,6 +1381,7 @@
             let status = lanyardData.discord_status;
             let statusText = status;
             let tooltipText = '';
+            let emojiTooltip = '';
 
             let platformInfo = [];
             if (lanyardData.active_on_discord_desktop)
@@ -1389,8 +1390,30 @@
               platformInfo.push('mobile');
             if (lanyardData.active_on_discord_web) platformInfo.push('web');
 
+            const customStatusActivity = lanyardData.activities.find(
+              activity => activity.id === 'custom'
+            );
+            if (customStatusActivity && customStatusActivity.emoji) {
+              const emoji = customStatusActivity.emoji;
+              let emojiImageURL = '';
+
+              if (emoji.id) {
+                emojiImageURL = `https://cdn.discordapp.com/emojis/${
+                  emoji.id
+                }.${emoji.animated ? 'gif' : 'png'}`;
+              }
+
+              if (emojiImageURL) {
+                emojiTooltip = `<img src="${emojiImageURL}" alt="${emoji.name}" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">`;
+              }
+            }
+
+            if (emojiTooltip) {
+              tooltipText += emojiTooltip;
+            }
+
             if (platformInfo.length > 0) {
-              tooltipText += tooltipText ? '<br>' : '';
+              tooltipText += tooltipText ? ' ' : '';
               tooltipText += `active on: ${platformInfo.join(', ')}`;
             }
 
