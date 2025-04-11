@@ -354,7 +354,6 @@
         display: flex;
         align-items: center;
         gap: 1rem;
-        justify-content: flex-end;
         margin-bottom: 0.5rem;
       }
 
@@ -378,7 +377,6 @@
         transition: opacity 0.3s ease;
         display: inline-flex;
         flex-direction: column;
-        align-items: flex-end;
         text-align: right;
       }
 
@@ -683,6 +681,56 @@
         font-size: 0.625rem;
       }
 
+      .song-section {
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        font-weight: 500;
+        opacity: 0.75;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: flex-start;
+        margin-bottom: 0.5rem;
+      }
+
+      .song-section:hover {
+        opacity: 1;
+      }
+
+      .song-info-container {
+        max-width: 250px;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+      }
+
+      .song-section .song-info {
+        color: var(--text-color);
+        white-space: nowrap;
+        display: inline-block;
+        transition: transform 0.3s ease;
+        position: relative;
+        left: 0;
+      }
+
+      @keyframes marquee {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .song-section img {
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        object-fit: cover;
+      }
+
       @keyframes subtle-pulse {
         0% {
           box-shadow: 0 0 0 0 rgba(61, 61, 61, 0.4);
@@ -723,18 +771,25 @@
           align-items: flex-start;
           margin-bottom: 2rem;
           gap: 0.75rem;
+          background-color: var(--card-bg);
+          border-radius: var(--border-radius);
+          padding: 1rem;
+          border: 1px solid var(--border-color);
         }
 
         .my-time-section,
         .age-section,
-        .discord-presence {
+        .discord-presence,
+        .song-section {
           width: 100%;
           text-align: left;
           word-break: break-word;
+          margin-bottom: 0.5rem;
         }
 
         .discord-presence {
-          margin-bottom: 0;
+          margin-bottom: 0.5rem;
+          padding: 0;
         }
 
         .my-time-section {
@@ -743,6 +798,24 @@
 
         .age-section {
           align-items: flex-start;
+        }
+
+        .song-info-container {
+          width: auto;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .song-section .song-info {
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+          animation: none !important;
+          transform: none !important;
         }
       }
 
@@ -762,22 +835,40 @@
           flex-direction: column;
           align-items: flex-start;
           margin-bottom: 2rem;
-          gap: 0.75rem;
+          background-color: var(--card-bg);
+          border-radius: var(--border-radius);
+          padding: 1rem;
+          border: 1px solid var(--border-color);
+          box-shadow: var(--shadow);
         }
 
         .my-time-section,
         .age-section,
-        .discord-presence {
+        .discord-presence,
+        .song-section {
           width: 100%;
           text-align: left;
+          margin-bottom: 0.75rem;
+          padding: 0.5rem 0;
         }
 
         .discord-presence {
-          margin-bottom: 0;
+          margin-bottom: 0.5rem;
+          padding: 0;
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: 0.75rem;
+        }
+
+        .song-section {
+          justify-content: flex-start;
+          padding-bottom: -0.25rem;
+          margin-bottom: -0.25rem;
         }
 
         .my-time-section {
           justify-content: flex-start;
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: 0.75rem;
         }
 
         .age-section {
@@ -786,11 +877,11 @@
 
         .my-time-section,
         .discord-presence {
-          min-width: 150px;
+          min-width: 0;
         }
 
         .discord-presence {
-          text-align: right;
+          text-align: left;
         }
 
         header {
@@ -836,35 +927,24 @@
           width: 100%;
           justify-content: center;
         }
-      }
 
-      .song-section {
-        font-size: 0.875rem;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
-        font-weight: 500;
-        opacity: 0.75;
-        transition: opacity 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        justify-content: flex-end;
-        margin-bottom: 0.5rem;
-      }
+        .song-info-container {
+          width: auto;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
-      .song-section:hover {
-        opacity: 1;
-      }
-
-      .song-section .song-info {
-        color: var(--text-color);
-      }
-
-      .song-section img {
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
-        object-fit: cover;
+        .song-section .song-info {
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: block;
+          animation: none !important;
+          transform: none !important;
+        }
       }
     </style>
   </head>
@@ -897,8 +977,10 @@
               rel="noopener"
               style="text-decoration: none; color: inherit"
             >
-              <img id="song-image" src="" alt="Album Art" />
-              <span class="song-info" id="song-info"></span>
+              <img id="song-image" src="" alt="" />
+              <div class="song-info-container">
+                <span class="song-info" id="song-info"></span>
+              </div>
             </a>
           </div>
           <div class="my-time-section">my time: <time id="my-time"></time></div>
@@ -1247,6 +1329,38 @@
       }
 
       updateTime();
+
+      function restartMarqueeAnimation() {
+        const songSection = document.getElementById('song-section');
+        const songInfo = document.querySelector('.song-section .song-info');
+
+        if (!songInfo) {
+          return;
+        }
+
+        songInfo.style.animation = 'none';
+        songInfo.offsetHeight;
+        songInfo.style.animation = 'marquee 10s linear infinite';
+      }
+
+      const songSection = document.getElementById('song-section');
+
+      songSection.addEventListener('mouseenter', () => {
+        restartMarqueeAnimation();
+      });
+
+      songSection.addEventListener('mouseleave', () => {
+        const songInfo = document.querySelector('.song-section .song-info');
+        if (songInfo) {
+          songInfo.style.animation = 'none';
+        }
+      });
+
+      function updateSongInfo(artist, song) {
+        const songInfo = document.getElementById('song-info');
+        songInfo.textContent = `${song} - ${artist}`;
+        restartMarqueeAnimation();
+      }
 
       async function fetchDiscordPresence() {
         const apiUrl = `https://api.lanyard.rest/v1/users/1158588351943811142`;
