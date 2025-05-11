@@ -989,13 +989,6 @@
               </div>
             </a>
           </div>
-          <div class="my-time-section">my time: <time id="my-time"></time></div>
-          <div class="age-section">
-            <span style="display: inline-block">
-              <span class="age-label">age:</span>
-              <span class="age-value" id="my-age"></span>
-            </span>
-          </div>
         </div>
         <p class="intro">hi, i'm charlie</p>
         <p class="bio">
@@ -1314,29 +1307,6 @@
       window.addEventListener('load', checkSocialsOverlap);
       window.addEventListener('resize', checkSocialsOverlap);
 
-      function updateTime() {
-        const timeElement = document.getElementById('my-time');
-        const now = new Date();
-
-        const formattedTime = now.toLocaleString(undefined, {
-          timeZone: 'Australia/Sydney',
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          second: '2-digit',
-        });
-
-        timeElement.textContent = formattedTime;
-        updateAge();
-
-        const msUntilNextSecond = 1000 - now.getMilliseconds();
-        setTimeout(updateTime, msUntilNextSecond);
-      }
-
-      updateTime();
-
       function restartMarqueeAnimation() {
         const songSection = document.getElementById('song-section');
         const songInfo = document.querySelector('.song-section .song-info');
@@ -1517,38 +1487,6 @@
       }
 
       updateDiscordPresence();
-
-      function updateAge() {
-        const birthdate = new Date('2005-10-25T03:40:00+11:00');
-        const now = new Date();
-        const diff = now.getTime() - birthdate.getTime();
-
-        const ageInSeconds = diff / 1000;
-        const ageInMinutes = ageInSeconds / 60;
-        const ageInHours = ageInMinutes / 60;
-        const ageInDays = ageInHours / 24;
-        const ageInYears = ageInDays / 365.2422;
-
-        const years = Math.floor(ageInYears);
-        const days = Math.floor(ageInDays % 365.2422);
-        const hours = Math.floor(ageInHours % 24);
-        const minutes = Math.floor(ageInMinutes % 60);
-        const seconds = Math.floor(ageInSeconds % 60);
-
-        const isMobile = window.matchMedia('(max-width: 950px)').matches;
-
-        if (isMobile) {
-          document.getElementById(
-            'my-age'
-          ).innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-        } else {
-          document.getElementById(
-            'my-age'
-          ).innerHTML = `${years} years, ${days} days, ${hours} hours, <br>${minutes} minutes, ${seconds} seconds`;
-        }
-      }
-
-      updateAge();
     </script>
   </body>
 </html>
