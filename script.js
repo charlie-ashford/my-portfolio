@@ -343,20 +343,17 @@ async function fetchDiscordPresence() {
       );
       if (customStatusActivity && customStatusActivity.emoji) {
         const emoji = customStatusActivity.emoji;
-        let emojiImageURL = '';
+        let emojiTooltip = '';
 
         if (emoji.id) {
-          emojiImageURL = `https://cdn.discordapp.com/emojis/${emoji.id}.${
-            emoji.animated ? 'gif' : 'png'
-          }`;
-        }
-
-        if (emojiImageURL) {
+          const emojiImageURL = `https://cdn.discordapp.com/emojis/${
+            emoji.id
+          }.${emoji.animated ? 'gif' : 'png'}`;
           emojiTooltip = `<img src="${emojiImageURL}" alt="${emoji.name}" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">`;
+        } else if (emoji.name) {
+          emojiTooltip = `<span style="font-size: 16px; line-height: 20px; display: inline-block; width: 20px; height: 20px; text-align: center; vertical-align: middle; margin-right: 5px;">${emoji.name}</span>`;
         }
-      }
 
-      if (emojiTooltip) {
         tooltipText += emojiTooltip;
       }
 
