@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/uploads", "dest": "/uploads/index.html" },
+    { "src": "/upload", "dest": "/api/upload.js" },
+    { "src": "/([a-zA-Z0-9]+)$", "dest": "/api/[code].js?code=$1" }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
+}

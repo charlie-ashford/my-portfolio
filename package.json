@@ -1,0 +1,9 @@
+{
+  "name": "image-uploader",
+  "version": "1.0.0",
+  "description": "Image uploader for charlieashford.com",
+  "dependencies": {
+    "multer": "^1.4.5-lts.1",
+    "@vercel/blob": "^0.16.0"
+  }
+}

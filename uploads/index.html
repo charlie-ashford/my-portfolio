@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>image uploader - charlie ashford</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg-color: #0a0a0a;
+        --card-bg: #141414;
+        --text-color: #ffffff;
+        --text-secondary: #9a9a9a;
+        --accent-color: #3d3d3d;
+        --border-color: #2a2a2a;
+        --hover-bg: #1a1a1a;
+        --modal-bg: rgba(0, 0, 0, 0.9);
+        --transition-speed: 0.3s;
+        --border-radius: 8px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        --gradient-start: rgba(61, 61, 61, 0.1);
+        --gradient-end: rgba(61, 61, 61, 0);
+        --accent-glow: 0 0 20px rgba(61, 61, 61, 0.3);
+        --card-scale: 1.02;
+        --success-color: #2ecc71;
+        --error-color: #e74c3c;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-color) var(--bg-color);
+        font-variant-numeric: tabular-nums;
+        transition: box-shadow 0.3s ease, transform 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.7;
+        padding: 4rem;
+        min-height: 100vh;
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      ::selection {
+        background: var(--accent-color);
+        color: var(--text-color);
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-color);
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      header {
+        margin-bottom: 3rem;
+        position: relative;
+        animation: slideDown 0.6s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .intro {
+        font-size: 2rem;
+        font-weight: 400;
+        background: linear-gradient(
+          to right,
+          var(--text-color),
+          var(--text-secondary)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+      }
+
+      .bio {
+        font-size: 1.1rem;
+        padding-top: 12px;
+        max-width: 600px;
+        color: var(--text-secondary);
+        opacity: 0.9;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+
+      .settings-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+      }
+
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .toggle-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-right: 0.5rem;
+      }
+
+      .toggle {
+        position: relative;
+        width: 36px;
+        height: 20px;
+      }
+
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--border-color);
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: '';
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: var(--text-color);
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: var(--accent-color);
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(16px);
+      }
+
+      .upload-container {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow);
+        animation: slideUp 0.6s ease forwards;
+        opacity: 0;
+        animation-delay: 0.2s;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .upload-area {
+        border: 2px dashed var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 3rem 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .upload-area:hover,
+      .upload-area.active {
+        border-color: var(--accent-color);
+        background: var(--hover-bg);
+        box-shadow: var(--accent-glow);
+      }
+
+      .upload-area i {
+        font-size: 3rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        transition: color var(--transition-speed);
+      }
+
+      .upload-area:hover i {
+        color: var(--text-color);
+      }
+
+      .upload-area h3 {
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+      }
+
+      .upload-area p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .upload-area .drop-message {
+        display: none;
+      }
+
+      .upload-area.drag-over .default-message {
+        display: none;
+      }
+
+      .upload-area.drag-over .drop-message {
+        display: block;
+      }
+
+      input[type='file'] {
+        display: none;
+      }
+
+      .progress-container {
+        margin: 1.5rem 0;
+        display: none;
+      }
+
+      .progress-container.show {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .progress-bar {
+        height: 4px;
+        background: var(--border-color);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--text-color)
+        );
+        width: 0%;
+        transition: width 0.3s ease;
+        border-radius: 2px;
+      }
+
+      .progress-text {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-align: right;
+      }
+
+      .preview-container {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .preview-container.show {
+        display: block;
+      }
+
+      .image-preview {
+        width: 100%;
+        max-height: 200px;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .image-preview img {
+        max-width: 100%;
+        max-height: 200px;
+        display: block;
+        object-fit: contain;
+        background: var(--card-bg);
+      }
+
+      .url-container {
+        display: flex;
+        position: relative;
+      }
+
+      .url-container input {
+        flex: 1;
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-right: none;
+        color: var(--text-color);
+        padding: 0.75rem 1rem;
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color var(--transition-speed);
+      }
+
+      .url-container input:focus {
+        border-color: var(--accent-color);
+      }
+
+      .url-container button {
+        background: var(--accent-color);
+        color: var(--text-color);
+        border: none;
+        padding: 0 1.25rem;
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        cursor: pointer;
+        transition: background var(--transition-speed);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .url-container button:hover {
+        background: #4d4d4d;
+      }
+
+      .copy-note {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+        text-align: right;
+      }
+
+      .tooltip {
+        position: absolute;
+        background: var(--card-bg);
+        color: var(--text-color);
+        padding: 0.5rem 0.75rem;
+        border-radius: var(--border-radius);
+        font-size: 0.8rem;
+        top: -40px;
+        right: 0;
+        opacity: 0;
+        transition: opacity var(--transition-speed);
+        pointer-events: none;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+      }
+
+      .tooltip.show {
+        opacity: 1;
+      }
+
+      .status {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border-radius: var(--border-radius);
+        font-size: 0.9rem;
+        text-align: center;
+        display: none;
+      }
+
+      .status.success {
+        background: rgba(46, 204, 113, 0.1);
+        border: 1px solid rgba(46, 204, 113, 0.3);
+        color: #2ecc71;
+        display: block;
+      }
+
+      .status.error {
+        background: rgba(231, 76, 60, 0.1);
+        border: 1px solid rgba(231, 76, 60, 0.3);
+        color: #e74c3c;
+        display: block;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        transition: color var(--transition-speed);
+      }
+
+      .back-link:hover {
+        color: var(--text-color);
+      }
+
+      .back-link i {
+        margin-right: 0.5rem;
+      }
+
+      .socials {
+        position: fixed;
+        bottom: 3rem;
+        left: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        z-index: 10;
+      }
+
+      .socials a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 1.4rem;
+        transition: var(--transition-speed);
+        opacity: 0.7;
+        padding: 8px;
+        margin: -8px;
+        border-radius: 4px;
+      }
+
+      .socials a:hover {
+        color: var(--text-color);
+        transform: translateX(4px);
+        opacity: 1;
+      }
+
+      .context-menu {
+        position: fixed;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        padding: 0.5rem 0;
+        z-index: 1000;
+        opacity: 0;
+        transform: scale(0.95);
+        transform-origin: top left;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .context-menu.show {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+
+      .context-menu-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        color: var(--text-color);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: background 0.2s ease;
+      }
+
+      .context-menu-item:hover {
+        background: var(--hover-bg);
+      }
+
+      .context-menu-item i {
+        font-size: 0.9rem;
+        width: 1rem;
+        text-align: center;
+        color: var(--text-secondary);
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--card-bg);
+        color: var(--text-color);
+        border-radius: var(--border-radius);
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: 1000;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+      }
+
+      .toast.show {
+        opacity: 1;
+      }
+
+      .drag-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(10, 10, 10, 0.8);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+
+      .drag-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .drag-overlay-content {
+        background: var(--card-bg);
+        border: 2px dashed var(--accent-color);
+        border-radius: var(--border-radius);
+        padding: 3rem;
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+      }
+
+      .drag-overlay-content i {
+        font-size: 4rem;
+        color: var(--text-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .drag-overlay-content h3 {
+        font-size: 1.5rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+      }
+
+      .drag-overlay-content p {
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 2rem;
+        }
+
+        .intro {
+          font-size: 1.75rem;
+        }
+
+        .upload-area {
+          padding: 2rem 1rem;
+        }
+
+        .socials {
+          position: static;
+          flex-direction: row;
+          margin-top: 3rem;
+          justify-content: center;
+          gap: 2rem;
+        }
+
+        .socials a:hover {
+          transform: translateY(-3px);
+        }
+
+        .toast {
+          left: 1rem;
+          right: 1rem;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="back-link">
+          <i class="fas fa-arrow-left"></i> back to home
+        </a>
+        <p class="intro">image uploader</p>
+        <p class="bio">
+          quickly upload images and get shareable links. drag and drop, paste
+          from clipboard, or select a file.
+        </p>
+      </header>
+
+      <div class="upload-container">
+        <div class="settings-row">
+          <label class="toggle-container">
+            <span class="toggle-label"
+              >automatically copy link to clipboard</span
+            >
+            <div class="toggle">
+              <input type="checkbox" id="autoCopyToggle" checked />
+              <span class="toggle-slider"></span>
+            </div>
+          </label>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h3 class="default-message">upload an image</h3>
+          <p class="default-message">drag & drop, paste, or click to select</p>
+          <h3 class="drop-message">drop image to upload</h3>
+          <p class="drop-message">release to start uploading</p>
+          <input type="file" id="fileInput" accept="image/*" />
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <div class="progress-text" id="progressText">uploading... 0%</div>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+          <div class="image-preview" id="imagePreview"></div>
+          <div class="url-container">
+            <input type="text" id="imageUrl" readonly />
+            <button id="copyButton">
+              <i class="fas fa-copy"></i>
+            </button>
+            <div class="tooltip" id="tooltip">copied!</div>
+          </div>
+          <p class="copy-note" id="copyNote">
+            click the copy button to copy the link to your clipboard
+          </p>
+        </div>
+
+        <div class="status" id="status"></div>
+      </div>
+    </div>
+
+    <div class="socials">
+      <a href="https://twitter.com/charlieashfordd" target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://github.com/charlie-ashford" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://discord.com/users/1158588351943811142" target="_blank">
+        <i class="fab fa-discord"></i>
+      </a>
+      <a href="https://www.youtube.com/@Communitrics" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a
+        href="/cdn-cgi/l/email-protection#aacbcec7c3c4eac9c5c7c7dfc4c3ded8c3c9d984c9c5c7"
+      >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </div>
+
+    <div class="context-menu" id="contextMenu">
+      <div class="context-menu-item" id="pasteMenuItem">
+        <i class="fas fa-paste"></i> paste image
+      </div>
+    </div>
+
+    <div class="toast" id="toast">link copied to clipboard</div>
+
+    <div class="drag-overlay" id="dragOverlay">
+      <div class="drag-overlay-content">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <h3>drop image to upload</h3>
+        <p>release anywhere to start uploading</p>
+      </div>
+    </div>
+
+    <script>
+      const uploadArea = document.getElementById('uploadArea');
+      const fileInput = document.getElementById('fileInput');
+      const progressContainer = document.getElementById('progressContainer');
+      const progressBar = document.getElementById('progressBar');
+      const progressText = document.getElementById('progressText');
+      const previewContainer = document.getElementById('previewContainer');
+      const imagePreview = document.getElementById('imagePreview');
+      const imageUrl = document.getElementById('imageUrl');
+      const copyButton = document.getElementById('copyButton');
+      const tooltip = document.getElementById('tooltip');
+      const status = document.getElementById('status');
+      const contextMenu = document.getElementById('contextMenu');
+      const pasteMenuItem = document.getElementById('pasteMenuItem');
+      const toast = document.getElementById('toast');
+      const dragOverlay = document.getElementById('dragOverlay');
+      const autoCopyToggle = document.getElementById('autoCopyToggle');
+      const copyNote = document.getElementById('copyNote');
+
+      if (localStorage.getItem('autoCopy') === 'false') {
+        autoCopyToggle.checked = false;
+      } else {
+        localStorage.setItem('autoCopy', 'true');
+        autoCopyToggle.checked = true;
+      }
+
+      autoCopyToggle.addEventListener('change', () => {
+        localStorage.setItem('autoCopy', autoCopyToggle.checked);
+      });
+
+      function shouldAutoCopy() {
+        return autoCopyToggle.checked;
+      }
+
+      uploadArea.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      document.addEventListener('dragenter', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragOverlay.classList.add('active');
+      });
+
+      document.addEventListener('dragleave', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!e.relatedTarget || e.relatedTarget === document.documentElement) {
+          dragOverlay.classList.remove('active');
+        }
+      });
+
+      document.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+
+      document.addEventListener('drop', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragOverlay.classList.remove('active');
+
+        const dt = e.dataTransfer;
+        const file = dt.files[0];
+
+        if (file && isValidFile(file)) {
+          handleFile(file);
+        } else if (dt.files.length > 0) {
+          showStatus(
+            'please upload a valid image file (jpg, png, gif) under 10mb.',
+            'error'
+          );
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+
+        if (file && isValidFile(file)) {
+          handleFile(file);
+        } else if (fileInput.files.length > 0) {
+          showStatus(
+            'please upload a valid image file (jpg, png, gif) under 10mb.',
+            'error'
+          );
+        }
+      });
+
+      document.addEventListener('paste', e => {
+        const items = e.clipboardData.items;
+        let foundImage = false;
+
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            const file = items[i].getAsFile();
+            if (file && isValidFile(file)) {
+              handleFile(file);
+              foundImage = true;
+              break;
+            }
+          }
+        }
+
+        if (!foundImage && items.length > 0) {
+          showStatus('no valid image found in clipboard.', 'error');
+        }
+      });
+
+      document.addEventListener('contextmenu', e => {
+        e.preventDefault();
+
+        contextMenu.style.left = `${e.pageX}px`;
+        contextMenu.style.top = `${e.pageY}px`;
+
+        contextMenu.classList.add('show');
+      });
+
+      document.addEventListener('click', () => {
+        contextMenu.classList.remove('show');
+      });
+
+      pasteMenuItem.addEventListener('click', () => {
+        if (navigator.clipboard && navigator.clipboard.read) {
+          navigator.clipboard
+            .read()
+            .then(clipboardItems => {
+              let foundImage = false;
+
+              for (const clipboardItem of clipboardItems) {
+                for (const type of clipboardItem.types) {
+                  if (type.startsWith('image/')) {
+                    clipboardItem.getType(type).then(blob => {
+                      const file = new File([blob], 'pasted-image.png', {
+                        type,
+                      });
+                      if (isValidFile(file)) {
+                        handleFile(file);
+                        foundImage = true;
+                      }
+                    });
+                    return;
+                  }
+                }
+              }
+
+              if (!foundImage) {
+                showStatus('no valid image found in clipboard.', 'error');
+              }
+            })
+            .catch(err => {
+              console.error('Failed to read clipboard:', err);
+              showStatus('failed to access clipboard.', 'error');
+            });
+        } else {
+          showStatus(
+            'clipboard access not supported in this browser.',
+            'error'
+          );
+        }
+      });
+
+      function isValidFile(file) {
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxSize = 10 * 1024 * 1024;
+
+        return validTypes.includes(file.type) && file.size <= maxSize;
+      }
+
+      function handleFile(file) {
+        resetUI();
+
+        progressContainer.classList.add('show');
+
+        const reader = new FileReader();
+        reader.onload = e => {
+          imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+
+        uploadFile(file);
+      }
+
+      function uploadFile(file) {
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+
+        formData.append('image', file);
+
+        xhr.upload.addEventListener('progress', e => {
+          if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            progressBar.style.width = percentComplete + '%';
+            progressText.textContent = `uploading... ${percentComplete}%`;
+          }
+        });
+
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              if (response.success && response.url) {
+                imageUrl.value = response.url;
+                previewContainer.classList.add('show');
+
+                progressContainer.classList.remove('show');
+
+                if (shouldAutoCopy()) {
+                  copyToClipboard(response.url);
+                  showStatus(
+                    'image uploaded successfully! link copied to clipboard.',
+                    'success'
+                  );
+                  copyNote.textContent =
+                    'link has been copied to your clipboard';
+                } else {
+                  showStatus(
+                    'image uploaded successfully! click copy to get the link.',
+                    'success'
+                  );
+                  copyNote.textContent =
+                    'click the copy button to copy the link to your clipboard';
+                }
+              } else {
+                showStatus('upload failed. please try again.', 'error');
+              }
+            } catch (e) {
+              showStatus('server error. please try again.', 'error');
+            }
+          } else {
+            showStatus('upload failed. please try again.', 'error');
+          }
+        };
+
+        xhr.onerror = function () {
+          showStatus('connection error. please check your internet.', 'error');
+        };
+
+        xhr.open('POST', '/upload', true);
+        xhr.send(formData);
+      }
+
+      function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => {
+              showToast('link copied to clipboard');
+              tooltip.classList.add('show');
+              setTimeout(() => {
+                tooltip.classList.remove('show');
+              }, 2000);
+            })
+            .catch(err => {
+              console.error('Could not copy text: ', err);
+              fallbackCopyToClipboard(text);
+            });
+        } else {
+          fallbackCopyToClipboard(text);
+          showToast('link copied to clipboard');
+        }
+      }
+
+      function fallbackCopyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            tooltip.classList.add('show');
+            setTimeout(() => {
+              tooltip.classList.remove('show');
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Fallback: Oops, unable to copy', err);
+        }
+
+        document.body.removeChild(textArea);
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+      }
+
+      copyButton.addEventListener('click', () => {
+        copyToClipboard(imageUrl.value);
+        copyNote.textContent = 'link has been copied to your clipboard';
+      });
+
+      function showStatus(message, type) {
+        status.textContent = message;
+        status.className = 'status';
+        status.classList.add(type);
+
+        if (type === 'error') {
+          progressContainer.classList.remove('show');
+        }
+      }
+
+      function resetUI() {
+        status.className = 'status';
+        progressBar.style.width = '0%';
+        progressText.textContent = 'uploading... 0%';
+        previewContainer.classList.remove('show');
+      }
+    </script>
+  </body>
+</html>
