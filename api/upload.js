@@ -5,14 +5,11 @@ const { put } = require('@vercel/blob');
 function generateCode(length = 8) {
   const chars =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
   const randomBytes = crypto.randomBytes(length);
   let result = '';
-
   for (let i = 0; i < length; i++) {
     result += chars[randomBytes[i] % chars.length];
   }
-
   return result;
 }
 
@@ -62,7 +59,6 @@ module.exports = async (req, res) => {
     }
 
     const code = generateCode(8);
-
     let ext;
     switch (req.file.mimetype) {
       case 'image/jpeg':
@@ -78,27 +74,30 @@ module.exports = async (req, res) => {
         ext = '.jpg';
     }
 
-    const blob = await put(`${code}${ext}`, req.file.buffer, {
+    const filenameInBlob = `${code}${ext}`;
+
+    const blob = await put(filenameInBlob, req.file.buffer, {
       access: 'public',
+      contentType: req.file.mimetype,
     });
 
     const host = req.headers.host;
     const protocol = host.includes('localhost') ? 'http' : 'https';
-    const url = `${protocol}://${host}/${code}`;
+    const displayUrl = `${protocol}://${host}/${code}`;
 
     return res.status(200).json({
       success: true,
-      url,
+      url: displayUrl,
       code: code,
       size: req.file.size,
       mimetype: req.file.mimetype,
       blobUrl: blob.url,
     });
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Upload error in /api/upload.js:', error);
     return res.status(500).json({
       success: false,
-      message: error.message || 'Server error',
+      message: error.message || 'Server error during upload',
     });
   }
 };
