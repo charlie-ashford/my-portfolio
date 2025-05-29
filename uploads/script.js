@@ -66,7 +66,7 @@ document.addEventListener('drop', e => {
     handleFile(file);
   } else if (dt.files.length > 0) {
     showStatus(
-      'please upload a valid image file (jpg, png, gif) under 10mb.',
+      'please upload a valid image file (jpg, png, gif) under 10mb',
       'error'
     );
   }
@@ -79,7 +79,7 @@ fileInput.addEventListener('change', () => {
     handleFile(file);
   } else if (fileInput.files.length > 0) {
     showStatus(
-      'please upload a valid image file (jpg, png, gif) under 10mb.',
+      'please upload a valid image file (jpg, png, gif) under 10mb',
       'error'
     );
   }
@@ -101,7 +101,7 @@ document.addEventListener('paste', e => {
   }
 
   if (!foundImage && items.length > 0) {
-    showStatus('no valid image found in clipboard.', 'error');
+    showStatus('no valid image found in clipboard');
   }
 });
 
@@ -143,15 +143,15 @@ pasteMenuItem.addEventListener('click', () => {
         }
 
         if (!foundImage) {
-          showStatus('no valid image found in clipboard.', 'error');
+          showStatus('no valid image found in clipboard');
         }
       })
       .catch(err => {
         console.error('Failed to read clipboard:', err);
-        showStatus('failed to access clipboard.', 'error');
+        showStatus('failed to access clipboard');
       });
   } else {
-    showStatus('clipboard access not supported in this browser.', 'error');
+    showStatus('clipboard access not supported in this browser');
   }
 });
 
@@ -203,31 +203,31 @@ function uploadFile(file) {
           if (shouldAutoCopy()) {
             copyToClipboard(response.url);
             showStatus(
-              'image uploaded successfully! link copied to clipboard.',
+              'image uploaded successfully! link copied to clipboard',
               'success'
             );
             copyNote.textContent = 'link has been copied to your clipboard';
           } else {
             showStatus(
-              'image uploaded successfully! click copy to get the link.',
+              'image uploaded successfully! click copy to get the link',
               'success'
             );
             copyNote.textContent =
               'click the copy button to copy the link to your clipboard';
           }
         } else {
-          showStatus('upload failed. please try again.', 'error');
+          showStatus('upload failed. please try again');
         }
       } catch (e) {
-        showStatus('server error. please try again.', 'error');
+        showStatus('server error. please try again');
       }
     } else {
-      showStatus('upload failed. please try again.', 'error');
+      showStatus('upload failed. please try again');
     }
   };
 
   xhr.onerror = function () {
-    showStatus('connection error. please check your internet.', 'error');
+    showStatus('connection error. please check your internet');
   };
 
   xhr.open('POST', '/upload', true);
