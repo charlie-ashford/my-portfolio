@@ -2,7 +2,7 @@ const projects = {
   1: {
     title: 'communitrics discord bot',
     description: 'discord bot for tracking youtube milestones in real-time.',
-    image: 'images/project1.png',
+    image: 'images/communitrics.png',
     link: 'https://communitrics.com',
     status: 'active',
     date: 'feb 2024',
@@ -12,7 +12,7 @@ const projects = {
     title: 'mrbeast subscriber graph',
     description:
       'real-time graph of mrbeast subscriber count with historical data.',
-    image: 'images/project2.png',
+    image: 'images/mbgraph.png',
     link: 'https://mrbeastgraph.com/',
     code: 'https://github.com/charlie-ashford/mrbeast-graph',
     status: 'active',
@@ -23,7 +23,7 @@ const projects = {
     title: 'communitrics graphs',
     description:
       'subscriber and average graphs for communitrics tracked channels.',
-    image: 'images/project3.png',
+    image: 'images/graphs.png',
     link: 'https://graphs.communitrics.com/',
     code: 'https://github.com/charlie-ashford/channel-graphs',
     status: 'active',
@@ -31,97 +31,106 @@ const projects = {
     icon: 'fas fa-chart-area',
   },
   4: {
-    title: 'mrbeast video data',
-    description:
-      'hourly statistics for all mrbeast videos with daily analytics.',
-    image: 'images/project4.png',
-    link: 'https://mbvideostats.communitrics.com/',
-    code: 'https://github.com/charlie-ashford/video-stats',
-    status: 'active',
-    date: 'aug 2024',
-    icon: 'fas fa-video',
-  },
-  5: {
-    title: 'old youtube channels',
-    description: 'explore all youtube channels from 2005.',
-    image: 'images/project5.png',
-    link: 'https://oldtube.communitrics.com/',
-    code: 'https://github.com/charlie-ashford/old-youtube/',
-    status: 'active',
-    date: 'oct 2024',
-    icon: 'fas fa-history',
-  },
-  6: {
     title: 'data exporter',
     description: 'export youtube statistics for any channel or video.',
-    image: 'images/project6.png',
+    image: 'images/export.png',
     link: 'https://export.communitrics.com/',
     code: 'https://github.com/charlie-ashford/data-exporter',
     status: 'active',
     date: 'aug 2024',
     icon: 'fas fa-file-export',
   },
+  5: {
+    title: 'mrbeast video data',
+    description:
+      'hourly statistics for all mrbeast videos with daily analytics.',
+    image: 'images/videos.png',
+    link: 'https://mbvideostats.communitrics.com/',
+    code: 'https://github.com/charlie-ashford/video-stats',
+    status: 'active',
+    date: 'aug 2024',
+    icon: 'fas fa-video',
+  },
+  6: {
+    title: 'socialstats.app',
+    description:
+      'best analytics of all time, for all platforms! made with galvin and nia',
+    image: 'images/socialstats.png',
+    link: 'https://socialstats.app/',
+    status: 'active',
+    date: 'january 2025',
+    icon: 'fas fa-chart-pie',
+  },
   7: {
-    title: 'top 2,000 channels',
-    description: 'list of top 2,000 most-subscribed youtube channels.',
-    image: 'images/project7.png',
+    title: 'mrbeast hourly stats bot',
+    description:
+      'discord bot for tracking the hourly stats of mrbeast subscriber count.',
+    image: 'images/hourly.png',
+    status: 'active',
+    date: 'may 2024',
+    icon: 'fas fa-clock',
+  },
+  8: {
+    title: 'old youtube channels',
+    description: 'explore all youtube channels from 2005.',
+    image: 'images/oldtube.png',
+    link: 'https://oldtube.communitrics.com/',
+    code: 'https://github.com/charlie-ashford/old-youtube/',
+    status: 'active',
+    date: 'oct 2024',
+    icon: 'fas fa-history',
+  },
+  9: {
+    title: 'color extractor',
+    description:
+      'extract the main colors from any youtube profile pic or image.',
+    image: 'images/colors.png',
+    link: 'https://colors.communitrics.com/',
+    code: 'https://github.com/charlie-ashford/color-extractor',
+    status: 'active',
+    date: 'apr 2025',
+    icon: 'fas fa-eye-dropper',
+  },
+  10: {
+    title: 'top 1,000 channels',
+    description: 'list of top 1,000 most-subscribed youtube channels.',
+    image: 'images/top.png',
     link: 'https://top.communitrics.com/',
     code: 'https://github.com/charlie-ashford/top-channels',
     status: 'active',
     date: 'apr 2024',
     icon: 'fas fa-trophy',
   },
-  8: {
+  11: {
     title: 'communitrics counting',
     description:
       'analytics and leaderboards for discord counting channels using communitrics.',
-    image: 'images/project8.png',
+    image: 'images/counting.png',
     link: 'https://counting.communitrics.com/',
     code: 'https://github.com/charlie-ashford/counting-data',
     status: 'active',
     date: 'jul 2024',
     icon: 'fas fa-sort-numeric-up',
   },
-  9: {
+  12: {
     title: 'global clicker',
     description: 'global clicker with real-time counter.',
-    image: 'images/project9.png',
+    image: 'images/clicker.png',
     link: 'https://clicker.communitrics.com/',
     code: 'https://github.com/charlie-ashford/global-clicker',
     status: 'active',
     date: 'may 2024',
     icon: 'fas fa-mouse-pointer',
   },
-  10: {
+  13: {
     title: 'bluesky statistics',
     description: 'total user count and growth statistics for bluesky.',
-    image: 'images/project10.png',
+    image: 'images/bluesky.png',
     link: 'https://bluesky.communitrics.com/',
     code: 'https://github.com/charlie-ashford/bluesky-stats',
     status: 'active',
     date: 'nov 2024',
     icon: 'fas fa-cloud',
-  },
-  11: {
-    title: 'socialstats.app',
-    description:
-      'best analytics of all time, for all platforms! made with galvin and nia',
-    image: 'images/project11.png',
-    link: 'https://socialstats.app/',
-    status: 'active',
-    date: 'january 2025',
-    icon: 'fas fa-chart-pie',
-  },
-  12: {
-    title: 'color extractor',
-    description:
-      'extract the main colors from any youtube profile pic or image.',
-    image: 'images/project12.png',
-    link: 'https://colors.communitrics.com/',
-    code: 'https://github.com/charlie-ashford/color-extractor',
-    status: 'active',
-    date: 'apr 2025',
-    icon: 'fas fa-eye-dropper',
   },
 };
 
@@ -181,7 +190,13 @@ function showProjectModal(project) {
 
   modalTitle.textContent = project.title;
   modalDescription.textContent = project.description;
-  viewProjectBtn.href = project.link;
+
+  if (project.link) {
+    viewProjectBtn.href = project.link;
+    viewProjectBtn.style.display = 'inline-flex';
+  } else {
+    viewProjectBtn.style.display = 'none';
+  }
 
   if (project.code) {
     viewCodeBtn.href = project.code;
