@@ -71,6 +71,16 @@ const projects = {
     icon: 'fas fa-clock',
   },
   8: {
+    title: 'top 1,000 channels',
+    description: 'list of top 1,000 most-subscribed youtube channels.',
+    image: 'images/top.png',
+    link: 'https://top.communitrics.com/',
+    code: 'https://github.com/charlie-ashford/top-channels',
+    status: 'active',
+    date: 'apr 2024',
+    icon: 'fas fa-trophy',
+  },
+  9: {
     title: 'old youtube channels',
     description: 'explore all youtube channels from 2005.',
     image: 'images/oldtube.png',
@@ -80,7 +90,7 @@ const projects = {
     date: 'oct 2024',
     icon: 'fas fa-history',
   },
-  9: {
+  10: {
     title: 'color extractor',
     description:
       'extract the main colors from any youtube profile pic or image.',
@@ -90,16 +100,6 @@ const projects = {
     status: 'active',
     date: 'apr 2025',
     icon: 'fas fa-eye-dropper',
-  },
-  10: {
-    title: 'top 1,000 channels',
-    description: 'list of top 1,000 most-subscribed youtube channels.',
-    image: 'images/top.png',
-    link: 'https://top.communitrics.com/',
-    code: 'https://github.com/charlie-ashford/top-channels',
-    status: 'active',
-    date: 'apr 2024',
-    icon: 'fas fa-trophy',
   },
   11: {
     title: 'communitrics counting',
