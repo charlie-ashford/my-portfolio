@@ -20,6 +20,16 @@ const projects = {
     icon: 'fas fa-chart-line',
   },
   3: {
+    title: 'data exporter',
+    description: 'export youtube statistics for any channel or video.',
+    image: 'images/export.png',
+    link: 'https://export.communitrics.com/',
+    code: 'https://github.com/charlie-ashford/data-exporter',
+    status: 'active',
+    date: 'aug 2024',
+    icon: 'fas fa-file-export',
+  },
+  4: {
     title: 'communitrics graphs',
     description:
       'subscriber and average graphs for communitrics tracked channels.',
@@ -29,16 +39,6 @@ const projects = {
     status: 'active',
     date: 'may 2024',
     icon: 'fas fa-chart-area',
-  },
-  4: {
-    title: 'data exporter',
-    description: 'export youtube statistics for any channel or video.',
-    image: 'images/export.png',
-    link: 'https://export.communitrics.com/',
-    code: 'https://github.com/charlie-ashford/data-exporter',
-    status: 'active',
-    date: 'aug 2024',
-    icon: 'fas fa-file-export',
   },
   5: {
     title: 'mrbeast video data',
