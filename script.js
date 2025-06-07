@@ -11,7 +11,7 @@ const projects = {
   2: {
     title: 'mrbeast subscriber graph',
     description:
-      'real-time graph of mrbeast\'s subscriber count with historical data.',
+      "real-time graph of mrbeast's subscriber count with historical data.",
     image: 'images/mbgraph.png',
     link: 'https://mrbeastgraph.com',
     code: 'https://github.com/charlie-ashford/mrbeast-graph',
@@ -66,7 +66,8 @@ const projects = {
   },
   8: {
     title: 'my portfolio',
-    description: 'my personal portfolio site to showcase my projects, you\'re probably on it right now.',
+    description:
+      "my personal portfolio site to showcase my projects, you're probably on it right now.",
     image: 'images/portfolio.png',
     link: 'https://charlieashford.com',
     code: 'https://github.com/charlie-ashford/my-portfolio',
@@ -75,7 +76,7 @@ const projects = {
   },
   9: {
     title: 'mrbeast hourly stats bot',
-    description: 'discord bot for hourly mrbeast\'s subscriber count updates.',
+    description: "discord bot for hourly mrbeast's subscriber count updates.",
     image: 'images/hourly.png',
     date: 'may 2024',
     icon: 'fas fa-clock',
