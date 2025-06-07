@@ -129,7 +129,7 @@ const projects = {
   },
   15: {
     title: 'reminder discord bot',
-    description: 'customizable periodic reminder system for discord.',
+    description: 'customisable periodic reminder system for discord.',
     image: 'images/remind.png',
     link: 'https://discord.com/oauth2/authorize?client_id=1339020731052331058',
     date: 'feb 2025',
