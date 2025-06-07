@@ -58,7 +58,7 @@ const projects = {
   7: {
     title: 'socialstats.app',
     description:
-      'best analytics of all time, for all platforms! made with galvin and nia',
+      'best analytics of all time for all platforms, made with galvin and nia.',
     image: 'images/socialstats.png',
     link: 'https://socialstats.app',
     date: 'january 2025',
