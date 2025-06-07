@@ -454,6 +454,7 @@ header {
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
   border: 1px solid var(--border-color);
   max-width: 600px;
+  max-height: 90vh; 
   width: 100%;
   position: relative;
   transform: scale(0.9);
@@ -474,6 +475,8 @@ header {
 .modal-image {
   width: 100%;
   height: auto;
+  max-height: 60vh;
+  object-fit: contain;
   display: block;
 }
 
