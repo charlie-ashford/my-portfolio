@@ -5,7 +5,7 @@ const projects = {
       'discord bot for real-time tracking of youtube channel milestones.',
     image: 'images/communitrics.png',
     link: 'https://communitrics.com',
-    date: 'feb 2024',
+    date: 'jan 2024',
     icon: 'fab fa-discord',
   },
   2: {
@@ -34,7 +34,7 @@ const projects = {
     image: 'images/graphs.png',
     link: 'https://graphs.communitrics.com',
     code: 'https://github.com/charlie-ashford/channel-graphs',
-    date: 'may 2024',
+    date: 'apr 2024',
     icon: 'fas fa-chart-area',
   },
   5: {
@@ -61,7 +61,7 @@ const projects = {
       'best analytics of all time for all platforms, made with galvin and nia.',
     image: 'images/socialstats.png',
     link: 'https://socialstats.app',
-    date: 'january 2025',
+    date: 'jan 2025',
     icon: 'fas fa-chart-pie',
   },
   8: {
