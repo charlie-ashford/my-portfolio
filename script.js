@@ -4,14 +4,14 @@ const projects = {
     description:
       'discord bot for real-time tracking of youtube channel milestones.',
     image: 'images/communitrics.png',
-    link: 'https://communitrics.com',
+    link: 'https://discord.com/oauth2/authorize?client_id=1198800543448055928',
     date: 'jan 2024',
     icon: 'fab fa-discord',
   },
   2: {
     title: 'mrbeast subscriber graph',
     description:
-      'real-time graph of mrbeast subscriber count with historical data.',
+      'real-time graph of mrbeast\'s subscriber count with historical data.',
     image: 'images/mbgraph.png',
     link: 'https://mrbeastgraph.com',
     code: 'https://github.com/charlie-ashford/mrbeast-graph',
@@ -65,13 +65,22 @@ const projects = {
     icon: 'fas fa-chart-pie',
   },
   8: {
+    title: 'my portfolio',
+    description: 'my personal portfolio site to showcase my projects, you\'re probably on it right now.',
+    image: 'images/portfolio.png',
+    link: 'https://charlieashford.com',
+    code: 'https://github.com/charlie-ashford/my-portfolio',
+    date: 'jan 2025',
+    icon: 'fas fa-laptop-code',
+  },
+  9: {
     title: 'mrbeast hourly stats bot',
-    description: 'discord bot for hourly mrbeast subscriber count updates.',
+    description: 'discord bot for hourly mrbeast\'s subscriber count updates.',
     image: 'images/hourly.png',
     date: 'may 2024',
     icon: 'fas fa-clock',
   },
-  9: {
+  10: {
     title: 'top youtube channels',
     description: 'list of the 1,000 most-subscribed youtube channels.',
     image: 'images/top.png',
@@ -80,7 +89,7 @@ const projects = {
     date: 'apr 2024',
     icon: 'fas fa-trophy',
   },
-  10: {
+  11: {
     title: 'old youtube channels',
     description: 'explore all youtube channels from 2005.',
     image: 'images/oldtube.png',
@@ -89,7 +98,7 @@ const projects = {
     date: 'oct 2024',
     icon: 'fas fa-history',
   },
-  11: {
+  12: {
     title: 'color extractor',
     description:
       'tool to extract a color pallete from any youtube profile pic or image.',
@@ -99,7 +108,7 @@ const projects = {
     date: 'apr 2025',
     icon: 'fas fa-eye-dropper',
   },
-  12: {
+  13: {
     title: 'communitrics counting',
     description:
       'analytics and leaderboards for discord counting channels via communitrics.',
@@ -109,7 +118,7 @@ const projects = {
     date: 'jul 2024',
     icon: 'fas fa-sort-numeric-up',
   },
-  13: {
+  14: {
     title: 'mrbeast subs twitter bot',
     description: 'automated twitter bot for mrbeast subscriber milestones.',
     image: 'images/twitter.png',
@@ -117,7 +126,7 @@ const projects = {
     date: 'feb 2025',
     icon: 'fab fa-twitter',
   },
-  14: {
+  15: {
     title: 'reminder discord bot',
     description: 'customizable periodic reminder system for discord.',
     image: 'images/remind.png',
@@ -125,7 +134,7 @@ const projects = {
     date: 'feb 2025',
     icon: 'fas fa-bell',
   },
-  15: {
+  16: {
     title: 'global clicker',
     description: 'realtime collaborative global clicker and counter.',
     image: 'images/clicker.png',
@@ -134,14 +143,14 @@ const projects = {
     date: 'may 2024',
     icon: 'fas fa-mouse-pointer',
   },
-  16: {
+  17: {
     title: 'ytb discord xp leaderboard',
     description: 'custom tracking bot for ytbattles discord server xp data.',
     image: 'images/ytb.png',
     date: 'sept 2024',
     icon: 'fas fa-medal',
   },
-  17: {
+  18: {
     title: 'bluesky statistics',
     description: 'user count and growth analytics for bluesky.',
     image: 'images/bluesky.png',
