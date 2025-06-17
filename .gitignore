@@ -27,8 +27,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Local uploads
-/api/uploads/*
-!/api/uploads/.gitkeep
+/api/img/uploads/*
+!/api/img/uploads/.gitkeep
 
 # Editor directories and files
 .idea

@@ -11,29 +11,21 @@ const mimeTypes = {
 module.exports = async (req, res) => {
   const { code } = req.query;
 
-  const reserved = ['survey', 'api', 'favicon.ico', 'robots.txt'];
-  if (!code || reserved.includes(code) || !/^[a-zA-Z0-9]{8}$/.test(code)) {
+  if (!code || !/^[a-zA-Z0-9]{8}$/.test(code)) {
     return res.status(404).send('Not found');
   }
 
   try {
-    console.log(`Looking for blob with prefix: ${code}`);
     const { blobs } = await list({ prefix: code, limit: 1 });
 
     if (blobs.length === 0) {
-      console.error(`No blob found for code: ${code}`);
       return res.status(404).send('Image not found');
     }
 
     const blobToServe = blobs[0];
-    console.log(`Blob found:`, blobToServe);
-
     const blobResponse = await fetch(blobToServe.url);
 
     if (!blobResponse.ok) {
-      console.error(
-        `Failed to fetch blob from storage. URL: ${blobToServe.url}, Status: ${blobResponse.status}`
-      );
       return res.status(500).send('Error retrieving image from storage.');
     }
 
@@ -54,10 +46,6 @@ module.exports = async (req, res) => {
     const buffer = Buffer.from(arrayBuffer);
     res.send(buffer);
   } catch (error) {
-    console.error(
-      `Error serving image for code ${code} in /api/[code].js:`,
-      error
-    );
     return res.status(500).send('Internal server error.');
   }
 };

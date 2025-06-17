@@ -83,7 +83,7 @@ module.exports = async (req, res) => {
 
     const host = req.headers.host;
     const protocol = host.includes('localhost') ? 'http' : 'https';
-    const displayUrl = `${protocol}://${host}/${code}`;
+    const displayUrl = `${protocol}://${host}/img/${code}`;
 
     return res.status(200).json({
       success: true,
@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
       blobUrl: blob.url,
     });
   } catch (error) {
-    console.error('Upload error in /api/upload.js:', error);
+    console.error('Upload error in /api/img/upload.js:', error);
     return res.status(500).json({
       success: false,
       message: error.message || 'Server error during upload',
