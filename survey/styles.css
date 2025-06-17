@@ -35,6 +35,28 @@ body {
   overflow: hidden;
 }
 
+::selection {
+  background: var(--accent-color) !important;
+  color: var(--text-color) !important;
+}
+
+::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color) !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color) !important;
+}
+
 .container {
   max-width: 700px;
   width: 100%;
