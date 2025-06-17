@@ -321,6 +321,7 @@ async function submitSurvey() {
 
     const response = await fetch('https://api.communitrics.com/survey', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
