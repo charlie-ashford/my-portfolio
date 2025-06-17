@@ -12,13 +12,8 @@ module.exports = async (req, res) => {
   const { code } = req.query;
 
   const reserved = ['survey', 'api', 'favicon.ico', 'robots.txt'];
-  if (!code || reserved.includes(code)) {
+  if (!code || reserved.includes(code) || !/^[a-zA-Z0-9]{8}$/.test(code)) {
     return res.status(404).send('Not found');
-  }
-
-  if (!code || !code.match(/^[a-zA-Z0-9]+$/)) {
-    console.error(`Invalid code format: ${code}`);
-    return res.status(400).send('Invalid code format');
   }
 
   try {
