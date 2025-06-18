@@ -39,6 +39,11 @@ body {
   color: var(--text-color) !important;
 }
 
+::-moz-selection {
+  background: var(--accent-color) !important;
+  color: var(--text-color) !important;
+}
+
 ::-webkit-scrollbar {
   width: 8px !important;
 }
@@ -54,6 +59,26 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-color) !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-color) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--border-radius) !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+a:focus,
+button:focus,
+.project-card:focus,
+.socials a:focus,
+.modal-btn:focus,
+.close-btn:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--accent-color) !important;
 }
 
 .container {
