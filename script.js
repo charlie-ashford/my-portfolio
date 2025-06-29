@@ -4,7 +4,7 @@ const projects = {
     description:
       'discord bot for real-time tracking of youtube channel milestones.',
     image: 'images/communitrics.png',
-    link: 'https://discord.com/oauth2/authorize?client_id=1198800543448055928',
+    link: 'https://communitrics.com',
     date: 'jan 2024',
     icon: 'fab fa-discord',
   },
