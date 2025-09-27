@@ -183,18 +183,18 @@ function renderProjects() {
     card.className = 'project-card slide-up';
     card.style.animationDelay = `${parseInt(id) * 0.1}s`;
     card.innerHTML = `
-            <div class="project-header">
-              <h3 class="project-title">${project.title}</h3>
-              <i class="${project.icon} project-icon"></i>
-            </div>
-            <p class="project-desc">${project.description}</p>
-            <div class="project-meta">
-              <span class="project-status">
-                <i class="fas fa-calendar-days"></i>
-                ${project.date}
-              </span>
-            </div>
-          `;
+      <div class="project-header">
+        <h3 class="project-title">${project.title}</h3>
+        <i class="${project.icon} project-icon"></i>
+      </div>
+      <p class="project-desc">${project.description}</p>
+      <div class="project-meta">
+        <span class="project-status">
+          <i class="fas fa-calendar-days"></i>
+          ${project.date}
+        </span>
+      </div>
+    `;
     card.addEventListener('click', () => showProjectModal(project));
     projectsGrid.appendChild(card);
   });
@@ -236,43 +236,269 @@ function showProjectModal(project) {
   modal.classList.add('active');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  preloadImages();
-  renderProjects();
-});
-
-const modal = document.querySelector('.modal');
-const closeBtn = modal.querySelector('.close-btn');
-
 function closeModal() {
-  modal.classList.remove('active');
+  document.querySelector('.modal').classList.remove('active');
 }
 
-closeBtn.addEventListener('click', closeModal);
+function updateTime() {
+  const timeElement = document.getElementById('my-time');
+  const now = new Date();
 
-modal.addEventListener('click', e => {
-  if (e.target === modal) {
-    closeModal();
-  }
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && modal.classList.contains('active')) {
-    closeModal();
-  }
-});
-
-document.documentElement.style.scrollBehavior = 'smooth';
-
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    card.style.transform = 'translateY(-4px)';
+  const formattedTime = now.toLocaleString(undefined, {
+    timeZone: 'Australia/Sydney',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
   });
 
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'translateY(0)';
+  timeElement.textContent = formattedTime;
+  updateAge();
+
+  const msUntilNextSecond = 1000 - now.getMilliseconds();
+  setTimeout(updateTime, msUntilNextSecond);
+}
+
+let marqueeAnimationFrame;
+let isHoveringMarquee = false;
+
+const getElement = id => document.getElementById(id);
+const getSelector = sel => document.querySelector(sel);
+
+function setupSongMarquee() {
+  const [songInfo, container, songSection] = [
+    getElement('song-info'),
+    getSelector('.song-info-container'),
+    getElement('song-section'),
+  ];
+  if (!songInfo || !container || !songSection) return;
+  Object.assign(songInfo.style, {
+    whiteSpace: 'nowrap',
+    display: 'inline-block',
+    position: 'relative',
+    transform: 'translateX(0)',
   });
-});
+  songSection.addEventListener('mouseenter', () => (isHoveringMarquee = true));
+  songSection.addEventListener('mouseleave', () => (isHoveringMarquee = false));
+  if (
+    songSection.style.display !== 'none' &&
+    getComputedStyle(songSection).display !== 'none'
+  ) {
+    setTimeout(startMarquee, 100);
+  }
+}
+
+function startMarquee() {
+  const [songInfo, container] = [
+    getElement('song-info'),
+    getSelector('.song-info-container'),
+  ];
+  if (!songInfo || !container) return;
+  const [textWidth, containerWidth] = [
+    songInfo.scrollWidth,
+    container.clientWidth,
+  ];
+  if (textWidth <= containerWidth + 5) return;
+  if (marqueeAnimationFrame) cancelAnimationFrame(marqueeAnimationFrame);
+  let [lastTime, position] = [null, 0];
+  const scrollSpeed = 30;
+  function animate(timestamp) {
+    if (!isHoveringMarquee && lastTime) {
+      position -= ((timestamp - lastTime) / 1000) * scrollSpeed;
+      if (position <= -textWidth - 20) position = containerWidth;
+      songInfo.style.transform = `translateX(${position}px)`;
+    }
+    lastTime = timestamp;
+    marqueeAnimationFrame = requestAnimationFrame(animate);
+  }
+  marqueeAnimationFrame = requestAnimationFrame(animate);
+}
+
+function updateSongInfo(artist, song) {
+  const songInfo = getElement('song-info');
+  if (!songInfo) return;
+  if (marqueeAnimationFrame) {
+    cancelAnimationFrame(marqueeAnimationFrame);
+    marqueeAnimationFrame = null;
+  }
+  songInfo.textContent = `${song} - ${artist}`;
+  Object.assign(songInfo.style, {
+    transition: 'none',
+    transform: 'translateX(0px)',
+  });
+  songInfo.offsetWidth;
+  setTimeout(startMarquee, 100);
+}
+
+async function fetchDiscordPresence() {
+  const apiUrl = `https://api.lanyard.rest/v1/users/1158588351943811142`;
+
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+
+    if (data.success) {
+      const lanyardData = data.data;
+      const discordStatusCircle = document.getElementById(
+        'discord-status-circle'
+      );
+      const discordStatusText = document.getElementById('discord-status-text');
+      const discordTooltip = document.getElementById('discord-tooltip');
+
+      let status = lanyardData.discord_status;
+      let statusText = status;
+      let tooltipText = '';
+
+      let platformInfo = [];
+      if (lanyardData.active_on_discord_desktop) platformInfo.push('desktop');
+      if (lanyardData.active_on_discord_mobile) platformInfo.push('mobile');
+      if (lanyardData.active_on_discord_web) platformInfo.push('web');
+
+      const customStatusActivity = lanyardData.activities.find(
+        activity => activity.id === 'custom'
+      );
+      if (customStatusActivity && customStatusActivity.emoji) {
+        const emoji = customStatusActivity.emoji;
+
+        if (emoji.id) {
+          const emojiImageURL = `https://cdn.discordapp.com/emojis/${
+            emoji.id
+          }.${emoji.animated ? 'gif' : 'png'}`;
+          tooltipText = `<img src="${emojiImageURL}" alt="${emoji.name}" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">`;
+        } else if (emoji.name) {
+          tooltipText = `<span style="font-size: 16px; line-height: 20px; display: inline-block; width: 20px; height: 20px; text-align: center; vertical-align: middle; margin-right: 5px;">${emoji.name}</span>`;
+        }
+      }
+
+      if (platformInfo.length > 0) {
+        tooltipText +=
+          (tooltipText ? ' ' : '') + `active on: ${platformInfo.join(', ')}`;
+      }
+
+      if (discordTooltip) {
+        discordTooltip.innerHTML =
+          tooltipText || (status === 'offline' ? 'offline' : 'online');
+      }
+
+      discordStatusCircle.classList.remove(
+        'status-online',
+        'status-idle',
+        'status-dnd',
+        'status-offline'
+      );
+
+      switch (status) {
+        case 'online':
+          discordStatusCircle.classList.add('status-online');
+          break;
+        case 'idle':
+          discordStatusCircle.classList.add('status-idle');
+          break;
+        case 'dnd':
+          discordStatusCircle.classList.add('status-dnd');
+          statusText = 'dnd';
+          break;
+        default:
+          statusText = 'offline';
+          discordStatusCircle.classList.add('status-offline');
+          break;
+      }
+
+      if (discordStatusText) {
+        discordStatusText.textContent = statusText;
+      }
+
+      const songSection = document.getElementById('song-section');
+      const songImage = document.getElementById('song-image');
+      const songInfo = document.getElementById('song-info');
+      const songLink = document.getElementById('song-link');
+
+      if (lanyardData.listening_to_spotify && lanyardData.spotify) {
+        const { artist, song, album_art_url, track_id } = lanyardData.spotify;
+
+        const currentText = songInfo ? songInfo.textContent : '';
+        const newText = `${song} - ${artist}`;
+
+        if (songImage) songImage.src = album_art_url;
+        if (songSection) songSection.style.display = 'flex';
+        if (songLink)
+          songLink.href = `https://open.spotify.com/track/${track_id}`;
+
+        if (currentText !== newText) {
+          updateSongInfo(artist, song);
+        }
+      } else {
+        if (songImage) songImage.src = '';
+        if (songInfo) songInfo.textContent = 'Not listening to Spotify';
+        if (songSection) songSection.style.display = 'none';
+        if (songLink) songLink.href = '#';
+
+        if (marqueeAnimationFrame) {
+          cancelAnimationFrame(marqueeAnimationFrame);
+          marqueeAnimationFrame = null;
+        }
+      }
+    } else {
+      const discordStatusText = document.getElementById('discord-status-text');
+      const songImage = document.getElementById('song-image');
+      const songInfo = document.getElementById('song-info');
+      const discordStatusCircle = document.getElementById(
+        'discord-status-circle'
+      );
+      const songSection = document.getElementById('song-section');
+      const songLink = document.getElementById('song-link');
+
+      if (discordStatusText) discordStatusText.textContent = '';
+      if (songImage) songImage.src = '';
+      if (songInfo) songInfo.textContent = '';
+      if (discordStatusCircle)
+        discordStatusCircle.classList.add('status-offline');
+      if (songSection) songSection.style.display = 'none';
+      if (songLink) songLink.href = '#';
+
+      if (marqueeAnimationFrame) {
+        cancelAnimationFrame(marqueeAnimationFrame);
+        marqueeAnimationFrame = null;
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching Discord presence:', error);
+  }
+}
+
+function updateDiscordPresence() {
+  fetchDiscordPresence();
+  setTimeout(updateDiscordPresence, 1000);
+}
+
+function updateAge() {
+  const birthdate = new Date('2005-10-25T03:40:00+11:00');
+  const now = new Date();
+  const diff = now.getTime() - birthdate.getTime();
+
+  const ageInSeconds = diff / 1000;
+  const ageInMinutes = ageInSeconds / 60;
+  const ageInHours = ageInMinutes / 60;
+  const ageInDays = ageInHours / 24;
+  const ageInYears = ageInDays / 365.2422;
+
+  const years = Math.floor(ageInYears);
+  const days = Math.floor(ageInDays % 365.2422);
+  const hours = Math.floor(ageInHours % 24);
+  const minutes = Math.floor(ageInMinutes % 60);
+  const seconds = Math.floor(ageInSeconds % 60);
+
+  const isMobile = window.matchMedia('(max-width: 950px)').matches;
+  const ageElement = document.getElementById('my-age');
+
+  if (isMobile) {
+    ageElement.innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+  } else {
+    ageElement.innerHTML = `${years} years, ${days} days, ${hours} hours, <br>${minutes} minutes, ${seconds} seconds`;
+  }
+}
 
 function checkSocialsOverlap() {
   const socials = document.querySelector('.socials');
@@ -298,233 +524,35 @@ function checkSocialsOverlap() {
   }
 }
 
-window.addEventListener('load', checkSocialsOverlap);
-window.addEventListener('resize', checkSocialsOverlap);
+document.addEventListener('DOMContentLoaded', () => {
+  preloadImages();
+  renderProjects();
+  setupSongMarquee();
 
-function updateTime() {
-  const timeElement = document.getElementById('my-time');
-  const now = new Date();
+  const modal = document.querySelector('.modal');
+  const closeBtn = modal.querySelector('.close-btn');
 
-  const formattedTime = now.toLocaleString(undefined, {
-    timeZone: 'Australia/Sydney',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    second: '2-digit',
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) {
+      closeModal();
+    }
   });
 
-  timeElement.textContent = formattedTime;
-  updateAge();
-
-  const msUntilNextSecond = 1000 - now.getMilliseconds();
-  setTimeout(updateTime, msUntilNextSecond);
-}
-
-updateTime();
-
-function restartMarqueeAnimation() {
-  const songSection = document.getElementById('song-section');
-  const songInfo = document.querySelector('.song-section .song-info');
-
-  if (!songInfo) {
-    return;
-  }
-
-  songInfo.style.animation = 'none';
-  songInfo.offsetHeight;
-  songInfo.style.animation = 'marquee 10s linear infinite';
-}
-
-const songSection = document.getElementById('song-section');
-
-songSection.addEventListener('mouseenter', () => {
-  restartMarqueeAnimation();
-});
-
-songSection.addEventListener('mouseleave', () => {
-  const songInfo = document.querySelector('.song-section .song-info');
-  if (songInfo) {
-    songInfo.style.animation = 'none';
-  }
-});
-
-function updateSongInfo(artist, song) {
-  const songInfo = document.getElementById('song-info');
-  songInfo.textContent = `${song} - ${artist}`;
-  restartMarqueeAnimation();
-}
-
-async function fetchDiscordPresence() {
-  const apiUrl = `https://api.lanyard.rest/v1/users/1158588351943811142`;
-
-  try {
-    const response = await fetch(apiUrl);
-    const data = await response.json();
-
-    if (data.success) {
-      const lanyardData = data.data;
-      const discordStatusCircle = document.getElementById(
-        'discord-status-circle'
-      );
-      const discordStatusText = document.getElementById('discord-status-text');
-      const discordTooltip = document.getElementById('discord-tooltip');
-
-      let status = lanyardData.discord_status;
-      let statusText = status;
-      let tooltipText = '';
-      let emojiTooltip = '';
-
-      let platformInfo = [];
-      if (lanyardData.active_on_discord_desktop) platformInfo.push('desktop');
-      if (lanyardData.active_on_discord_mobile) platformInfo.push('mobile');
-      if (lanyardData.active_on_discord_web) platformInfo.push('web');
-
-      const customStatusActivity = lanyardData.activities.find(
-        activity => activity.id === 'custom'
-      );
-      if (customStatusActivity && customStatusActivity.emoji) {
-        const emoji = customStatusActivity.emoji;
-        let emojiTooltip = '';
-
-        if (emoji.id) {
-          const emojiImageURL = `https://cdn.discordapp.com/emojis/${
-            emoji.id
-          }.${emoji.animated ? 'gif' : 'png'}`;
-          emojiTooltip = `<img src="${emojiImageURL}" alt="${emoji.name}" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">`;
-        } else if (emoji.name) {
-          emojiTooltip = `<span style="font-size: 16px; line-height: 20px; display: inline-block; width: 20px; height: 20px; text-align: center; vertical-align: middle; margin-right: 5px;">${emoji.name}</span>`;
-        }
-
-        tooltipText += emojiTooltip;
-      }
-
-      if (platformInfo.length > 0) {
-        tooltipText += tooltipText ? ' ' : '';
-        tooltipText += `active on: ${platformInfo.join(', ')}`;
-      }
-
-      discordTooltip.innerHTML =
-        tooltipText || (status === 'offline' ? 'offline' : 'online');
-
-      discordStatusCircle.classList.remove(
-        'status-online',
-        'status-idle',
-        'status-dnd',
-        'status-offline'
-      );
-
-      switch (status) {
-        case 'online':
-          discordStatusCircle.classList.add('status-online');
-          break;
-        case 'idle':
-          discordStatusCircle.classList.add('status-idle');
-          break;
-        case 'dnd':
-          discordStatusCircle.classList.add('status-dnd');
-          statusText = 'dnd';
-          break;
-        case 'offline':
-          discordStatusCircle.classList.add('status-offline');
-          break;
-        default:
-          statusText = 'offline';
-          discordStatusCircle.classList.add('status-offline');
-          break;
-      }
-
-      discordStatusText.textContent = statusText;
-
-      const songSection = document.getElementById('song-section');
-      const songImage = document.getElementById('song-image');
-      const songInfo = document.getElementById('song-info');
-      const songLink = document.getElementById('song-link');
-
-      if (lanyardData.listening_to_spotify && lanyardData.spotify) {
-        const { artist, song, album_art_url, track_id } = lanyardData.spotify;
-        songImage.src = album_art_url;
-        songInfo.textContent = `${song} - ${artist}`;
-        songSection.style.display = 'flex';
-
-        const spotifyUrl = `spotify:track:${track_id}`;
-        songLink.href = spotifyUrl;
-      } else {
-        songImage.src = '';
-        songInfo.textContent = 'Not listening to Spotify';
-        songSection.style.display = 'none';
-        songLink.href = '#';
-      }
-    } else {
-      document.getElementById('discord-status-text').textContent = '';
-      document
-        .getElementById('discord-status-circle')
-        .classList.add('status-offline');
-
-      const songSection = document.getElementById('song-section');
-      const songImage = document.getElementById('song-image');
-      const songInfo = document.getElementById('song-info');
-      const songLink = document.getElementById('song-link');
-
-      songImage.src = '';
-      songInfo.textContent = '';
-      songSection.style.display = 'none';
-      songLink.href = '#';
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
     }
-  } catch (error) {
-    document.getElementById('discord-status-text').textContent = '';
-    document
-      .getElementById('discord-status-circle')
-      .classList.add('status-offline');
+  });
 
-    const songSection = document.getElementById('song-section');
-    const songImage = document.getElementById('song-image');
-    const songInfo = document.getElementById('song-info');
-    const songLink = document.getElementById('song-link');
+  document.documentElement.style.scrollBehavior = 'smooth';
+});
 
-    songImage.src = '';
-    songInfo.textContent = '';
-    songSection.style.display = 'none';
-    songLink.href = '#';
-  }
-}
+window.addEventListener('load', () => {
+  checkSocialsOverlap();
+  updateTime();
+  updateDiscordPresence();
+});
 
-function updateDiscordPresence() {
-  fetchDiscordPresence();
-  setTimeout(updateDiscordPresence, 1000);
-}
-
-updateDiscordPresence();
-
-function updateAge() {
-  const birthdate = new Date('2005-10-25T03:40:00+11:00');
-  const now = new Date();
-  const diff = now.getTime() - birthdate.getTime();
-
-  const ageInSeconds = diff / 1000;
-  const ageInMinutes = ageInSeconds / 60;
-  const ageInHours = ageInMinutes / 60;
-  const ageInDays = ageInHours / 24;
-  const ageInYears = ageInDays / 365.2422;
-
-  const years = Math.floor(ageInYears);
-  const days = Math.floor(ageInDays % 365.2422);
-  const hours = Math.floor(ageInHours % 24);
-  const minutes = Math.floor(ageInMinutes % 60);
-  const seconds = Math.floor(ageInSeconds % 60);
-
-  const isMobile = window.matchMedia('(max-width: 950px)').matches;
-
-  if (isMobile) {
-    document.getElementById(
-      'my-age'
-    ).innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-  } else {
-    document.getElementById(
-      'my-age'
-    ).innerHTML = `${years} years, ${days} days, ${hours} hours, <br>${minutes} minutes, ${seconds} seconds`;
-  }
-}
-
-updateAge();
+window.addEventListener('resize', checkSocialsOverlap);

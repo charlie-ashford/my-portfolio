@@ -666,24 +666,6 @@ header {
   display: inline-block;
 }
 
-.song-section .song-info {
-  color: var(--text-color);
-  white-space: nowrap;
-  display: inline-block;
-  transition: transform 0.3s ease;
-  position: relative;
-  left: 0;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
 .song-section img {
   width: 32px;
   height: 32px;
@@ -766,16 +748,6 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .song-section .song-info {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    animation: none !important;
-    transform: none !important;
   }
 }
 
@@ -906,15 +878,5 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  .song-section .song-info {
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    animation: none !important;
-    transform: none !important;
   }
 }
