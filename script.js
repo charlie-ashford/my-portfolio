@@ -47,10 +47,10 @@ const projects = {
     icon: 'fas fa-tools',
   },
   6: {
-    title: 'mrbeast video data',
-    description: 'hourly statistics for all mrbeast videos with daily data.',
+    title: 'video data',
+    description: 'hourly statistics for all mrbeast, taylor swift and other channel videos with daily data.',
     image: 'images/videos.png',
-    link: 'https://mbvideostats.communitrics.com',
+    link: 'https://videostats.communitrics.com',
     code: 'https://github.com/charlie-ashford/video-stats',
     date: 'aug 2024',
     icon: 'fas fa-video',
