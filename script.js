@@ -240,27 +240,6 @@ function closeModal() {
   document.querySelector('.modal').classList.remove('active');
 }
 
-function updateTime() {
-  const timeElement = document.getElementById('my-time');
-  const now = new Date();
-
-  const formattedTime = now.toLocaleString(undefined, {
-    timeZone: 'Australia/Sydney',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-
-  timeElement.textContent = formattedTime;
-  updateAge();
-
-  const msUntilNextSecond = 1000 - now.getMilliseconds();
-  setTimeout(updateTime, msUntilNextSecond);
-}
-
 let marqueeAnimationFrame;
 let isHoveringMarquee = false;
 
@@ -473,22 +452,41 @@ function updateDiscordPresence() {
   setTimeout(updateDiscordPresence, 1000);
 }
 
+const { DateTime, Interval } = luxon;
+
+function updateTime() {
+  const timeElement = document.getElementById('my-time');
+  const now = DateTime.now().setZone('Australia/Sydney');
+
+  const formattedTime = now.toFormat('d MMM yyyy, h:mm:ss a');
+  timeElement.textContent = formattedTime;
+
+  updateAge();
+
+  const msUntilNextSecond = 1000 - now.millisecond;
+  setTimeout(updateTime, msUntilNextSecond);
+}
+
 function updateAge() {
-  const birthdate = new Date('2005-10-25T03:40:00+11:00');
-  const now = new Date();
-  const diff = now.getTime() - birthdate.getTime();
+  const birthdate = DateTime.fromISO('2005-10-25T03:40:00', {
+    zone: 'Australia/Sydney',
+  });
+  const now = DateTime.now();
 
-  const ageInSeconds = diff / 1000;
-  const ageInMinutes = ageInSeconds / 60;
-  const ageInHours = ageInMinutes / 60;
-  const ageInDays = ageInHours / 24;
-  const ageInYears = ageInDays / 365.2422;
+  const interval = Interval.fromDateTimes(birthdate, now);
+  const duration = interval.toDuration([
+    'years',
+    'days',
+    'hours',
+    'minutes',
+    'seconds',
+  ]);
 
-  const years = Math.floor(ageInYears);
-  const days = Math.floor(ageInDays % 365.2422);
-  const hours = Math.floor(ageInHours % 24);
-  const minutes = Math.floor(ageInMinutes % 60);
-  const seconds = Math.floor(ageInSeconds % 60);
+  const years = Math.floor(duration.years);
+  const days = Math.floor(duration.days);
+  const hours = Math.floor(duration.hours);
+  const minutes = Math.floor(duration.minutes);
+  const seconds = Math.floor(duration.seconds);
 
   const isMobile = window.matchMedia('(max-width: 950px)').matches;
   const ageElement = document.getElementById('my-age');
