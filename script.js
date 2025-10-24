@@ -458,7 +458,7 @@ function updateTime() {
   const timeElement = document.getElementById('my-time');
   const now = DateTime.now().setZone('Australia/Sydney');
 
-  const formattedTime = now.toFormat('d MMM yyyy, h:mm:ss a');
+  const formattedTime = now.toFormat('d MMM yyyy, h:mm:ss');
   timeElement.textContent = formattedTime;
 
   updateAge();
@@ -468,7 +468,7 @@ function updateTime() {
 }
 
 function updateAge() {
-  const birthdate = DateTime.fromISO('2005-10-25T03:40:00', {
+  const birthdate = DateTime.fromISO('2005-10-25T00:00:00', {
     zone: 'Australia/Sydney',
   });
   const now = DateTime.now();
