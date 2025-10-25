@@ -473,20 +473,13 @@ function updateAge() {
   });
   const now = DateTime.now();
 
-  const interval = Interval.fromDateTimes(birthdate, now);
-  const duration = interval.toDuration([
-    'years',
-    'days',
-    'hours',
-    'minutes',
-    'seconds',
-  ]);
+  const diff = now.diff(birthdate, ['years', 'days', 'hours', 'minutes', 'seconds']);
 
-  const years = Math.floor(duration.years);
-  const days = Math.floor(duration.days);
-  const hours = Math.floor(duration.hours);
-  const minutes = Math.floor(duration.minutes);
-  const seconds = Math.floor(duration.seconds);
+  const years = Math.floor(diff.years);
+  const days = Math.floor(diff.days);
+  const hours = Math.floor(diff.hours);
+  const minutes = Math.floor(diff.minutes);
+  const seconds = Math.floor(diff.seconds);
 
   const isMobile = window.matchMedia('(max-width: 950px)').matches;
   const ageElement = document.getElementById('my-age');
