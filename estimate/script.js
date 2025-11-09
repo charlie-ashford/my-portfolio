@@ -6,9 +6,9 @@ let currentInterval = 'daily';
 
 const uploadArea = document.getElementById('uploadArea');
 const fileInput = document.getElementById('fileInput');
-const controlsSection = document.getElementById('controlsSection');
+const controlsContainer = document.getElementById('controlsContainer');
 const estimateBtn = document.getElementById('estimateBtn');
-const resultsSection = document.getElementById('resultsSection');
+const resultsContainer = document.getElementById('resultsContainer');
 const statusMessage = document.getElementById('statusMessage');
 const downloadBtn = document.getElementById('downloadBtn');
 const smoothValue = document.getElementById('smoothValue');
@@ -443,13 +443,12 @@ function handleFile(file) {
     skipEmptyLines: true,
     complete: results => {
       uploadedData = results.data;
-      controlsSection.classList.add('show');
+      controlsContainer.classList.add('show');
       uploadArea.classList.add('active');
-      uploadArea.querySelector('.upload-icon i').className =
-        'fas fa-check-circle';
-      uploadArea.querySelector('.upload-title').textContent = file.name;
+      uploadArea.querySelector('i').className = 'fas fa-check-circle';
+      uploadArea.querySelector('h3').textContent = file.name;
       uploadArea.querySelector(
-        '.upload-subtitle'
+        'p'
       ).textContent = `${results.data.length.toLocaleString()} rows loaded`;
       showStatus('csv loaded successfully!', 'success');
     },
@@ -574,8 +573,8 @@ function displayResults(estimated, original) {
   }`;
 
   renderChart(estimated, original);
-  resultsSection.classList.add('show');
-  resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  resultsContainer.classList.add('show');
+  resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function renderChart(estimated, original) {
