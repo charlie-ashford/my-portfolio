@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>charlie ashford</title>
+
+    <meta
+      name="description"
+      content="estimate youtube subscriber milestones automatically."
+    />
+    <meta
+      name="keywords"
+      content="auto estimator, charlie ashford, youtube stats, subscriber prediction, analytics, milestone estimator, video stats, communitrics"
+    />
+    <meta name="author" content="charlie ashford" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.charlieashford.com/" />
+    <meta name="theme-color" content="#1a1a1a" />
+
+    <link
+      rel="icon"
+      href="https://charlieashford.com/images/logo.png"
+      type="image/png"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://charlieashford.com/images/logo.png"
+    />
+
+    <meta property="og:title" content="charlie ashford" />
+    <meta
+      property="og:description"
+      content="estimate youtube subscriber milestones automatically."
+    />
+    <meta property="og:url" content="https://www.charlieashford.com/" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="charlie ashford" />
+    <meta
+      name="twitter:description"
+      content="estimate youtube subscriber data automatically."
+    />
+    <meta name="twitter:url" content="https://www.charlieashford.com/" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "charlie ashford",
+        "description": "estimate youtube subscriber data automatically.",
+        "url": "https://www.charlieashford.com/",
+      }
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/auto-estimator/styles.css" />
+
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <a href="/" class="back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>back to home</span>
+        </a>
+        <h1 class="title">auto estimator</h1>
+        <p class="subtitle">upload a csv and estimate your data</p>
+      </header>
+      <main>
+        <section class="upload-section">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3 class="upload-title">drop your csv here</h3>
+            <p class="upload-subtitle">or click to browse</p>
+            <input type="file" id="fileInput" accept=".csv" hidden />
+          </div>
+          <div id="statusMessage" class="status-message"></div>
+        </section>
+        <section class="controls-section" id="controlsSection">
+          <div class="controls-grid">
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">estimation mode</span>
+                  <span class="control-desc">interpolation method</span>
+                </label>
+                <span class="control-value" id="modeValue">auto</span>
+              </div>
+              <select id="estimationMode">
+                <option value="auto">auto (preserve abbrev)</option>
+                <option value="flat">flat linear</option>
+              </select>
+            </div>
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">time interval</span>
+                  <span class="control-desc">data point spacing</span>
+                </label>
+                <span class="control-value" id="intervalValue">auto</span>
+              </div>
+              <select id="interval">
+                <option value="auto">auto detect</option>
+                <option value="daily">daily</option>
+                <option value="hourly">hourly</option>
+              </select>
+            </div>
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">minimum threshold</span>
+                  <span class="control-desc">ignore values below</span>
+                </label>
+                <span class="control-value" id="thresholdValue">1,000</span>
+              </div>
+              <input
+                type="number"
+                id="minCount"
+                value="1000"
+                min="0"
+                step="100"
+              />
+            </div>
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">smoothing</span>
+                  <span class="control-desc">curve smoothness</span>
+                </label>
+                <span class="control-value" id="smoothValue">3</span>
+              </div>
+              <input
+                type="range"
+                id="smoothPasses"
+                min="1"
+                max="10"
+                value="3"
+                class="slider"
+              />
+            </div>
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">variance</span>
+                  <span class="control-desc">randomness control</span>
+                </label>
+                <span class="control-value" id="varianceValue">8</span>
+              </div>
+              <input
+                type="range"
+                id="offsetDiv"
+                min="1"
+                max="50"
+                value="8"
+                class="slider"
+              />
+            </div>
+            <div class="control-item">
+              <div class="control-header">
+                <label>
+                  <span class="control-label">start date</span>
+                  <span class="control-desc">estimation begins</span>
+                </label>
+              </div>
+              <input type="date" id="abbrevStart" value="2019-09-17" />
+            </div>
+          </div>
+          <button id="estimateBtn" class="estimate-btn">
+            <span>generate estimate</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </section>
+        <section class="results-section" id="resultsSection">
+          <div class="results-header">
+            <div class="results-info">
+              <h2>estimated data</h2>
+              <p id="resultsDesc">visualization of your estimated data</p>
+            </div>
+            <button id="downloadBtn" class="download-btn">
+              <i class="fas fa-download"></i>
+              <span>export csv</span>
+            </button>
+          </div>
+          <div class="chart-card">
+            <div id="chart" class="chart-container"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer class="socials">
+      <a
+        href="https://twitter.com/charlieashfordd"
+        target="_blank"
+        aria-label="Twitter"
+      >
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a
+        href="https://github.com/charlie-ashford"
+        target="_blank"
+        aria-label="GitHub"
+      >
+        <i class="fab fa-github"></i>
+      </a>
+      <a
+        href="https://discord.com/users/1158588351943811142"
+        target="_blank"
+        aria-label="Discord"
+      >
+        <i class="fab fa-discord"></i>
+      </a>
+    </footer>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://code.highcharts.com/10.3.3/highcharts.js"></script>
+  </body>
+</html>

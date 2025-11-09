@@ -2,6 +2,7 @@
   "version": 2,
   "routes": [
     { "src": "/uploads", "dest": "/uploads/index.html" },
+    { "src": "/estimate", "dest": "/estimate/index.html" },
     { "src": "/upload", "dest": "/api/img/upload.js" },
     { "src": "/img/([a-zA-Z0-9]{8})$", "dest": "/api/img/[code].js?code=$1" }
   ],
