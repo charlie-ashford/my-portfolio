@@ -475,15 +475,24 @@ input[type='file'] {
   font-size: 1.4rem;
   transition: var(--transition-speed);
   opacity: 0.7;
-  padding: 8px;
+  padding: 12px;
   margin: -8px;
   border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .socials a:hover {
   color: var(--text-color);
   transform: translateX(4px);
   opacity: 1;
+}
+
+.socials a:focus {
+  padding: 8px;
+  margin: -8px;
+  border-radius: 4px;
 }
 
 .context-menu {
