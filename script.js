@@ -48,7 +48,8 @@ const projects = {
   },
   6: {
     title: 'video data',
-    description: 'hourly statistics for all mrbeast, taylor swift and other channel videos with daily data.',
+    description:
+      'hourly statistics for all mrbeast, taylor swift and other channel videos with daily data.',
     image: 'images/videos.png',
     link: 'https://videostats.communitrics.com',
     code: 'https://github.com/charlie-ashford/video-stats',
@@ -452,43 +453,38 @@ function updateDiscordPresence() {
   setTimeout(updateDiscordPresence, 1000);
 }
 
-const { DateTime, Interval } = luxon;
+const { DateTime } = luxon;
 
 function updateTime() {
+  const zone = 'Australia/Sydney';
   const timeElement = document.getElementById('my-time');
-  const now = DateTime.now().setZone('Australia/Sydney');
+  const now = DateTime.now().setZone(zone);
 
-  const formattedTime = now.toFormat('d MMM yyyy, HH:mm:ss');
-  timeElement.textContent = formattedTime;
+  timeElement.textContent = now.toFormat('d MMM yyyy, HH:mm:ss');
+  updateAge(zone);
 
-  updateAge();
-
-  const msUntilNextSecond = 1000 - now.millisecond;
-  setTimeout(updateTime, msUntilNextSecond);
+  setTimeout(updateTime, 1000 - now.millisecond);
 }
 
-function updateAge() {
-  const birthdate = DateTime.fromISO('2005-10-25T00:00:00', {
-    zone: 'Australia/Sydney',
-  });
-  const now = DateTime.now();
+function updateAge(zone) {
+  const birth = DateTime.fromISO('2005-10-25T00:00:00', { zone });
+  const now = DateTime.now().setZone(zone);
+  const years = Math.floor(now.diff(birth, 'years').years);
+  const lastBirthday = birth.plus({ years });
+  const diff = now
+    .diff(lastBirthday, ['days', 'hours', 'minutes', 'seconds'])
+    .toObject();
 
-  const diff = now.diff(birthdate, ['years', 'days', 'hours', 'minutes', 'seconds']);
+  const days = Math.floor(diff.days || 0);
+  const hours = Math.floor(diff.hours || 0);
+  const minutes = Math.floor(diff.minutes || 0);
+  const seconds = Math.floor(diff.seconds || 0);
 
-  const years = Math.floor(diff.years);
-  const days = Math.floor(diff.days);
-  const hours = Math.floor(diff.hours);
-  const minutes = Math.floor(diff.minutes);
-  const seconds = Math.floor(diff.seconds);
-
+  const ageEl = document.getElementById('my-age');
   const isMobile = window.matchMedia('(max-width: 950px)').matches;
-  const ageElement = document.getElementById('my-age');
-
-  if (isMobile) {
-    ageElement.innerHTML = `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-  } else {
-    ageElement.innerHTML = `${years} years, ${days} days, ${hours} hours, <br>${minutes} minutes, ${seconds} seconds`;
-  }
+  ageEl.innerHTML = isMobile
+    ? `${years} years, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`
+    : `${years} years, ${days} days, ${hours} hours,<br>${minutes} minutes, ${seconds} seconds`;
 }
 
 function checkSocialsOverlap() {
