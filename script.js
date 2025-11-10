@@ -458,7 +458,7 @@ function updateTime() {
   const timeElement = document.getElementById('my-time');
   const now = DateTime.now().setZone('Australia/Sydney');
 
-  const formattedTime = now.toFormat('d MMM yyyy, h:mm:ss');
+  const formattedTime = now.toFormat('d MMM yyyy, HH:mm:ss');
   timeElement.textContent = formattedTime;
 
   updateAge();
