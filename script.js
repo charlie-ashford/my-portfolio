@@ -390,15 +390,30 @@ async function fetchDiscordPresence() {
         discordStatusText.textContent = statusText;
       }
 
+      const gameSection = document.getElementById('game-section');
+      const gameInfo = document.getElementById('game-info');
+
+      const gameActivity = lanyardData.activities.find(
+        activity => activity.type === 0
+      );
+
+      if (gameActivity) {
+        if (gameInfo) gameInfo.textContent = `playing ${gameActivity.name.toLowerCase()}`;
+        if (gameSection) gameSection.style.display = 'flex';
+      } else {
+        if (gameInfo) gameInfo.textContent = '';
+        if (gameSection) gameSection.style.display = 'none';
+      }
+
       const songSection = document.getElementById('song-section');
       const songImage = document.getElementById('song-image');
-      const songInfo = document.getElementById('song-info');
+      const songInfoEl = document.getElementById('song-info');
       const songLink = document.getElementById('song-link');
 
       if (lanyardData.listening_to_spotify && lanyardData.spotify) {
         const { artist, song, album_art_url, track_id } = lanyardData.spotify;
 
-        const currentText = songInfo ? songInfo.textContent : '';
+        const currentText = songInfoEl ? songInfoEl.textContent : '';
         const newText = `${song} - ${artist}`;
 
         if (songImage) songImage.src = album_art_url;
@@ -411,7 +426,7 @@ async function fetchDiscordPresence() {
         }
       } else {
         if (songImage) songImage.src = '';
-        if (songInfo) songInfo.textContent = 'Not listening to Spotify';
+        if (songInfoEl) songInfoEl.textContent = '';
         if (songSection) songSection.style.display = 'none';
         if (songLink) songLink.href = '#';
 
@@ -422,8 +437,9 @@ async function fetchDiscordPresence() {
       }
     } else {
       const discordStatusText = document.getElementById('discord-status-text');
+      const gameSection = document.getElementById('game-section');
       const songImage = document.getElementById('song-image');
-      const songInfo = document.getElementById('song-info');
+      const songInfoEl = document.getElementById('song-info');
       const discordStatusCircle = document.getElementById(
         'discord-status-circle'
       );
@@ -431,8 +447,9 @@ async function fetchDiscordPresence() {
       const songLink = document.getElementById('song-link');
 
       if (discordStatusText) discordStatusText.textContent = '';
+      if (gameSection) gameSection.style.display = 'none';
       if (songImage) songImage.src = '';
-      if (songInfo) songInfo.textContent = '';
+      if (songInfoEl) songInfoEl.textContent = '';
       if (discordStatusCircle)
         discordStatusCircle.classList.add('status-offline');
       if (songSection) songSection.style.display = 'none';
@@ -450,7 +467,7 @@ async function fetchDiscordPresence() {
 
 function updateDiscordPresence() {
   fetchDiscordPresence();
-  setTimeout(updateDiscordPresence, 1000);
+  setTimeout(updateDiscordPresence, 4000);
 }
 
 const { DateTime } = luxon;

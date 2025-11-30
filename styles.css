@@ -641,6 +641,30 @@ header {
   font-size: 0.625rem;
 }
 
+.game-section {
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-section:hover {
+  opacity: 1;
+}
+
+.game-info-container {
+  max-width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .song-section {
   font-size: 0.875rem;
   letter-spacing: 0.05em;
@@ -722,6 +746,7 @@ header {
   .my-time-section,
   .age-section,
   .discord-presence,
+  .game-section,
   .song-section {
     width: 100%;
     text-align: left;
@@ -740,6 +765,14 @@ header {
 
   .age-section {
     align-items: flex-start;
+  }
+
+  .game-info-container {
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .song-info-container {
@@ -789,6 +822,7 @@ header {
   .my-time-section,
   .age-section,
   .discord-presence,
+  .game-section,
   .song-section {
     width: 100%;
     text-align: left;
@@ -801,6 +835,12 @@ header {
     padding: 0;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 0.75rem;
+  }
+
+  .game-section {
+    justify-content: flex-start;
+    padding-bottom: -0.25rem;
+    margin-bottom: -0.25rem;
   }
 
   .song-section {
@@ -870,6 +910,14 @@ header {
   .modal-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .game-info-container {
+    width: auto;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .song-info-container {
