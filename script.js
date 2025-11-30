@@ -398,7 +398,8 @@ async function fetchDiscordPresence() {
       );
 
       if (gameActivity) {
-        if (gameInfo) gameInfo.textContent = `playing ${gameActivity.name.toLowerCase()}`;
+        if (gameInfo)
+          gameInfo.textContent = `playing ${gameActivity.name.toLowerCase()}`;
         if (gameSection) gameSection.style.display = 'flex';
       } else {
         if (gameInfo) gameInfo.textContent = '';
