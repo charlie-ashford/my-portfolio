@@ -163,6 +163,18 @@ const projects = {
   },
 };
 
+const professionalWork = {
+  1: {
+    company: 'newstudio',
+    role: 'extension developer and newstats lead',
+    description:
+      'newstats offers better youtube analytics integrated with newstudio, a better youtube studio experience.',
+    logo: 'images/newstudio.png',
+    link: 'https://newstudio.app',
+    date: 'nov 2025 - present',
+  },
+};
+
 function preloadImages() {
   const imageCache = new Map();
 
@@ -171,6 +183,14 @@ function preloadImages() {
       const img = new Image();
       img.src = project.image;
       imageCache.set(project.image, img);
+    }
+  });
+
+  Object.values(professionalWork).forEach(work => {
+    if (work.logo) {
+      const img = new Image();
+      img.src = work.logo;
+      imageCache.set(work.logo, img);
     }
   });
 
@@ -198,6 +218,43 @@ function renderProjects() {
     `;
     card.addEventListener('click', () => showProjectModal(project));
     projectsGrid.appendChild(card);
+  });
+}
+
+function renderProfessionalWork() {
+  const workList = document.querySelector('.work-list');
+  if (!workList) return;
+
+  Object.entries(professionalWork).forEach(([id, work]) => {
+    const item = document.createElement('div');
+    item.className = 'work-item slide-up';
+    item.style.animationDelay = `${parseInt(id) * 0.1}s`;
+    item.innerHTML = `
+      ${
+        work.logo
+          ? `<img src="${work.logo}" alt="${work.company}" class="work-logo">`
+          : ''
+      }
+      <div class="work-content">
+        <div class="work-header">
+          <div>
+            <h3 class="work-title">${work.company}</h3>
+            <p class="work-role">${work.role}</p>
+          </div>
+          <span class="work-date">${work.date}</span>
+        </div>
+        <p class="work-description">${work.description}</p>
+      </div>
+    `;
+
+    if (work.link) {
+      item.style.cursor = 'pointer';
+      item.addEventListener('click', () => {
+        window.open(work.link, '_blank');
+      });
+    }
+
+    workList.appendChild(item);
   });
 }
 
@@ -532,6 +589,7 @@ function checkSocialsOverlap() {
 document.addEventListener('DOMContentLoaded', () => {
   preloadImages();
   renderProjects();
+  renderProfessionalWork();
   setupSongMarquee();
 
   const modal = document.querySelector('.modal');

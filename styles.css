@@ -145,6 +145,101 @@ header {
   animation: fadeIn 0.8s ease 0.2s forwards;
 }
 
+.work-section {
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  animation: fadeIn 0.8s ease 0.3s forwards;
+}
+
+.work-item {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-top: none;
+  transition: all var(--transition-speed) ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.work-item:first-child {
+  border-top: 1px solid var(--border-color);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.work-item:last-child {
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.work-item:only-child {
+  border-radius: var(--border-radius);
+}
+
+.work-item:hover {
+  background: var(--hover-bg);
+  border-color: var(--accent-color);
+  z-index: 1;
+}
+
+.work-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--border-color);
+}
+
+.work-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.work-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.work-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.work-role {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+.work-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+.work-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+  opacity: 0.9;
+}
+
 .intro {
   font-size: 2rem;
   font-weight: 400;
@@ -876,6 +971,20 @@ header {
   .projects-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .work-item {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .work-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .work-date {
+    white-space: normal;
   }
 
   .socials {
