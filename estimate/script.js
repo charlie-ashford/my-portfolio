@@ -45,11 +45,11 @@ function random(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
-function detectInterval(dates) {
-  if (dates.length < 2) return 'daily';
+function detectInterval(luxonDates) {
+  if (luxonDates.length < 2) return 'daily';
   const diffs = [];
-  for (let i = 1; i < Math.min(dates.length, 10); i++) {
-    diffs.push(dates[i] - dates[i - 1]);
+  for (let i = 1; i < Math.min(luxonDates.length, 10); i++) {
+    diffs.push(luxonDates[i].diff(luxonDates[i - 1]).toMillis());
   }
   const avg = diffs.reduce((a, b) => a + b, 0) / diffs.length;
   return Math.abs(avg - 3600000) < Math.abs(avg - 86400000)
@@ -81,8 +81,7 @@ const estimationUtils = {
 function calcCurrentStats(sincePublished, compareTime, compareData) {
   let compareSincePublished = [];
   for (let i = 0; i < compareTime.length; i++) {
-    compareSincePublished[i] =
-      new Date(compareTime[i]).getTime() - new Date(compareTime[0]).getTime();
+    compareSincePublished[i] = compareTime[i] - compareTime[0];
   }
 
   let preTime = compareSincePublished
@@ -136,21 +135,28 @@ function formatTimestampToISO(timestamp) {
 }
 
 function estimateFlat(dataset, method) {
-  dataset = dataset.sort(
-    (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
-  );
+  dataset = dataset.sort((a, b) => {
+    const dateA = luxon.DateTime.fromISO(a[0], { zone: 'utc' });
+    const dateB = luxon.DateTime.fromISO(b[0], { zone: 'utc' });
+    return dateA.toMillis() - dateB.toMillis();
+  });
 
   let dates = dataset.map(d => d[0]);
   let data = dataset.map(d => d[1]);
 
   let methodsValues = {
-    daily: 86400000,
-    hourly: 3600000,
+    daily: { hours: 24 },
+    hourly: { hours: 1 },
   };
 
-  let methodValue = methodsValues[method] || 86400000;
+  let methodDuration = methodsValues[method] || { hours: 24 };
+  let methodValue =
+    luxon.Duration.fromObject(methodDuration).as('milliseconds');
+
   let datesValues = dates.map(d => {
-    return new Date(d + 'T00:00:00.000Z').getTime();
+    return luxon.DateTime.fromISO(d + 'T00:00:00.000Z', {
+      zone: 'utc',
+    }).toMillis();
   });
 
   let startDate = Math.floor(datesValues[0] / methodValue) * methodValue;
@@ -182,21 +188,28 @@ function estimateFlat(dataset, method) {
 }
 
 function estimateLinearVariance(dataset, method, varianceRange) {
-  dataset = dataset.sort(
-    (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
-  );
+  dataset = dataset.sort((a, b) => {
+    const dateA = luxon.DateTime.fromISO(a[0], { zone: 'utc' });
+    const dateB = luxon.DateTime.fromISO(b[0], { zone: 'utc' });
+    return dateA.toMillis() - dateB.toMillis();
+  });
 
   let dates = dataset.map(d => d[0]);
   let data = dataset.map(d => d[1]);
 
   let methodsValues = {
-    daily: 86400000,
-    hourly: 3600000,
+    daily: { hours: 24 },
+    hourly: { hours: 1 },
   };
 
-  let methodValue = methodsValues[method] || 86400000;
+  let methodDuration = methodsValues[method] || { hours: 24 };
+  let methodValue =
+    luxon.Duration.fromObject(methodDuration).as('milliseconds');
+
   let datesValues = dates.map(d => {
-    return new Date(d + 'T00:00:00.000Z').getTime();
+    return luxon.DateTime.fromISO(d + 'T00:00:00.000Z', {
+      zone: 'utc',
+    }).toMillis();
   });
 
   let startDate = Math.floor(datesValues[0] / methodValue) * methodValue;
@@ -283,16 +296,18 @@ function estimateLinearVariance(dataset, method, varianceRange) {
 }
 
 function estimate(dataset, method, offset, times) {
-  dataset = dataset.sort(
-    (a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime()
-  );
+  dataset = dataset.sort((a, b) => {
+    const dateA = luxon.DateTime.fromISO(a[0], { zone: 'utc' });
+    const dateB = luxon.DateTime.fromISO(b[0], { zone: 'utc' });
+    return dateA.toMillis() - dateB.toMillis();
+  });
 
   let dates = dataset.map(d => d[0]);
   let data = dataset.map(d => d[1]);
 
   let methodsValues = {
-    daily: 86400000,
-    hourly: 3600000,
+    daily: { hours: 24 },
+    hourly: { hours: 1 },
   };
 
   method = method ?? 'daily';
@@ -300,9 +315,14 @@ function estimate(dataset, method, offset, times) {
   times = times ?? 3;
   times = Math.max(times, 1);
 
-  let methodValue = methodsValues[method] || 86400000;
+  let methodDuration = methodsValues[method] || { hours: 24 };
+  let methodValue =
+    luxon.Duration.fromObject(methodDuration).as('milliseconds');
+
   let datesValues = dates.map(d => {
-    return new Date(d + 'T00:00:00.000Z').getTime();
+    return luxon.DateTime.fromISO(d + 'T00:00:00.000Z', {
+      zone: 'utc',
+    }).toMillis();
   });
 
   let startDate = Math.floor(datesValues[0] / methodValue) * methodValue;
@@ -469,7 +489,9 @@ estimateBtn.addEventListener('click', () => {
       const smoothPasses =
         parseInt(document.getElementById('smoothPasses').value) || 3;
       const startDateInput = document.getElementById('abbrevStart').value;
-      const startDate = startDateInput ? new Date(startDateInput) : new Date(0);
+      const startDate = startDateInput
+        ? luxon.DateTime.fromISO(startDateInput, { zone: 'utc' })
+        : luxon.DateTime.fromMillis(0, { zone: 'utc' });
       const estimationMode =
         document.getElementById('estimationMode')?.value || 'auto';
 
@@ -481,14 +503,15 @@ estimateBtn.addEventListener('click', () => {
         .map(r => {
           const dateStr = r[dateKey].replace(/['"]+/g, '');
           const value = parseFloat(r[valKey].replace(/['"]+/g, ''));
+          const luxonDate = luxon.DateTime.fromISO(dateStr, { zone: 'utc' });
           return {
-            date: new Date(dateStr),
+            date: luxonDate.isValid ? luxonDate : null,
             dateStr: dateStr,
             value: value,
           };
         })
-        .filter(d => !isNaN(d.date) && !isNaN(d.value))
-        .sort((a, b) => a.date - b.date);
+        .filter(d => d.date !== null && !isNaN(d.value))
+        .sort((a, b) => a.date.toMillis() - b.date.toMillis());
 
       if (!dataPoints.length) {
         showStatus('no valid data found', 'error');
@@ -516,7 +539,7 @@ estimateBtn.addEventListener('click', () => {
 
       let intervalType =
         document.getElementById('interval').value === 'auto'
-          ? detectInterval(dataPoints.map(d => d.date.getTime()))
+          ? detectInterval(dataPoints.map(d => d.date))
           : document.getElementById('interval').value;
 
       currentInterval = intervalType;
@@ -546,7 +569,7 @@ estimateBtn.addEventListener('click', () => {
       originalData = dataPoints;
 
       estimatedData = estimatedDates.map((dateStr, i) => ({
-        date: new Date(dateStr),
+        date: luxon.DateTime.fromISO(dateStr, { zone: 'utc' }),
         value: estimatedValues[i],
       }));
 
@@ -564,7 +587,7 @@ estimateBtn.addEventListener('click', () => {
 function displayResults(estimated, original) {
   const start = estimated[0].date;
   const end = estimated[estimated.length - 1].date;
-  const days = Math.round((end - start) / 86400000);
+  const days = Math.round(end.diff(start, 'days').days);
 
   document.getElementById(
     'resultsDesc'
@@ -580,8 +603,8 @@ function displayResults(estimated, original) {
 function renderChart(estimated, original) {
   if (chartInstance) chartInstance.destroy();
 
-  const origData = original.map(d => [d.date.getTime(), d.value]);
-  const estData = estimated.map(d => [d.date.getTime(), Math.round(d.value)]);
+  const origData = original.map(d => [d.date.toMillis(), d.value]);
+  const estData = estimated.map(d => [d.date.toMillis(), Math.round(d.value)]);
 
   const dateFormat =
     currentInterval === 'hourly' ? '%b %e, %H:%M' : '%b %e, %Y';
@@ -695,13 +718,11 @@ function renderChart(estimated, original) {
 downloadBtn.addEventListener('click', () => {
   if (!estimatedData) return;
 
-  const formatDate = date => {
-    const dt = luxon.DateTime.fromJSDate(date, { zone: 'utc' });
-
+  const formatDate = luxonDate => {
     if (currentInterval === 'hourly') {
-      return dt.toFormat('yyyy-MM-dd HH:mm:ss');
+      return luxonDate.toFormat('yyyy-MM-dd HH:mm:ss');
     } else {
-      return dt.toFormat('yyyy-MM-dd');
+      return luxonDate.toFormat('yyyy-MM-dd');
     }
   };
 
