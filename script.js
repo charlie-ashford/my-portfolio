@@ -68,7 +68,6 @@ class Particle {
   }
 
   update() {
-    // Movement
     this.x += this.vx;
     this.y += this.vy;
 
@@ -340,7 +339,7 @@ const professionalWork = {
       'newstats offers better youtube analytics integrated with newstudio, a better youtube studio experience.',
     logo: 'images/newstudio.png',
     link: 'https://newstudio.app',
-    date: 'nov 2025 - present',
+    date: 'oct 2025 - present',
   },
 };
 
