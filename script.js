@@ -1,3 +1,170 @@
+const cursorDot = document.createElement('div');
+const cursorOutline = document.createElement('div');
+cursorDot.className = 'cursor-dot';
+cursorOutline.className = 'cursor-outline';
+document.body.appendChild(cursorDot);
+document.body.appendChild(cursorOutline);
+
+let mouseX = 0;
+let mouseY = 0;
+let outlineX = 0;
+let outlineY = 0;
+
+window.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  cursorDot.style.left = `${mouseX}px`;
+  cursorDot.style.top = `${mouseY}px`;
+});
+
+function animateCursorOutline() {
+  outlineX += mouseX - outlineX;
+  outlineY += mouseY - outlineY;
+
+  cursorOutline.style.left = `${outlineX}px`;
+  cursorOutline.style.top = `${outlineY}px`;
+
+  requestAnimationFrame(animateCursorOutline);
+}
+
+animateCursorOutline();
+
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let width, height;
+let particles = [];
+
+let mouse = { x: null, y: null, radius: 150 };
+
+window.addEventListener('mousemove', e => {
+  mouse.x = e.x;
+  mouse.y = e.y;
+});
+
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+  initParticles();
+}
+
+class Particle {
+  constructor() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.size = Math.random() * 1.5 + 0.5;
+  }
+
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.closePath();
+
+    ctx.fillStyle = 'rgba(127, 208, 243, 0.5)';
+
+    ctx.fill();
+  }
+
+  update() {
+    // Movement
+    this.x += this.vx;
+    this.y += this.vy;
+
+    if (this.x < 0) this.x = width;
+    if (this.x > width) this.x = 0;
+    if (this.y < 0) this.y = height;
+    if (this.y > height) this.y = 0;
+
+    let dx = mouse.x - this.x;
+    let dy = mouse.y - this.y;
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    const repelDistance = 120;
+    if (mouse.x != null && distance < repelDistance) {
+      const forceDirectionX = dx / distance;
+      const forceDirectionY = dy / distance;
+      const force = (repelDistance - distance) / repelDistance;
+
+      const directionX = forceDirectionX * force * 3;
+      const directionY = forceDirectionY * force * 3;
+
+      this.x -= directionX;
+      this.y -= directionY;
+    }
+
+    this.draw();
+  }
+}
+
+function connect() {
+  for (let a = 0; a < particles.length; a++) {
+    for (let b = a; b < particles.length; b++) {
+      let distance =
+        (particles[a].x - particles[b].x) * (particles[a].x - particles[b].x) +
+        (particles[a].y - particles[b].y) * (particles[a].y - particles[b].y);
+
+      const connectDistance = 111 * 111;
+
+      if (distance < connectDistance) {
+        let opacityValue = (1 - distance / connectDistance) * 0.2;
+
+        ctx.strokeStyle = `rgba(127, 208, 243, ${opacityValue})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(particles[b].x, particles[b].y);
+        ctx.stroke();
+      }
+    }
+
+    if (mouse.x != null) {
+      let mouseDist =
+        (particles[a].x - mouse.x) * (particles[a].x - mouse.x) +
+        (particles[a].y - mouse.y) * (particles[a].y - mouse.y);
+
+      if (mouseDist < 180 * 180) {
+        let mouseOpacity = (1 - mouseDist / (180 * 180)) * 0.6;
+
+        ctx.strokeStyle = `rgba(127, 208, 243, ${mouseOpacity})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(particles[a].x, particles[a].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function initParticles() {
+  particles = [];
+  const numberOfParticles = (width * height) / 10000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function initParticles() {
+  particles = [];
+  const numberOfParticles = (width * height) / 12000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, width, height);
+  for (let i = 0; i < particles.length; i++) {
+    particles[i].update();
+  }
+  connect();
+  requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener('resize', resize);
+
 const projects = {
   1: {
     title: 'communitrics discord bot',
@@ -7,6 +174,7 @@ const projects = {
     link: 'https://communitrics.com',
     date: 'jan 2024',
     icon: 'fab fa-discord',
+    span: 'span-2-col',
   },
   2: {
     title: 'mrbeast subscriber graph',
@@ -64,6 +232,7 @@ const projects = {
     link: 'https://socialstats.app',
     date: 'jan 2025',
     icon: 'fas fa-chart-pie',
+    span: 'span-2-col',
   },
   8: {
     title: 'my portfolio',
@@ -171,7 +340,7 @@ const professionalWork = {
       'newstats offers better youtube analytics integrated with newstudio, a better youtube studio experience.',
     logo: 'images/newstudio.png',
     link: 'https://newstudio.app',
-    date: 'oct 2025 - present',
+    date: 'nov 2025 - present',
   },
 };
 
@@ -201,7 +370,7 @@ function renderProjects() {
   const projectsGrid = document.querySelector('.projects-grid');
   Object.entries(projects).forEach(([id, project]) => {
     const card = document.createElement('div');
-    card.className = 'project-card slide-up';
+    card.className = `project-card slide-up ${project.span || ''}`;
     card.style.animationDelay = `${parseInt(id) * 0.1}s`;
     card.innerHTML = `
       <div class="project-header">
@@ -225,10 +394,15 @@ function renderProfessionalWork() {
   const workList = document.querySelector('.work-list');
   if (!workList) return;
 
+  const projectCount = Object.keys(projects).length;
+  const projectBaseDelay = projectCount * 0.1;
+  const projectAnimDuration = 0.6;
+  const totalProjectTime = projectBaseDelay + projectAnimDuration;
+
   Object.entries(professionalWork).forEach(([id, work]) => {
     const item = document.createElement('div');
     item.className = 'work-item slide-up';
-    item.style.animationDelay = `${parseInt(id) * 0.1}s`;
+    item.style.animationDelay = `${totalProjectTime + parseInt(id) * 0.1}s`;
     item.innerHTML = `
       ${
         work.logo
@@ -256,6 +430,24 @@ function renderProfessionalWork() {
 
     workList.appendChild(item);
   });
+}
+
+function animateProfessionalWorkSection() {
+  const workSection = document.querySelector('.work-section');
+  const workTitle = workSection?.querySelector('.section-title');
+
+  if (!workTitle) return;
+
+  const projectCount = Object.keys(projects).length;
+  const projectBaseDelay = projectCount * 0.1;
+  const projectAnimDuration = 0.6;
+  const totalProjectTime = projectBaseDelay + projectAnimDuration;
+
+  workTitle.style.opacity = '0';
+  workTitle.style.animation = 'none';
+  workTitle.style.animation = `fadeIn 0.6s ease ${
+    totalProjectTime - 0.3
+  }s forwards`;
 }
 
 function showProjectModal(project) {
@@ -590,6 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
   preloadImages();
   renderProjects();
   renderProfessionalWork();
+  animateProfessionalWorkSection();
   setupSongMarquee();
 
   const modal = document.querySelector('.modal');
@@ -616,6 +809,8 @@ window.addEventListener('load', () => {
   checkSocialsOverlap();
   updateTime();
   updateDiscordPresence();
+  resize();
+  animateParticles();
 });
 
 window.addEventListener('resize', checkSocialsOverlap);
