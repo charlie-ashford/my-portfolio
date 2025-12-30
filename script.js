@@ -333,10 +333,10 @@ const projects = {
 
 const professionalWork = {
   1: {
-    company: 'newstudio',
-    role: 'extension developer and newstats lead',
+    company: 'NewStudio',
+    role: 'extension developer and NewStats lead',
     description:
-      'newstats offers better youtube analytics integrated with newstudio, a better youtube studio experience.',
+      'NewStats offers better youtube analytics integrated with NewStudio, a better youtube studio experience.',
     logo: 'images/newstudio.png',
     link: 'https://newstudio.app',
     date: 'oct 2025 - present',
