@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlie Ashford &mdash; Portfolio</title>
+    <meta name="description" content="Charlie Ashford &mdash; Developer, creator, and digital craftsman based in Sydney, Australia.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <style>
+        /* =====================================================
+           RESET & CUSTOM PROPERTIES
+           ===================================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #FAF8F5;
+            --charcoal: #1A1A1A;
+            --gold: #C5A572;
+            --gold-light: #D4BC91;
+            --gold-dark: #A68B5B;
+            --warm-gray: #8C8279;
+            --light-gray: #E8E4DF;
+            --mid-gray: #B5ADA5;
+            --off-white: #F5F2EE;
+            --display: 'Cormorant Garamond', Georgia, serif;
+            --body: 'Libre Baskerville', Georgia, serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--cream); }
+        ::-webkit-scrollbar-thumb { background: var(--mid-gray); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+        html { scrollbar-color: var(--mid-gray) var(--cream); scrollbar-width: thin; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--body);
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.8;
+            font-size: 16px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection { background: var(--gold); color: var(--cream); }
+        img { max-width: 100%; display: block; }
+        a { color: var(--charcoal); text-decoration: none; transition: color 0.4s ease, opacity 0.4s ease; }
+        a:hover { color: var(--gold); }
+
+        /* =====================================================
+           TYPOGRAPHY UTILITIES
+           ===================================================== */
+        .label {
+            font-family: var(--display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+        .display-heading {
+            font-family: var(--display);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .body-text {
+            font-family: var(--body);
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--warm-gray);
+        }
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 28px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
+            background: transparent;
+        }
+        .nav.scrolled {
+            padding: 12px 48px;
+            background: rgba(250,248,245,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .nav-back {
+            font-family: var(--display);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            transition: color 0.4s ease;
+        }
+        .nav-back:hover { color: var(--gold); }
+        .nav-back i { margin-right: 8px; font-size: 0.6rem; }
+
+        .monogram {
+            width: 48px; height: 48px;
+            border: 1.5px solid var(--charcoal);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--display);
+            font-size: 1.1rem; font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--charcoal);
+            transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .monogram:hover { border-color: var(--gold); color: var(--gold); transform: scale(1.05); }
+        .nav.scrolled .monogram { width: 36px; height: 36px; font-size: 0.85rem; }
+
+        .nav-links { display: flex; align-items: center; gap: 36px; }
+        .nav-links a {
+            font-family: var(--display);
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--warm-gray);
+            position: relative;
+            transition: color 0.4s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 1px;
+            background: var(--gold);
+            transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        .nav-links a:hover { color: var(--charcoal); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 0 48px 80px;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            font-family: var(--display);
+            font-size: clamp(120px,18vw,300px);
+            font-weight: 300;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--light-gray);
+            white-space: nowrap;
+            pointer-events: none; user-select: none;
+            opacity: 0.5;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-label {
+            margin-bottom: 24px;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 1s 0.3s forwards cubic-bezier(0.22,1,0.36,1);
+        }
+        .hero-title {
+            font-size: clamp(3rem,7vw,6.5rem);
+            margin-bottom: 32px;
+            opacity: 0; transform: translateY(30px);
+            animation: fadeUp 1s 0.5s forwards cubic-bezier(0.22,1,0.36,1);
+        }
+        .hero-subtitle {
+            font-family: var(--display);
+            font-size: 1.3rem; font-weight: 400;
+            color: var(--warm-gray);
+            max-width: 500px; line-height: 1.7;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 1s 0.7s forwards cubic-bezier(0.22,1,0.36,1);
+        }
+        .hero-subtitle .amp { font-style: italic; font-weight: 300; color: var(--gold); font-family: var(--display); font-size: 1.5rem; }
+
+        .hero-meta {
+            display: flex; align-items: center; gap: 32px;
+            margin-top: 48px;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 1s 0.9s forwards cubic-bezier(0.22,1,0.36,1);
+        }
+        .hero-meta-item {
+            display: flex; align-items: center; gap: 8px;
+            font-family: var(--display);
+            font-size: 0.8rem; letter-spacing: 0.1em;
+            color: var(--warm-gray);
+        }
+        .hero-meta-item i { color: var(--gold); font-size: 0.7rem; }
+
+        .hero-scroll {
+            position: absolute; bottom: 32px; right: 48px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            opacity: 0; animation: fadeIn 1s 1.5s forwards;
+        }
+        .hero-scroll span {
+            font-family: var(--display);
+            font-size: 0.6rem; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--mid-gray);
+            writing-mode: vertical-rl;
+        }
+        .scroll-line {
+            width: 1px; height: 60px;
+            background: var(--light-gray);
+            position: relative; overflow: hidden;
+        }
+        .scroll-line::after {
+            content: '';
+            position: absolute; top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: var(--gold);
+            animation: scrollDown 2s infinite;
+        }
+
+        /* =====================================================
+           ABOUT / INTRO
+           ===================================================== */
+        .section { padding: 120px 48px; position: relative; }
+        .section-wide { max-width: 1200px; margin: 0 auto; }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: start;
+        }
+        .intro-heading {
+            font-size: clamp(2.2rem,4vw,3.5rem);
+            line-height: 1.15; margin-bottom: 40px;
+        }
+        .intro-heading .gold { color: var(--gold); font-style: italic; }
+
+        .drop-cap::first-letter {
+            float: left;
+            font-family: var(--display);
+            font-size: 4.5rem; line-height: 0.8;
+            padding-right: 12px; padding-top: 6px;
+            color: var(--gold); font-weight: 600;
+        }
+        .intro-right { padding-top: 20px; }
+        .intro-right .body-text { margin-bottom: 24px; }
+
+        .intro-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px; margin-top: 48px; padding-top: 48px;
+            border-top: 1px solid var(--light-gray);
+        }
+        .stat-number {
+            font-family: var(--display);
+            font-size: 2.8rem; font-weight: 300;
+            color: var(--charcoal); line-height: 1; margin-bottom: 4px;
+        }
+        .stat-label {
+            font-family: var(--display);
+            font-size: 0.7rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--mid-gray);
+        }
+
+        /* =====================================================
+           PRESENCE / STATUS BAR
+           ===================================================== */
+        .presence {
+            background: var(--charcoal); color: var(--cream);
+            padding: 80px 48px;
+            position: relative; overflow: hidden;
+        }
+        .presence::before {
+            content: '\201C';
+            position: absolute; top: -40px; right: 80px;
+            font-family: var(--display);
+            font-size: 400px; font-weight: 300;
+            color: rgba(197,165,114,0.06);
+            pointer-events: none;
+        }
+        .presence-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            gap: 60px; flex-wrap: wrap;
+        }
+        .presence-left { flex: 1; min-width: 280px; }
+        .presence-label { color: var(--gold); margin-bottom: 20px; }
+        .presence-status {
+            font-family: var(--display);
+            font-size: 1.6rem; font-weight: 300;
+            line-height: 1.5; color: var(--cream);
+        }
+        .status-dot {
+            display: inline-block;
+            width: 8px; height: 8px; border-radius: 50%;
+            margin-right: 10px; position: relative; top: -2px;
+        }
+        .status-dot.online { background: #43B581; box-shadow: 0 0 8px rgba(67,181,129,0.5); }
+        .status-dot.idle { background: #FAA61A; box-shadow: 0 0 8px rgba(250,166,26,0.5); }
+        .status-dot.dnd { background: #F04747; box-shadow: 0 0 8px rgba(240,71,71,0.5); }
+        .status-dot.offline { background: #747F8D; }
+
+        .presence-activity {
+            font-family: var(--display);
+            font-size: 1rem; color: rgba(250,248,245,0.5);
+            margin-top: 12px; font-style: italic;
+        }
+        .presence-right {
+            display: flex; gap: 48px; align-items: center;
+        }
+        .presence-divider {
+            width: 1px; height: 80px;
+            background: rgba(250,248,245,0.1);
+        }
+        .time-display { text-align: right; }
+        .time-label {
+            font-family: var(--display);
+            font-size: 0.65rem; letter-spacing: 0.25em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .time-value {
+            font-family: var(--display);
+            font-size: 2.4rem; font-weight: 300;
+            color: var(--cream); letter-spacing: 0.05em;
+        }
+        .time-date {
+            font-family: var(--display);
+            font-size: 0.8rem; color: rgba(250,248,245,0.4);
+            margin-top: 4px;
+        }
+        .social-links-bar { display: flex; gap: 24px; }
+        .social-link {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(250,248,245,0.15);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(250,248,245,0.6); font-size: 0.85rem;
+            transition: all 0.4s ease;
+        }
+        .social-link:hover {
+            border-color: var(--gold); color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* =====================================================
+           PULLQUOTE
+           ===================================================== */
+        .pullquote-section {
+            padding: 100px 48px; text-align: center;
+            position: relative;
+        }
+        .pullquote-section::before,
+        .pullquote-section::after {
+            content: ''; position: absolute;
+            left: 50%; transform: translateX(-50%);
+            width: 60px; height: 1px; background: var(--gold);
+        }
+        .pullquote-section::before { top: 0; }
+        .pullquote-section::after { bottom: 0; }
+        .pullquote {
+            font-family: var(--display);
+            font-size: clamp(1.8rem,3.5vw,3rem);
+            font-weight: 300; font-style: italic;
+            line-height: 1.5; max-width: 800px;
+            margin: 0 auto; color: var(--charcoal);
+        }
+        .pullquote .ornamental-amp {
+            display: block; font-size: 4rem;
+            color: var(--gold); font-style: italic;
+            font-weight: 300; margin: 16px 0; line-height: 1;
+        }
+
+        /* =====================================================
+           PROFESSIONAL WORK
+           ===================================================== */
+        .work-section { padding: 140px 48px; position: relative; }
+        .work-section::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--light-gray) 20%, var(--light-gray) 80%, transparent);
+        }
+        .work-inner { max-width: 1200px; margin: 0 auto; }
+        .work-header {
+            display: flex; align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 80px;
+        }
+        .work-header .label { margin-bottom: 20px; }
+        .work-heading { font-size: clamp(2rem,3.5vw,3rem); }
+
+        .work-card {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 80px; align-items: center;
+            background: var(--off-white);
+            padding: 60px; border-radius: 2px;
+            position: relative; overflow: hidden;
+        }
+        .work-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--gold);
+        }
+        .work-card-image { position: relative; }
+        .work-card-image img {
+            width: 100%; border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(26,26,26,0.08);
+        }
+        .work-card-image::after {
+            content: ''; position: absolute;
+            top: 16px; left: 16px; right: -16px; bottom: -16px;
+            border: 1px solid var(--gold);
+            border-radius: 2px; z-index: -1; opacity: 0.4;
+        }
+        .work-role-label { margin-bottom: 16px; }
+        .work-card-title {
+            font-family: var(--display);
+            font-size: 2.2rem; font-weight: 400; margin-bottom: 8px;
+        }
+        .work-card-role {
+            font-family: var(--display);
+            font-size: 1rem; color: var(--gold);
+            font-style: italic; margin-bottom: 24px;
+        }
+        .work-card-desc {
+            font-size: 0.95rem; color: var(--warm-gray);
+            line-height: 1.8; margin-bottom: 32px;
+        }
+        .work-card-link {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: var(--display);
+            font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--charcoal);
+            padding-bottom: 4px; border-bottom: 1px solid var(--charcoal);
+            transition: all 0.4s ease;
+        }
+        .work-card-link:hover { color: var(--gold); border-color: var(--gold); gap: 16px; }
+
+        /* =====================================================
+           PARALLAX BREAK
+           ===================================================== */
+        .parallax-break {
+            height: 50vh; position: relative;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .parallax-bg {
+            position: absolute; inset: -20%;
+            background: var(--charcoal); z-index: 0;
+        }
+        .parallax-content {
+            position: relative; z-index: 1;
+            text-align: center; color: var(--cream);
+        }
+        .big-number {
+            font-family: var(--display);
+            font-size: clamp(5rem,12vw,10rem);
+            font-weight: 300; line-height: 1;
+            color: var(--gold); opacity: 0.8;
+        }
+        .big-label {
+            font-family: var(--display);
+            font-size: 0.75rem; letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(250,248,245,0.5); margin-top: 8px;
+        }
+
+        /* =====================================================
+           HORIZONTAL GALLERY (LOOKBOOK)
+           ===================================================== */
+        .gallery-section { padding: 120px 0 120px 48px; position: relative; }
+        .gallery-header {
+            max-width: 1200px; margin-bottom: 60px;
+            display: flex; align-items: flex-end;
+            justify-content: space-between;
+            padding-right: 48px;
+        }
+        .gallery-header .label { margin-bottom: 20px; }
+        .gallery-heading { font-size: clamp(2rem,3.5vw,3rem); }
+        .gallery-hint {
+            font-family: var(--display);
+            font-size: 0.75rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--mid-gray);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .gallery-hint i { font-size: 1rem; animation: slideRight 1.5s infinite; }
+
+        .gallery-track {
+            display: flex; gap: 32px;
+            overflow-x: auto; scroll-behavior: smooth;
+            padding-bottom: 24px; padding-right: 48px;
+            cursor: grab;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .gallery-track::-webkit-scrollbar { display: none; }
+        .gallery-track.dragging { cursor: grabbing; scroll-behavior: auto; }
+
+        .gallery-card {
+            flex: 0 0 380px; position: relative; cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+        }
+        .gallery-card:hover { transform: translateY(-8px); }
+        .gallery-card-image {
+            width: 100%; height: 260px;
+            overflow: hidden; background: var(--light-gray);
+            position: relative;
+        }
+        .gallery-card-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .gallery-card:hover .gallery-card-image img { transform: scale(1.05); }
+        .card-number {
+            position: absolute; top: 16px; right: 16px;
+            font-family: var(--display);
+            font-size: 0.65rem; letter-spacing: 0.15em;
+            color: white;
+            background: rgba(26,26,26,0.6);
+            backdrop-filter: blur(10px);
+            padding: 4px 12px; text-transform: uppercase;
+        }
+        .gallery-card-content { padding: 24px 0; }
+        .gallery-card-date {
+            font-family: var(--display);
+            font-size: 0.65rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .gallery-card-title {
+            font-family: var(--display);
+            font-size: 1.4rem; font-weight: 500;
+            margin-bottom: 8px; line-height: 1.3;
+        }
+        .gallery-card-excerpt {
+            font-size: 0.85rem; color: var(--warm-gray);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* =====================================================
+           ALL PROJECTS GRID
+           ===================================================== */
+        .grid-section { padding: 80px 48px 140px; }
+        .grid-header {
+            max-width: 1200px; margin: 0 auto 60px;
+            text-align: center;
+        }
+        .grid-header .label { margin-bottom: 20px; }
+        .ornamental-divider {
+            margin: 32px auto 0;
+            display: flex; align-items: center; justify-content: center; gap: 16px;
+            color: var(--gold);
+        }
+        .ornamental-divider .line { width: 60px; height: 1px; background: var(--light-gray); }
+        .ornamental-divider .diamond { font-size: 0.5rem; }
+
+        .projects-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .project-spread {
+            cursor: pointer; position: relative;
+            transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+        }
+        .project-spread:hover { transform: translateY(-4px); }
+        .project-spread-image {
+            width: 100%; aspect-ratio: 4/3;
+            overflow: hidden; background: var(--light-gray);
+            margin-bottom: 20px; position: relative;
+        }
+        .project-spread-image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .project-spread:hover .project-spread-image img { transform: scale(1.04); }
+        .issue-number {
+            position: absolute; bottom: 12px; left: 12px;
+            font-family: var(--display);
+            font-size: 0.6rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: white;
+            background: rgba(26,26,26,0.5);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+        }
+        .project-spread-meta {
+            font-family: var(--display);
+            font-size: 0.6rem; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 6px;
+        }
+        .project-spread-title {
+            font-family: var(--display);
+            font-size: 1.25rem; font-weight: 500;
+            line-height: 1.3; margin-bottom: 8px;
+        }
+        .project-spread-desc {
+            font-size: 0.82rem; color: var(--warm-gray); line-height: 1.6;
+        }
+
+        /* =====================================================
+           CONTACT & FOOTER
+           ===================================================== */
+        .contact-section {
+            padding: 140px 48px; text-align: center;
+            position: relative;
+        }
+        .contact-section::before {
+            content: ''; position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 1px; height: 80px;
+            background: var(--light-gray);
+        }
+        .contact-section .label { margin-bottom: 32px; }
+        .contact-heading {
+            font-size: clamp(2.5rem,5vw,4.5rem);
+            margin-bottom: 24px;
+        }
+        .contact-heading .italic-gold { font-style: italic; color: var(--gold); }
+        .contact-subtext {
+            font-family: var(--display);
+            font-size: 1.1rem; color: var(--warm-gray);
+            max-width: 500px; margin: 0 auto 48px; line-height: 1.7;
+        }
+        .contact-links {
+            display: flex; justify-content: center;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .contact-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 28px;
+            border: 1px solid var(--light-gray);
+            font-family: var(--display);
+            font-size: 0.75rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--charcoal);
+            transition: all 0.4s ease;
+        }
+        .contact-link:hover {
+            border-color: var(--gold); color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(197,165,114,0.12);
+        }
+        .contact-link i { font-size: 0.9rem; }
+
+        .footer {
+            padding: 40px 48px;
+            border-top: 1px solid var(--light-gray);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-text {
+            font-family: var(--display);
+            font-size: 0.7rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: var(--mid-gray);
+        }
+        .footer-monogram {
+            width: 32px; height: 32px;
+            border: 1px solid var(--light-gray);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--display);
+            font-size: 0.7rem; font-weight: 600; color: var(--mid-gray);
+        }
+
+        /* =====================================================
+           PROJECT MODAL
+           ===================================================== */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(26,26,26,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            opacity: 0; visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
+            overflow-y: auto;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-close {
+            position: fixed; top: 32px; right: 40px;
+            z-index: 2100;
+            width: 48px; height: 48px;
+            border: 1px solid rgba(250,248,245,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--cream); font-size: 1rem;
+            cursor: pointer; background: none;
+            transition: all 0.4s ease;
+        }
+        .modal-close:hover {
+            border-color: var(--gold); color: var(--gold);
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            max-width: 900px;
+            margin: 80px auto; padding: 60px;
+            background: var(--cream);
+            position: relative;
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.6s 0.1s cubic-bezier(0.22,1,0.36,1);
+        }
+        .modal-overlay.active .modal-content {
+            opacity: 1; transform: translateY(0);
+        }
+        .modal-label { margin-bottom: 16px; }
+        .modal-title {
+            font-family: var(--display);
+            font-size: clamp(2rem,4vw,3rem);
+            font-weight: 400; margin-bottom: 8px; line-height: 1.2;
+        }
+        .modal-date {
+            font-family: var(--display);
+            font-size: 0.9rem; color: var(--gold);
+            font-style: italic; margin-bottom: 32px;
+        }
+        .modal-image {
+            width: 100%; margin-bottom: 40px;
+            overflow: hidden; background: var(--light-gray);
+        }
+        .modal-image img { width: 100%; display: block; }
+        .modal-desc {
+            font-size: 1rem; color: var(--warm-gray);
+            line-height: 1.9; margin-bottom: 40px;
+        }
+        .modal-links {
+            display: flex; gap: 16px; flex-wrap: wrap;
+            padding-top: 32px;
+            border-top: 1px solid var(--light-gray);
+        }
+        .modal-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: var(--display);
+            font-size: 0.7rem; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border: 1px solid var(--charcoal); color: var(--charcoal);
+            transition: all 0.4s ease;
+        }
+        .modal-link:hover { background: var(--charcoal); color: var(--cream); }
+        .modal-link.gold { border-color: var(--gold); color: var(--gold); }
+        .modal-link.gold:hover { background: var(--gold); color: var(--cream); }
+
+        /* =====================================================
+           ANIMATIONS
+           ===================================================== */
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes scrollDown { 0% { top: -100%; } 100% { top: 100%; } }
+        @keyframes slideRight { 0%,100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+
+        .fade-in {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .fade-in-left {
+            opacity: 0; transform: translateX(-30px);
+            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+
+        .fade-in-right {
+            opacity: 0; transform: translateX(30px);
+            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+
+        .stagger > * {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.6s cubic-bezier(0.22,1,0.36,1);
+        }
+        .stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+        .stagger.visible > *:nth-child(2) { transition-delay: 0.08s; }
+        .stagger.visible > *:nth-child(3) { transition-delay: 0.08s; }
+        .stagger.visible > *:nth-child(4) { transition-delay: 0.16s; }
+        .stagger.visible > *:nth-child(5) { transition-delay: 0.24s; }
+        .stagger.visible > *:nth-child(6) { transition-delay: 0.32s; }
+        .stagger.visible > * { opacity: 1; transform: translateY(0); }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+        @media (max-width: 1024px) {
+            .intro-grid { grid-template-columns: 1fr; gap: 48px; }
+            .work-card { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
+            .projects-grid { grid-template-columns: repeat(2,1fr); gap: 32px; }
+            .gallery-card { flex: 0 0 320px; }
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 20px 24px; }
+            .nav.scrolled { padding: 10px 24px; }
+            .nav-links { display: none; }
+            .hero { padding: 0 24px 60px; }
+            .hero-meta { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .hero-scroll { display: none; }
+            .hero-bg-text { display: none; }
+            .section { padding: 80px 24px; }
+            .gallery-section { padding: 80px 0 80px 24px; }
+            .gallery-header { padding-right: 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .gallery-card { flex: 0 0 280px; }
+            .presence { padding: 60px 24px; }
+            .presence-inner { flex-direction: column; align-items: flex-start; gap: 32px; }
+            .presence-right { width: 100%; justify-content: space-between; }
+            .presence-divider { height: 40px; }
+            .work-section { padding: 80px 24px; }
+            .work-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 48px; }
+            .work-card { padding: 28px 24px; }
+            .grid-section { padding: 60px 24px 100px; }
+            .projects-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-section { padding: 100px 24px; }
+            .contact-links { flex-direction: column; align-items: center; }
+            .footer { padding: 24px; flex-direction: column; gap: 16px; text-align: center; }
+            .modal-content { margin: 40px 16px; padding: 32px 24px; }
+            .modal-close { top: 16px; right: 16px; }
+            .pullquote-section { padding: 60px 24px; }
+            .parallax-break { height: 35vh; }
+        }
+        @media (max-width: 480px) {
+            .intro-stats { grid-template-columns: 1fr; gap: 24px; }
+            .gallery-card { flex: 0 0 260px; }
+            .gallery-card-image { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="nav" id="nav">
+        <div class="nav-left">
+            <a href="/" class="nav-back"><i class="fas fa-arrow-left"></i>Back to Designs</a>
+            <div class="monogram" onclick="window.scrollTo({top:0,behavior:'smooth'})">CA</div>
+        </div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Connect</a>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-text">Ashford</div>
+        <div class="hero-content">
+            <div class="hero-label label">Developer &amp; Creator &mdash; Sydney, Australia</div>
+            <h1 class="hero-title display-heading">Charlie<br>Ashford</h1>
+            <p class="hero-subtitle">
+                Crafting digital experiences with precision <span class="amp">&amp;</span> purpose. Extension developer and NewStats lead at NewStudio.
+            </p>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Sydney, AU</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="fas fa-circle" id="hero-status-dot" style="font-size:6px;color:#747F8D;"></i>
+                    <span id="hero-status-text">Loading&hellip;</span>
+                </div>
+                <div class="hero-meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="hero-time">--:--</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT ==================== -->
+    <section class="section" id="about">
+        <div class="section-wide">
+            <div class="intro-grid">
+                <div class="intro-left fade-in-left">
+                    <div class="label" style="margin-bottom:40px;">About &mdash; The Story</div>
+                    <h2 class="intro-heading display-heading">
+                        A passion for<br>building <span class="gold">meaningful</span><br>digital tools
+                    </h2>
+                </div>
+                <div class="intro-right fade-in-right">
+                    <p class="body-text drop-cap">
+                        At nineteen years old, Charlie Ashford has already established a remarkable presence in the developer community. Based in Sydney, Australia, Charlie specialises in creating tools that bring clarity to data &mdash; from YouTube analytics platforms to cross-platform social media trackers.
+                    </p>
+                    <p class="body-text">
+                        Currently serving as Extension Developer and NewStats lead at NewStudio, Charlie is shaping the future of YouTube analytics. Each project reflects a commitment to elegant interfaces, robust engineering, and the belief that data should be both accessible and beautiful.
+                    </p>
+                    <div class="intro-stats stagger">
+                        <div class="stat-item">
+                            <div class="stat-number">18</div>
+                            <div class="stat-label">Projects Built</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Years Creating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">19</div>
+                            <div class="stat-label">Years Old</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">2024</div>
+                            <div class="stat-label">Active Since</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRESENCE ==================== -->
+    <div class="presence" id="presence">
+        <div class="presence-inner">
+            <div class="presence-left fade-in">
+                <div class="presence-label label">Live Status</div>
+                <div class="presence-status">
+                    <span class="status-dot offline" id="presence-dot"></span>
+                    <span id="presence-status-label">Offline</span>
+                </div>
+                <div class="presence-activity" id="presence-activity"></div>
+            </div>
+            <div class="presence-right fade-in">
+                <div class="social-links-bar stagger">
+                    <a href="https://discord.com/users/1158588351943811142" target="_blank" class="social-link" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://github.com/charlie-ashford" target="_blank" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/charlieashfordd" target="_blank" class="social-link" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+                </div>
+                <div class="presence-divider"></div>
+                <div class="time-display">
+                    <div class="time-label">Sydney Time</div>
+                    <div class="time-value" id="sydney-time">--:--</div>
+                    <div class="time-date" id="sydney-date">Loading&hellip;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PULLQUOTE ==================== -->
+    <section class="pullquote-section fade-in">
+        <blockquote class="pullquote">
+            &ldquo;Data should be both accessible
+            <span class="ornamental-amp">&amp;</span>
+            beautiful.&rdquo;
+        </blockquote>
+    </section>
+
+    <!-- ==================== WORK ==================== -->
+    <section class="work-section" id="work">
+        <div class="work-inner">
+            <div class="work-header">
+                <div class="fade-in">
+                    <div class="label" style="margin-bottom:20px;">Professional &mdash; Current Role</div>
+                    <h2 class="work-heading display-heading">Where I Work</h2>
+                </div>
+            </div>
+            <div class="work-card fade-in">
+                <div class="work-card-image">
+                    <img src="../images/newstudio.png" alt="NewStudio" loading="lazy">
+                </div>
+                <div class="work-card-content">
+                    <div class="work-role-label label">Oct 2025 &mdash; Present</div>
+                    <h3 class="work-card-title display-heading">NewStudio</h3>
+                    <div class="work-card-role">Extension Developer &amp; NewStats Lead</div>
+                    <p class="work-card-desc">
+                        NewStats offers better YouTube analytics seamlessly integrated with NewStudio &mdash; a reimagined YouTube Studio experience. Leading the development of analytics features that empower creators with deeper insights into their content performance.
+                    </p>
+                    <a href="https://newstudio.app" target="_blank" class="work-card-link">
+                        Visit NewStudio <i class="fas fa-arrow-right" style="font-size:0.65rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PARALLAX BREAK ==================== -->
+    <div class="parallax-break" id="parallax-1">
+        <div class="parallax-bg"></div>
+        <div class="parallax-content fade-in">
+            <div class="big-number">18</div>
+            <div class="big-label">Projects &amp; Counting</div>
+        </div>
+    </div>
+
+    <!-- ==================== HORIZONTAL GALLERY ==================== -->
+    <section class="gallery-section" id="projects">
+        <div class="gallery-header">
+            <div class="gallery-header-left fade-in">
+                <div class="label" style="margin-bottom:20px;">Portfolio &mdash; Featured Work</div>
+                <h2 class="gallery-heading display-heading">The Lookbook</h2>
+            </div>
+            <div class="gallery-hint fade-in">
+                <span>Drag to explore</span>
+                <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+        <div class="gallery-track" id="gallery-track"></div>
+    </section>
+
+    <!-- ==================== ALL PROJECTS GRID ==================== -->
+    <section class="grid-section" id="all-projects">
+        <div class="grid-header fade-in">
+            <div class="label">Complete Collection</div>
+            <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem);margin-top:12px;">All Projects</h2>
+            <div class="ornamental-divider">
+                <div class="line"></div>
+                <i class="fas fa-diamond diamond"></i>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="projects-grid stagger" id="projects-grid"></div>
+    </section>
+
+    <!-- ==================== CONTACT ==================== -->
+    <section class="contact-section" id="contact">
+        <div class="label fade-in">Get in Touch</div>
+        <h2 class="contact-heading display-heading fade-in">
+            Let&rsquo;s build something<br><span class="italic-gold">extraordinary</span>
+        </h2>
+        <p class="contact-subtext fade-in">
+            Always open to new collaborations, interesting projects, and conversations about data, design, and the digital landscape.
+        </p>
+        <div class="contact-links stagger">
+            <a href="https://discord.com/users/1158588351943811142" target="_blank" class="contact-link"><i class="fab fa-discord"></i> Discord</a>
+            <a href="https://github.com/charlie-ashford" target="_blank" class="contact-link"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://twitter.com/charlieashfordd" target="_blank" class="contact-link"><i class="fab fa-x-twitter"></i> Twitter</a>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-text">&copy; 2025 Charlie Ashford</div>
+        <div class="footer-monogram">CA</div>
+        <div class="footer-text">Sydney, Australia</div>
+    </footer>
+
+    <!-- ==================== MODAL ==================== -->
+    <div class="modal-overlay" id="modal-overlay">
+        <button class="modal-close" id="modal-close"><i class="fas fa-times"></i></button>
+        <div class="modal-content" id="modal-content">
+            <div class="modal-label label" id="modal-label"></div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <div class="modal-date" id="modal-date"></div>
+            <div class="modal-image"><img id="modal-image" src="" alt=""></div>
+            <p class="modal-desc" id="modal-desc"></p>
+            <div class="modal-links" id="modal-links"></div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+    (function() {
+        'use strict';
+
+        /* ==================================================
+           PROJECT DATA
+           ================================================== */
+        const projects = [
+            { id:1, title:'Communitrics Discord Bot', date:'January 2024', desc:'A powerful Discord bot providing real-time tracking of YouTube channel milestones. Monitors subscriber counts, view milestones, and growth metrics across thousands of channels, delivering instant notifications to Discord communities.', image:'../images/communitrics.png', link:'https://communitrics.com', code:null, featured:true },
+            { id:2, title:'MrBeast Subscriber Graph', date:'May 2024', desc:'A real-time, beautifully rendered graph tracking MrBeast\'s subscriber count with live updates. Features interactive tooltips, historical data visualization, and responsive design for seamless viewing across all devices.', image:'../images/mbgraph.png', link:'https://mrbeastgraph.com', code:'https://github.com/charlie-ashford/mrbeast-graph', featured:true },
+            { id:3, title:'YouTube Data Exporter', date:'August 2024', desc:'Export comprehensive statistics for any YouTube channel or video in multiple formats. Enables researchers, analysts, and creators to access detailed metrics and historical data with a clean, intuitive interface.', image:'../images/export.png', link:'https://export.communitrics.com', code:'https://github.com/charlie-ashford/data-exporter', featured:true },
+            { id:4, title:'Communitrics Graphs', date:'April 2024', desc:'Interactive subscriber growth and average statistics graphs for YouTube channels. Provides visual analytics with customizable date ranges and comparison tools for in-depth channel analysis.', image:'../images/graphs.png', link:'https://graphs.communitrics.com', code:'https://github.com/charlie-ashford/channel-graphs', featured:true },
+            { id:5, title:'SCTools', date:'September 2024', desc:'A comprehensive suite of tools designed specifically for statistics creators. Streamlines workflows and provides essential utilities for content creation and data analysis.', image:'../images/sctools.png', link:'https://sctools.org', code:null, featured:true },
+            { id:6, title:'Video Data', date:'August 2024', desc:'Hourly statistics tracking for YouTube channels, offering granular insight into video performance, view velocity, and engagement patterns over time.', image:'../images/videos.png', link:'https://videostats.communitrics.com', code:'https://github.com/charlie-ashford/video-stats', featured:true },
+            { id:7, title:'SocialStats.app', date:'January 2025', desc:'A cross-platform social media analytics dashboard providing unified metrics across multiple platforms. Compare growth, engagement, and reach in one elegant interface.', image:'../images/socialstats.png', link:'https://socialstats.app', code:null, featured:true },
+            { id:8, title:'My Portfolio', date:'January 2025', desc:'This personal portfolio website showcasing projects, skills, and professional experience. Designed with attention to typography, whitespace, and editorial aesthetics.', image:'../images/portfolio.png', link:'https://charlieashford.com', code:'https://github.com/charlie-ashford/my-portfolio', featured:false },
+            { id:9, title:'MrBeast Hourly Stats Bot', date:'May 2024', desc:'An automated Discord bot delivering hourly updates on MrBeast\'s channel statistics, including subscriber gains, view counts, and milestone tracking with formatted embeds.', image:'../images/hourly.png', link:null, code:null, featured:false },
+            { id:10, title:'Top YouTube Channels', date:'April 2024', desc:'A live-updating leaderboard of the 1,000 most-subscribed YouTube channels. Features search, filtering, and detailed statistics for each channel on the platform.', image:'../images/top.png', link:'https://top.communitrics.com', code:'https://github.com/charlie-ashford/top-channels', featured:true },
+            { id:11, title:'Old YouTube Channels', date:'October 2024', desc:'A nostalgic exploration tool for discovering YouTube channels created in 2005, the platform\'s founding year. Browse, search, and uncover the earliest creators on YouTube.', image:'../images/oldtube.png', link:'https://oldtube.communitrics.com', code:'https://github.com/charlie-ashford/old-youtube', featured:false },
+            { id:12, title:'Color Extractor', date:'April 2025', desc:'Extract beautiful, curated color palettes from any image. Useful for designers, developers, and creators seeking inspiration from visual media.', image:'../images/colors.png', link:'https://colors.communitrics.com', code:'https://github.com/charlie-ashford/color-extractor', featured:false },
+            { id:13, title:'Communitrics Counting', date:'July 2024', desc:'Analytics and tracking platform for counting-style YouTube channels. Provides real-time metrics, growth analysis, and milestone notifications.', image:'../images/counting.png', link:'https://counting.communitrics.com', code:'https://github.com/charlie-ashford/counting-data', featured:false },
+            { id:14, title:'MrBeast Subs Twitter Bot', date:'February 2025', desc:'An automated Twitter bot that posts regular updates about MrBeast\'s subscriber count, milestones, and growth statistics to a dedicated audience.', image:'../images/twitter.png', link:'https://twitter.com/MrBeast_Count', code:null, featured:false },
+            { id:15, title:'Reminder Discord Bot', date:'February 2025', desc:'A versatile Discord bot providing periodic reminder functionality. Set custom intervals, recurring notifications, and time-based alerts for any Discord server.', image:'../images/remind.png', link:'https://discord.com/oauth2/authorize?client_id=1339020731052331058', code:null, featured:false },
+            { id:16, title:'Global Clicker', date:'May 2024', desc:'A collaborative, real-time global counter where users worldwide contribute to a shared click count. Features live updates and community engagement mechanics.', image:'../images/clicker.png', link:'https://clicker.communitrics.com', code:'https://github.com/charlie-ashford/global-clicker', featured:false },
+            { id:17, title:'YTB Discord XP Leaderboard', date:'September 2024', desc:'Custom XP and activity tracking system for Discord communities. Features level progression, leaderboards, and engagement analytics.', image:'../images/ytb.png', link:null, code:null, featured:false },
+            { id:18, title:'Bluesky Statistics', date:'November 2024', desc:'Analytics platform for the Bluesky social network. Track followers, engagement, post performance, and growth metrics on the decentralised platform.', image:'../images/bluesky.png', link:'https://bluesky.communitrics.com', code:'https://github.com/charlie-ashford/bluesky-stats', featured:false }
+        ];
+
+        /* ==================================================
+           RENDER: HORIZONTAL GALLERY
+           ================================================== */
+        const track = document.getElementById('gallery-track');
+        const featured = projects.filter(function(p){ return p.featured; });
+        track.innerHTML = featured.map(function(p, i){
+            return '<div class="gallery-card" data-id="'+p.id+'">' +
+                '<div class="gallery-card-image">' +
+                    '<img src="'+p.image+'" alt="'+p.title+'" loading="lazy">' +
+                    '<div class="card-number">No. '+String(i+1).padStart(2,'0')+'</div>' +
+                '</div>' +
+                '<div class="gallery-card-content">' +
+                    '<div class="gallery-card-date">'+p.date+'</div>' +
+                    '<h3 class="gallery-card-title">'+p.title+'</h3>' +
+                    '<p class="gallery-card-excerpt">'+p.desc+'</p>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+
+        /* ==================================================
+           RENDER: ALL PROJECTS GRID
+           ================================================== */
+        var grid = document.getElementById('projects-grid');
+        grid.innerHTML = projects.map(function(p, i){
+            var short = p.desc.length > 100 ? p.desc.substring(0,100)+'...' : p.desc;
+            return '<div class="project-spread" data-id="'+p.id+'">' +
+                '<div class="project-spread-image">' +
+                    '<img src="'+p.image+'" alt="'+p.title+'" loading="lazy">' +
+                    '<div class="issue-number">Issue '+String(i+1).padStart(2,'0')+'</div>' +
+                '</div>' +
+                '<div class="project-spread-meta">'+p.date+'</div>' +
+                '<h3 class="project-spread-title">'+p.title+'</h3>' +
+                '<p class="project-spread-desc">'+short+'</p>' +
+            '</div>';
+        }).join('');
+
+        /* ==================================================
+           MODAL
+           ================================================== */
+        var overlay = document.getElementById('modal-overlay');
+
+        function openModal(id) {
+            var p = projects.find(function(proj){ return proj.id === id; });
+            if (!p) return;
+            var idx = projects.indexOf(p);
+            document.getElementById('modal-label').textContent = 'Project No. ' + String(idx+1).padStart(2,'0');
+            document.getElementById('modal-title').textContent = p.title;
+            document.getElementById('modal-date').textContent = p.date;
+            document.getElementById('modal-image').src = p.image;
+            document.getElementById('modal-image').alt = p.title;
+            document.getElementById('modal-desc').textContent = p.desc;
+
+            var html = '';
+            if (p.link) {
+                html += '<a href="'+p.link+'" target="_blank" class="modal-link gold"><i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i> Visit Project</a>';
+            }
+            if (p.code) {
+                html += '<a href="'+p.code+'" target="_blank" class="modal-link"><i class="fab fa-github" style="font-size:0.75rem;"></i> View Source</a>';
+            }
+            if (!p.link && !p.code) {
+                html = '<span style="font-family:var(--display);font-size:0.8rem;color:var(--mid-gray);font-style:italic;">Private project &mdash; no public links available</span>';
+            }
+            document.getElementById('modal-links').innerHTML = html;
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.addEventListener('click', function(e) {
+            var card = e.target.closest('[data-id]');
+            if (card) {
+                openModal(parseInt(card.dataset.id));
+            }
+        });
+
+        /* ==================================================
+           GALLERY DRAG SCROLL
+           ================================================== */
+        var isDown = false, startX, scrollLeft, hasDragged = false;
+
+        track.addEventListener('mousedown', function(e) {
+            isDown = true; hasDragged = false;
+            track.classList.add('dragging');
+            startX = e.pageX - track.offsetLeft;
+            scrollLeft = track.scrollLeft;
+        });
+        track.addEventListener('mouseleave', function() {
+            isDown = false; track.classList.remove('dragging');
+        });
+        track.addEventListener('mouseup', function() {
+            isDown = false; track.classList.remove('dragging');
+        });
+        track.addEventListener('mousemove', function(e) {
+            if (!isDown) return;
+            e.preventDefault();
+            var x = e.pageX - track.offsetLeft;
+            var walk = (x - startX) * 1.5;
+            if (Math.abs(walk) > 5) hasDragged = true;
+            track.scrollLeft = scrollLeft - walk;
+        });
+        track.addEventListener('click', function(e) {
+            if (hasDragged) { e.stopPropagation(); e.preventDefault(); }
+        }, true);
+
+        /* ==================================================
+           NAV SCROLL TRANSFORM
+           ================================================== */
+        var nav = document.getElementById('nav');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        /* ==================================================
+           INTERSECTION OBSERVER
+           ================================================== */
+        var obsOpts = { threshold: 0.15, rootMargin: '0px 0px -60px 0px' };
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, obsOpts);
+
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .stagger').forEach(function(el) {
+            observer.observe(el);
+        });
+
+        /* ==================================================
+           PARALLAX
+           ================================================== */
+        function handleParallax() {
+            document.querySelectorAll('.parallax-break').forEach(function(el) {
+                var rect = el.getBoundingClientRect();
+                var center = rect.top + rect.height / 2;
+                var windowCenter = window.innerHeight / 2;
+                var offset = (center - windowCenter) * 0.15;
+                var bg = el.querySelector('.parallax-bg');
+                if (bg) bg.style.transform = 'translateY(' + offset + 'px)';
+            });
+        }
+        window.addEventListener('scroll', handleParallax, { passive: true });
+
+        /* ==================================================
+           SYDNEY TIME (LUXON)
+           ================================================== */
+        function updateTime() {
+            try {
+                var now = luxon.DateTime.now().setZone('Australia/Sydney');
+                document.getElementById('sydney-time').textContent = now.toFormat('hh:mm a');
+                document.getElementById('sydney-date').textContent = now.toFormat('EEEE, d LLLL yyyy');
+                document.getElementById('hero-time').textContent = now.toFormat('hh:mm a') + ' AEST';
+            } catch(e) {
+                document.getElementById('sydney-time').textContent = '--:--';
+            }
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        /* ==================================================
+           LANYARD DISCORD PRESENCE
+           ================================================== */
+        var DISCORD_ID = '1158588351943811142';
+
+        function fetchPresence() {
+            fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID)
+                .then(function(r){ return r.json(); })
+                .then(function(json) {
+                    if (!json.success) return;
+                    var data = json.data;
+                    var status = data.discord_status || 'offline';
+
+                    var dot = document.getElementById('presence-dot');
+                    var heroDot = document.getElementById('hero-status-dot');
+                    dot.className = 'status-dot ' + status;
+
+                    var colors = { online:'#43B581', idle:'#FAA61A', dnd:'#F04747', offline:'#747F8D' };
+                    heroDot.style.color = colors[status] || '#747F8D';
+
+                    var labels = { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+                    document.getElementById('presence-status-label').textContent = labels[status] || 'Offline';
+                    document.getElementById('hero-status-text').textContent = labels[status] || 'Offline';
+
+                    var actEl = document.getElementById('presence-activity');
+                    if (data.activities && data.activities.length > 0) {
+                        var act = null;
+                        for (var i = 0; i < data.activities.length; i++) {
+                            if (data.activities[i].type !== 4) { act = data.activities[i]; break; }
+                        }
+                        if (!act) act = data.activities[0];
+                        if (act) {
+                            if (act.type === 4 && act.state) {
+                                actEl.textContent = act.state;
+                            } else if (act.name) {
+                                var prefixes = { 0:'Playing ', 1:'Streaming ', 2:'Listening to ', 3:'Watching ', 5:'Competing in ' };
+                                actEl.textContent = (prefixes[act.type] || '') + act.name;
+                            }
+                        } else {
+                            actEl.textContent = '';
+                        }
+                    } else {
+                        actEl.textContent = '';
+                    }
+                })
+                .catch(function(){});
+        }
+
+        fetchPresence();
+        setInterval(fetchPresence, 30000);
+
+        /* ==================================================
+           SMOOTH SCROLL NAV LINKS
+           ================================================== */
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    var y = target.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            });
+        });
+
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE ASHFORD DISPATCH -- Charlie Ashford Portfolio</title>
+    <meta name="description" content="Charlie Ashford -- 19-year-old developer from Sydney, Australia. Extension developer and NewStats lead at NewStudio.">
+    <meta name="author" content="Charlie Ashford">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="icon" href="https://charlieashford.com/images/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <style>
+        /* ==========================================================================
+           RESET & CUSTOM PROPERTIES
+           ========================================================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f0eb;
+            --cream: #f5f0eb;
+            --paper: #e8e0d6;
+            --vermillion: #E63946;
+            --vermillion-dark: #c62e3a;
+            --dark-gray: #1a1a1a;
+            --mid-gray: #333;
+            --light-gray: #888;
+            --rule: #3a3a3a;
+            --rule-light: #2a2a2a;
+            --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            --font-body: 'Source Serif 4', Georgia, serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+            --page-pad: clamp(16px, 4vw, 80px);
+            --col-gap: 24px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--black);
+            color: var(--cream);
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ==========================================================================
+           PAPER GRAIN / NOISE TEXTURE OVERLAY
+           ========================================================================== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 512px 512px;
+            mix-blend-mode: overlay;
+        }
+
+        /* Scanline overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(255,255,255,0.006) 3px,
+                rgba(255,255,255,0.006) 4px
+            );
+        }
+
+        ::selection {
+            background: var(--vermillion);
+            color: var(--cream);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--vermillion); }
+
+        a { color: inherit; }
+
+        img { display: block; max-width: 100%; }
+
+        /* ==========================================================================
+           PAGE WRAPPER
+           ========================================================================== */
+        .page-wrap {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--page-pad);
+            position: relative;
+        }
+
+        /* ==========================================================================
+           DECORATIVE SIDE RULES
+           ========================================================================== */
+        .page-wrap::before,
+        .page-wrap::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--rule-light);
+            z-index: 100;
+            pointer-events: none;
+        }
+        .page-wrap::before { left: calc(var(--page-pad) - 6px); }
+        .page-wrap::after { right: calc(var(--page-pad) - 6px); }
+
+        /* ==========================================================================
+           HORIZONTAL RULES
+           ========================================================================== */
+        .rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
+        .rule--thick { border-top-width: 3px; border-color: var(--cream); }
+        .rule--double { border-top: 3px double var(--cream); }
+        .rule--red { border-color: var(--vermillion); }
+        .rule--medium { border-top-width: 2px; }
+
+        /* ==========================================================================
+           BACK TO DESIGNS
+           ========================================================================== */
+        .back-link {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 10000;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid var(--rule);
+            background: rgba(10,10,10,0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-link:hover { color: var(--vermillion); border-color: var(--vermillion); }
+
+        /* ==========================================================================
+           LOADING SCREEN
+           ========================================================================== */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        .loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader__name {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .loader__bar {
+            width: 180px;
+            height: 2px;
+            background: var(--rule);
+            position: relative;
+            overflow: hidden;
+        }
+        .loader__bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--vermillion);
+            transform-origin: left;
+            animation: load-fill 1s ease forwards;
+        }
+        @keyframes load-fill {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* ==========================================================================
+           MASTHEAD
+           ========================================================================== */
+        .masthead {
+            padding-top: 64px;
+            text-align: center;
+        }
+
+        .masthead__topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--rule);
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+        }
+        .masthead__topbar a {
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .masthead__topbar a:hover { color: var(--vermillion); }
+
+        .masthead__nameplate {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(3rem, 11vw, 9.5rem);
+            line-height: 0.82;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            padding: 36px 0 20px;
+            position: relative;
+            /* animated entrance */
+            opacity: 0;
+            animation: nameplate-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        }
+        .masthead__nameplate .accent { color: var(--vermillion); }
+
+        @keyframes nameplate-in {
+            0% { opacity: 0; transform: translateY(50px); letter-spacing: 0.12em; }
+            100% { opacity: 1; transform: translateY(0); letter-spacing: -0.04em; }
+        }
+
+        .masthead__tagline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            padding: 14px 0;
+            border-top: 3px solid var(--cream);
+            border-bottom: 1px solid var(--cream);
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fade-up 0.8s ease 0.8s forwards;
+        }
+        .masthead__tagline .diamond { color: var(--vermillion); font-size: 0.5rem; }
+
+        .masthead__edition {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--rule);
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--light-gray);
+            opacity: 0;
+            animation: fade-up 0.8s ease 1s forwards;
+        }
+        .masthead__edition .vol {
+            font-family: var(--font-mono);
+            font-style: normal;
+            font-size: 0.58rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           TICKER
+           ========================================================================== */
+        .ticker {
+            overflow: hidden;
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: 7px 0;
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            white-space: nowrap;
+        }
+        .ticker__track {
+            display: inline-block;
+            animation: ticker-scroll 50s linear infinite;
+        }
+        .ticker__track .sep { color: var(--vermillion); margin: 0 24px; }
+        @keyframes ticker-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ==========================================================================
+           HERO - ABOVE THE FOLD
+           ========================================================================== */
+        .hero {
+            display: grid;
+            grid-template-columns: 5fr 3fr;
+            gap: 0;
+            padding: 0;
+            border-bottom: 3px solid var(--cream);
+            position: relative;
+        }
+
+        .hero__main {
+            padding: 36px var(--col-gap) 36px 0;
+            border-right: 1px solid var(--rule);
+            position: relative;
+        }
+
+        .hero__kicker {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .hero__kicker::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--vermillion);
+            opacity: 0.4;
+        }
+
+        .hero__headline {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(1.8rem, 4.5vw, 3.8rem);
+            line-height: 1.04;
+            letter-spacing: -0.025em;
+            margin-bottom: 22px;
+        }
+        .hero__headline em {
+            font-style: italic;
+            color: var(--vermillion);
+        }
+
+        .hero__deck {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.75;
+            color: var(--light-gray);
+            max-width: 620px;
+            margin-bottom: 24px;
+            columns: 2;
+            column-gap: 24px;
+            column-rule: 1px solid var(--rule);
+        }
+
+        .hero__byline {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            padding-top: 16px;
+            border-top: 1px solid var(--rule);
+        }
+        .hero__byline strong { color: var(--cream); font-weight: 500; }
+
+        .hero__sidebar {
+            padding: 36px 0 36px var(--col-gap);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Discord presence */
+        .presence {
+            border: 1px solid var(--rule);
+            padding: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        .presence::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+            background: var(--vermillion);
+        }
+        .presence__header {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--rule);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .presence__status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .status-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #747f8d;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .status-dot.online { background: #43b581; }
+        .status-dot.idle { background: #faa61a; }
+        .status-dot.dnd { background: #f04747; }
+        .status-dot.offline { background: #747f8d; }
+        .status-dot:not(.offline)::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0;
+            animation: dot-pulse 2.5s ease-out infinite;
+        }
+        @keyframes dot-pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        .status-label {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+        }
+        .presence__activity {
+            font-size: 0.78rem;
+            color: var(--light-gray);
+            padding-top: 10px;
+            border-top: 1px solid var(--rule);
+            font-style: italic;
+            display: none;
+        }
+        .presence__activity .act-label {
+            font-family: var(--font-mono);
+            font-style: normal;
+            font-size: 0.55rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .presence__spotify {
+            padding-top: 10px;
+            border-top: 1px solid var(--rule);
+            margin-top: 6px;
+            display: none;
+        }
+        .spotify-tag {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #1DB954;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 5px;
+        }
+        .spotify-detail {
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+        .spotify-detail .artist { color: var(--light-gray); font-style: italic; }
+
+        /* Time card */
+        .timecard {
+            border: 1px solid var(--rule);
+            padding: 18px;
+            text-align: center;
+            position: relative;
+        }
+        .timecard__label {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-bottom: 8px;
+        }
+        .timecard__time {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .timecard__date {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.12em;
+            color: var(--light-gray);
+        }
+        .timecard__loc {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-style: italic;
+            color: var(--vermillion);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--rule);
+        }
+
+        /* Socials row */
+        .socials {
+            display: flex;
+            border: 1px solid var(--rule);
+        }
+        .socials a {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px;
+            color: var(--light-gray);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border-right: 1px solid var(--rule);
+            position: relative;
+        }
+        .socials a:last-child { border-right: none; }
+        .socials a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--vermillion);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .socials a:hover { color: var(--vermillion); }
+        .socials a:hover::after { transform: scaleX(1); }
+
+        /* ==========================================================================
+           SECTION HEADERS
+           ========================================================================== */
+        .sec-head {
+            padding: 32px 0 18px;
+        }
+        .sec-head__label {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            margin-bottom: 4px;
+        }
+        .sec-head__title {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: clamp(1.6rem, 3.8vw, 2.8rem);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+        .sec-head__rule {
+            height: 3px;
+            background: var(--cream);
+            margin-top: 14px;
+            position: relative;
+        }
+        .sec-head__rule::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; right: 0;
+            height: 1px;
+            background: var(--cream);
+        }
+        .sec-head__sub {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-top: 12px;
+        }
+
+        /* ==========================================================================
+           WORK SECTION
+           ========================================================================== */
+        .work {
+            padding: 0 0 40px;
+            border-bottom: 3px solid var(--cream);
+        }
+        .work-card {
+            display: grid;
+            grid-template-columns: 110px 1fr;
+            gap: 28px;
+            align-items: start;
+            padding: 24px;
+            border: 1px solid var(--rule);
+            position: relative;
+            overflow: hidden;
+        }
+        .work-card::before {
+            content: 'CURRENT POSITION';
+            position: absolute;
+            top: 0; right: 0;
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            letter-spacing: 0.22em;
+            background: var(--vermillion);
+            color: var(--cream);
+            padding: 4px 14px;
+            text-transform: uppercase;
+        }
+        .work-card__logo {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+            border: 1px solid var(--rule);
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+        }
+        .work-card__body { display: flex; flex-direction: column; gap: 8px; }
+        .work-card__role {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+        }
+        .work-card__company {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+        .work-card__company a {
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .work-card__company a:hover { color: var(--vermillion); }
+        .work-card__date {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.12em;
+            color: var(--light-gray);
+        }
+        .work-card__desc {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--light-gray);
+        }
+
+        /* ==========================================================================
+           PULL QUOTE
+           ========================================================================== */
+        .pullquote {
+            font-family: var(--font-display);
+            font-size: clamp(1.15rem, 2.4vw, 1.7rem);
+            font-weight: 700;
+            font-style: italic;
+            line-height: 1.35;
+            text-align: center;
+            padding: 32px 40px;
+            margin: 0;
+            border-top: 3px solid var(--cream);
+            border-bottom: 3px solid var(--cream);
+            position: relative;
+        }
+        .pullquote::before {
+            content: '\201C';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            color: var(--vermillion);
+            opacity: 0.15;
+            line-height: 1;
+            font-style: normal;
+        }
+        .pullquote span { position: relative; z-index: 1; }
+
+        /* ==========================================================================
+           PROJECTS GRID -- NEWSPAPER COLUMNS
+           ========================================================================== */
+        .projects { padding: 0 0 60px; }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            border-left: 1px solid var(--rule);
+            counter-reset: proj;
+        }
+
+        .proj {
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            counter-increment: proj;
+            transition: background 0.4s ease;
+            /* entrance animation */
+            opacity: 0;
+            transform: translateY(28px);
+        }
+        .proj.vis {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94),
+                        background 0.4s ease;
+        }
+        .proj::before {
+            content: counter(proj, decimal-leading-zero);
+            position: absolute;
+            top: 10px; right: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.52rem;
+            letter-spacing: 0.1em;
+            color: var(--rule);
+            z-index: 2;
+        }
+        .proj:hover { background: rgba(230,57,70,0.025); }
+        .proj:hover .proj__title { color: var(--vermillion); }
+
+        .proj.span2 { grid-column: span 2; }
+
+        .proj__dateline {
+            font-family: var(--font-mono);
+            font-size: 0.52rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .proj__dateline i { color: var(--vermillion); font-size: 0.65rem; }
+
+        .proj__img {
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            margin-bottom: 14px;
+            border: 1px solid var(--rule);
+            position: relative;
+            background: var(--dark-gray);
+        }
+        .proj__img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(35%) contrast(1.05);
+            transition: all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .proj:hover .proj__img img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.04);
+        }
+        .proj__img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.35));
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        .proj__title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+
+        .proj__excerpt {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            line-height: 1.65;
+            color: var(--light-gray);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .proj__tags {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .proj__tag {
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            border: 1px solid var(--rule);
+            padding: 2px 8px;
+            line-height: 1.6;
+        }
+        .proj__tag--red { color: var(--vermillion); border-color: var(--vermillion); }
+
+        /* ==========================================================================
+           MODAL
+           ========================================================================== */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,10,0.93);
+            z-index: 50000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .modal-bg.open { opacity: 1; visibility: visible; }
+
+        .modal {
+            width: 100%;
+            max-width: 680px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--dark-gray);
+            border: 1px solid var(--rule);
+            position: relative;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .modal-bg.open .modal { transform: translateY(0) scale(1); }
+
+        .modal::-webkit-scrollbar { width: 5px; }
+        .modal::-webkit-scrollbar-track { background: var(--dark-gray); }
+        .modal::-webkit-scrollbar-thumb { background: var(--rule); }
+
+        .modal__x {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 34px; height: 34px;
+            border: 1px solid var(--rule);
+            background: rgba(26,26,26,0.8);
+            backdrop-filter: blur(4px);
+            color: var(--cream);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+        .modal__x:hover { background: var(--vermillion); border-color: var(--vermillion); }
+
+        .modal__hero {
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            border-bottom: 1px solid var(--rule);
+        }
+        .modal__hero img { width: 100%; height: 100%; object-fit: cover; }
+
+        .modal__body { padding: 28px; }
+        .modal__date {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            margin-bottom: 10px;
+        }
+        .modal__title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.7rem;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .modal__desc {
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: var(--light-gray);
+            margin-bottom: 24px;
+        }
+        .modal__links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .modal__btn {
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid var(--rule);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        .modal__btn:hover { background: var(--vermillion); border-color: var(--vermillion); }
+        .modal__btn--primary {
+            background: var(--vermillion);
+            border-color: var(--vermillion);
+        }
+        .modal__btn--primary:hover { background: var(--vermillion-dark); border-color: var(--vermillion-dark); }
+
+        /* ==========================================================================
+           COLOPHON / FOOTER
+           ========================================================================== */
+        .colophon {
+            padding: 40px 0 28px;
+            border-top: 3px solid var(--cream);
+        }
+        .colophon__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--col-gap);
+        }
+        .colophon__heading {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--vermillion);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--rule);
+        }
+        .colophon__text {
+            font-size: 0.8rem;
+            line-height: 1.7;
+            color: var(--light-gray);
+        }
+        .colophon__text a {
+            color: var(--cream);
+            text-decoration: none;
+            border-bottom: 1px solid var(--rule);
+            transition: all 0.3s;
+        }
+        .colophon__text a:hover { color: var(--vermillion); border-color: var(--vermillion); }
+
+        .colophon__bottom {
+            margin-top: 32px;
+            padding-top: 14px;
+            border-top: 1px solid var(--rule);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+        }
+        .colophon__bottom .red { color: var(--vermillion); }
+
+        /* ==========================================================================
+           ROTATED WATERMARK
+           ========================================================================== */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            right: -60px;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 7rem;
+            color: var(--vermillion);
+            opacity: 0.018;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            z-index: 0;
+            white-space: nowrap;
+        }
+
+        /* ==========================================================================
+           ANIMATE-IN UTILITY
+           ========================================================================== */
+        .anim {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .anim.vis { opacity: 1; transform: translateY(0); }
+
+        /* ==========================================================================
+           RESPONSIVE
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .projects-grid { grid-template-columns: repeat(2, 1fr); }
+            .proj.span2 { grid-column: span 2; }
+            .colophon__grid { grid-template-columns: 1fr 1fr; }
+            .hero__deck { columns: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            .hero__main {
+                border-right: none;
+                border-bottom: 1px solid var(--rule);
+                padding: 28px 0;
+            }
+            .hero__sidebar { padding: 28px 0 0 0; }
+            .hero__deck { columns: 1; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .proj.span2 { grid-column: span 1; }
+            .colophon__grid { grid-template-columns: 1fr; }
+            .masthead__topbar { flex-direction: column; gap: 6px; text-align: center; }
+            .masthead__tagline .diamond { display: none; }
+            .masthead__tagline { flex-direction: column; gap: 6px; }
+            .masthead__edition { flex-direction: column; gap: 6px; text-align: center; }
+            .work-card { grid-template-columns: 70px 1fr; gap: 18px; }
+            .colophon__bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .page-wrap::before, .page-wrap::after { display: none; }
+            .watermark { display: none; }
+            .back-link { top: 10px; left: 10px; font-size: 0.55rem; padding: 6px 10px; }
+            .masthead { padding-top: 50px; }
+        }
+
+        @media (max-width: 480px) {
+            .masthead__nameplate { font-size: 2.6rem; }
+            .hero__headline { font-size: 1.5rem; }
+            .sec-head__title { font-size: 1.4rem; }
+            .pullquote { padding: 24px 16px; font-size: 1rem; }
+            .modal__body { padding: 20px; }
+            .modal__title { font-size: 1.25rem; }
+            .proj { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOADER -->
+    <div class="loader" id="loader">
+        <div class="loader__name">The Ashford Dispatch</div>
+        <div class="loader__bar"></div>
+    </div>
+
+    <!-- BACK LINK -->
+    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Designs</a>
+
+    <!-- WATERMARK -->
+    <div class="watermark">Dispatch</div>
+
+    <div class="page-wrap">
+
+        <!-- ================================================================
+             MASTHEAD
+             ================================================================ -->
+        <header class="masthead">
+            <div class="masthead__topbar">
+                <span>Sydney, Australia</span>
+                <span id="topDate"></span>
+                <a href="https://charlieashford.com">charlieashford.com</a>
+            </div>
+
+            <h1 class="masthead__nameplate">
+                Charlie<br><span class="accent">Ashford</span>
+            </h1>
+
+            <div class="masthead__tagline">
+                <span>Developer</span>
+                <span class="diamond">&diams;</span>
+                <span>Creator</span>
+                <span class="diamond">&diams;</span>
+                <span>19 Years Old</span>
+                <span class="diamond">&diams;</span>
+                <span>Sydney, AU</span>
+            </div>
+
+            <div class="masthead__edition">
+                <span class="vol">Vol. I &mdash; No. 1</span>
+                <span>&ldquo;I make stuff that people on the internet use.&rdquo;</span>
+                <span class="vol">Brutalist Edition</span>
+            </div>
+        </header>
+
+        <hr class="rule rule--thick">
+
+        <!-- TICKER -->
+        <div class="ticker">
+            <div class="ticker__track">
+                <span>Extension Developer &amp; NewStats Lead at NewStudio</span>
+                <span class="sep">&diams;</span>
+                <span>18 Projects &amp; Counting</span>
+                <span class="sep">&diams;</span>
+                <span>Based in Sydney, Australia</span>
+                <span class="sep">&diams;</span>
+                <span>YouTube Data &amp; Analytics Specialist</span>
+                <span class="sep">&diams;</span>
+                <span>Discord Bot Developer</span>
+                <span class="sep">&diams;</span>
+                <span>Real-Time Statistics Tracking</span>
+                <span class="sep">&diams;</span>
+                <span>Cross-Platform Analytics</span>
+                <span class="sep">&diams;</span>
+                <span>Extension Developer &amp; NewStats Lead at NewStudio</span>
+                <span class="sep">&diams;</span>
+                <span>18 Projects &amp; Counting</span>
+                <span class="sep">&diams;</span>
+                <span>Based in Sydney, Australia</span>
+                <span class="sep">&diams;</span>
+                <span>YouTube Data &amp; Analytics Specialist</span>
+                <span class="sep">&diams;</span>
+                <span>Discord Bot Developer</span>
+                <span class="sep">&diams;</span>
+                <span>Real-Time Statistics Tracking</span>
+                <span class="sep">&diams;</span>
+                <span>Cross-Platform Analytics</span>
+                <span class="sep">&diams;</span>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             HERO
+             ================================================================ -->
+        <section class="hero">
+            <div class="hero__main anim">
+                <div class="hero__kicker">Profile &mdash; Who Is Charlie Ashford?</div>
+                <h2 class="hero__headline">
+                    A 19-Year-Old Developer Building the Internet's <em>Data&nbsp;Infrastructure</em>
+                </h2>
+                <p class="hero__deck">
+                    From real-time YouTube subscriber graphs to cross-platform analytics dashboards,
+                    Charlie Ashford has spent the last two years creating tools that thousands
+                    of people use to track, visualise, and understand online data. Now leading NewStats
+                    at NewStudio, he continues to push the boundaries of what web analytics can achieve.
+                    His portfolio spans 18 projects &mdash; bots, graphs, exporters, leaderboards, and
+                    more &mdash; each born from a desire to make data accessible, beautiful, and real-time.
+                </p>
+                <div class="hero__byline">
+                    <strong>Charlie Ashford</strong> &nbsp;&bull;&nbsp; Sydney, Australia &nbsp;&bull;&nbsp; Born Oct 25, 2005
+                </div>
+            </div>
+
+            <aside class="hero__sidebar">
+                <!-- Discord Presence -->
+                <div class="presence anim" style="transition-delay:0.1s">
+                    <div class="presence__header"><i class="fab fa-discord"></i> Live Discord Status</div>
+                    <div class="presence__status">
+                        <div class="status-dot offline" id="statusDot"></div>
+                        <span class="status-label" id="statusLabel">Offline</span>
+                    </div>
+                    <div class="presence__activity" id="actBlock">
+                        <span class="act-label" id="actLabel">Playing</span>
+                        <span id="actName"></span>
+                    </div>
+                    <div class="presence__spotify" id="spotBlock">
+                        <div class="spotify-tag"><i class="fab fa-spotify"></i> Listening on Spotify</div>
+                        <div class="spotify-detail">
+                            <span id="spotSong"></span><br>
+                            <span class="artist" id="spotArtist"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Card -->
+                <div class="timecard anim" style="transition-delay:0.2s">
+                    <div class="timecard__label">Local Time &mdash; Sydney</div>
+                    <div class="timecard__time" id="clock">--:--:--</div>
+                    <div class="timecard__date" id="clockDate">---</div>
+                    <div class="timecard__loc"><i class="fas fa-map-marker-alt"></i> Sydney, NSW, Australia</div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="socials anim" style="transition-delay:0.3s">
+                    <a href="https://discord.com/users/1158588351943811142" target="_blank" rel="noopener" title="Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://github.com/charlie-ashford" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/charlieashfordd" target="_blank" rel="noopener" title="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </aside>
+        </section>
+
+        <!-- ================================================================
+             WORK
+             ================================================================ -->
+        <section class="work">
+            <div class="sec-head anim">
+                <div class="sec-head__label">Section B</div>
+                <h2 class="sec-head__title">Current Employment</h2>
+                <div class="sec-head__rule"></div>
+            </div>
+            <div class="work-card anim">
+                <img src="../images/newstudio.png" alt="NewStudio" class="work-card__logo" onerror="this.style.display='none'">
+                <div class="work-card__body">
+                    <div class="work-card__role">Extension Developer &amp; NewStats Lead</div>
+                    <div class="work-card__company"><a href="https://newstudio.app" target="_blank" rel="noopener">NewStudio</a></div>
+                    <div class="work-card__date">Oct 2025 &mdash; Present</div>
+                    <p class="work-card__desc">NewStats offers better YouTube analytics integrated with NewStudio, a better YouTube Studio experience. Leading the development of analytics features and browser extension functionality.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PULL QUOTE -->
+        <blockquote class="pullquote anim">
+            <span>I make stuff that people on the internet use. I'm a web developer mostly focused on visualising data and tracking YouTube statistics.</span>
+        </blockquote>
+
+        <!-- ================================================================
+             PROJECTS
+             ================================================================ -->
+        <section class="projects">
+            <div class="sec-head anim">
+                <div class="sec-head__label">Section C &mdash; The Works</div>
+                <h2 class="sec-head__title">Projects &amp; Dispatches</h2>
+                <div class="sec-head__rule"></div>
+                <div class="sec-head__sub">18 Projects &mdash; Jan 2024 to Present</div>
+            </div>
+
+            <hr class="rule" style="margin-bottom:0">
+
+            <div class="projects-grid" id="grid">
+
+                <!-- 01 Communitrics Discord Bot -->
+                <article class="proj span2" data-i="0">
+                    <div class="proj__dateline"><i class="fab fa-discord"></i> Jan 2024</div>
+                    <div class="proj__img"><img src="../images/communitrics.png" alt="Communitrics Discord Bot" loading="lazy"></div>
+                    <h3 class="proj__title">Communitrics Discord Bot</h3>
+                    <p class="proj__excerpt">Discord bot for real-time tracking of YouTube channel milestones. Provides live subscriber counts, milestone alerts, and channel analytics directly within Discord servers.</p>
+                    <div class="proj__tags"><span class="proj__tag"><i class="fab fa-discord"></i></span><span class="proj__tag proj__tag--red">Live</span></div>
+                </article>
+
+                <!-- 02 MrBeast Subscriber Graph -->
+                <article class="proj" data-i="1">
+                    <div class="proj__dateline"><i class="fas fa-chart-line"></i> May 2024</div>
+                    <div class="proj__img"><img src="../images/mbgraph.png" alt="MrBeast Subscriber Graph" loading="lazy"></div>
+                    <h3 class="proj__title">MrBeast Subscriber Graph</h3>
+                    <p class="proj__excerpt">Real-time graph of MrBeast's subscriber count with live updates and historical data visualization.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 03 YouTube Data Exporter -->
+                <article class="proj" data-i="2">
+                    <div class="proj__dateline"><i class="fas fa-file-export"></i> Aug 2024</div>
+                    <div class="proj__img"><img src="../images/export.png" alt="YouTube Data Exporter" loading="lazy"></div>
+                    <h3 class="proj__title">YouTube Data Exporter</h3>
+                    <p class="proj__excerpt">Export comprehensive statistics for any YouTube channel or video. Supports CSV and JSON formats.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 04 Communitrics Graphs -->
+                <article class="proj" data-i="3">
+                    <div class="proj__dateline"><i class="fas fa-chart-area"></i> Apr 2024</div>
+                    <div class="proj__img"><img src="../images/graphs.png" alt="Communitrics Graphs" loading="lazy"></div>
+                    <h3 class="proj__title">Communitrics Graphs</h3>
+                    <p class="proj__excerpt">Subscriber and average graphs for YouTube channels. Visualise growth trends with interactive charts.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 05 SCTools -->
+                <article class="proj" data-i="4">
+                    <div class="proj__dateline"><i class="fas fa-tools"></i> Sept 2024</div>
+                    <div class="proj__img"><img src="../images/sctools.png" alt="SCTools" loading="lazy"></div>
+                    <h3 class="proj__title">SCTools</h3>
+                    <p class="proj__excerpt">A comprehensive toolkit built specifically for stats creators, providing essential utilities and resources.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span></div>
+                </article>
+
+                <!-- 06 Video Data -->
+                <article class="proj" data-i="5">
+                    <div class="proj__dateline"><i class="fas fa-video"></i> Aug 2024</div>
+                    <div class="proj__img"><img src="../images/videos.png" alt="Video Data" loading="lazy"></div>
+                    <h3 class="proj__title">Video Data</h3>
+                    <p class="proj__excerpt">Hourly statistics for MrBeast, Taylor Swift channels with granular data views and trend analysis.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 07 SocialStats.app -->
+                <article class="proj span2" data-i="6">
+                    <div class="proj__dateline"><i class="fas fa-chart-pie"></i> Jan 2025</div>
+                    <div class="proj__img"><img src="../images/socialstats.png" alt="SocialStats.app" loading="lazy"></div>
+                    <h3 class="proj__title">SocialStats.app</h3>
+                    <p class="proj__excerpt">Cross-platform analytics dashboard aggregating social media statistics from multiple platforms into a unified interface.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span></div>
+                </article>
+
+                <!-- 08 My Portfolio -->
+                <article class="proj" data-i="7">
+                    <div class="proj__dateline"><i class="fas fa-user"></i> Jan 2025</div>
+                    <div class="proj__img"><img src="../images/portfolio.png" alt="My Portfolio" loading="lazy"></div>
+                    <h3 class="proj__title">My Portfolio</h3>
+                    <p class="proj__excerpt">Personal portfolio website showcasing projects, skills, and creative work with multiple design variants.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 09 MrBeast Hourly Stats Bot -->
+                <article class="proj" data-i="8">
+                    <div class="proj__dateline"><i class="fab fa-discord"></i> May 2024</div>
+                    <div class="proj__img"><img src="../images/hourly.png" alt="MrBeast Hourly Stats Bot" loading="lazy"></div>
+                    <h3 class="proj__title">MrBeast Hourly Stats Bot</h3>
+                    <p class="proj__excerpt">Discord bot delivering hourly subscriber updates and growth analytics for MrBeast's YouTube channel.</p>
+                    <div class="proj__tags"><span class="proj__tag"><i class="fab fa-discord"></i></span></div>
+                </article>
+
+                <!-- 10 Top YouTube Channels -->
+                <article class="proj" data-i="9">
+                    <div class="proj__dateline"><i class="fas fa-trophy"></i> Apr 2024</div>
+                    <div class="proj__img"><img src="../images/top.png" alt="Top YouTube Channels" loading="lazy"></div>
+                    <h3 class="proj__title">Top YouTube Channels</h3>
+                    <p class="proj__excerpt">Real-time list of the 1,000 most-subscribed YouTube channels with live ranking updates.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 11 Old YouTube Channels -->
+                <article class="proj" data-i="10">
+                    <div class="proj__dateline"><i class="fas fa-history"></i> Oct 2024</div>
+                    <div class="proj__img"><img src="../images/oldtube.png" alt="Old YouTube Channels" loading="lazy"></div>
+                    <h3 class="proj__title">Old YouTube Channels</h3>
+                    <p class="proj__excerpt">Explore the earliest YouTube channels from 2005. A digital archaeology project uncovering origins.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 12 Color Extractor -->
+                <article class="proj" data-i="11">
+                    <div class="proj__dateline"><i class="fas fa-palette"></i> Apr 2025</div>
+                    <div class="proj__img"><img src="../images/colors.png" alt="Color Extractor" loading="lazy"></div>
+                    <h3 class="proj__title">Color Extractor</h3>
+                    <p class="proj__excerpt">Extract dominant color palettes from any image. Generates harmonious color schemes for design use.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 13 Communitrics Counting -->
+                <article class="proj" data-i="12">
+                    <div class="proj__dateline"><i class="fas fa-sort-numeric-up"></i> Jul 2024</div>
+                    <div class="proj__img"><img src="../images/counting.png" alt="Communitrics Counting" loading="lazy"></div>
+                    <h3 class="proj__title">Communitrics Counting</h3>
+                    <p class="proj__excerpt">Analytics for Discord counting channels. Monitors participation, streaks, and community engagement.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 14 MrBeast Subs Twitter Bot -->
+                <article class="proj" data-i="13">
+                    <div class="proj__dateline"><i class="fab fa-twitter"></i> Feb 2025</div>
+                    <div class="proj__img"><img src="../images/twitter.png" alt="MrBeast Subs Twitter Bot" loading="lazy"></div>
+                    <h3 class="proj__title">MrBeast Subs Twitter Bot</h3>
+                    <p class="proj__excerpt">Automated Twitter bot posting real-time MrBeast subscriber count updates and milestone announcements.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span></div>
+                </article>
+
+                <!-- 15 Reminder Discord Bot -->
+                <article class="proj" data-i="14">
+                    <div class="proj__dateline"><i class="fas fa-bell"></i> Feb 2025</div>
+                    <div class="proj__img"><img src="../images/remind.png" alt="Reminder Discord Bot" loading="lazy"></div>
+                    <h3 class="proj__title">Reminder Discord Bot</h3>
+                    <p class="proj__excerpt">A periodic reminder system for Discord servers. Set custom recurring reminders for your community.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Invite</span></div>
+                </article>
+
+                <!-- 16 Global Clicker -->
+                <article class="proj" data-i="15">
+                    <div class="proj__dateline"><i class="fas fa-mouse-pointer"></i> May 2024</div>
+                    <div class="proj__img"><img src="../images/clicker.png" alt="Global Clicker" loading="lazy"></div>
+                    <h3 class="proj__title">Global Clicker</h3>
+                    <p class="proj__excerpt">A collaborative global counter where everyone contributes. Simple, addictive, and oddly satisfying.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+                <!-- 17 YTB Discord XP Leaderboard -->
+                <article class="proj" data-i="16">
+                    <div class="proj__dateline"><i class="fas fa-gamepad"></i> Sept 2024</div>
+                    <div class="proj__img"><img src="../images/ytb.png" alt="YTB Discord XP Leaderboard" loading="lazy"></div>
+                    <h3 class="proj__title">YTB Discord XP Leaderboard</h3>
+                    <p class="proj__excerpt">Custom XP tracking and leaderboard system built for YTBattles Discord with competitive rankings.</p>
+                    <div class="proj__tags"><span class="proj__tag"><i class="fab fa-discord"></i></span></div>
+                </article>
+
+                <!-- 18 Bluesky Statistics -->
+                <article class="proj" data-i="17">
+                    <div class="proj__dateline"><i class="fas fa-cloud"></i> Nov 2024</div>
+                    <div class="proj__img"><img src="../images/bluesky.png" alt="Bluesky Statistics" loading="lazy"></div>
+                    <h3 class="proj__title">Bluesky Statistics</h3>
+                    <p class="proj__excerpt">User count analytics and growth tracking for the Bluesky social network, charting expansion over time.</p>
+                    <div class="proj__tags"><span class="proj__tag proj__tag--red">Live</span><span class="proj__tag">Source</span></div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ================================================================
+             COLOPHON
+             ================================================================ -->
+        <footer class="colophon">
+            <div class="colophon__grid">
+                <div>
+                    <div class="colophon__heading">About This Edition</div>
+                    <p class="colophon__text">This portfolio is designed in the brutalist editorial newspaper style, inspired by the intersection of avant-garde print design, international typography, and the Bauhaus movement. Set in Playfair Display, Source Serif 4, and JetBrains Mono.</p>
+                </div>
+                <div>
+                    <div class="colophon__heading">Connect</div>
+                    <p class="colophon__text">
+                        <a href="https://discord.com/users/1158588351943811142">Discord</a><br>
+                        <a href="https://github.com/charlie-ashford">GitHub</a><br>
+                        <a href="https://twitter.com/charlieashfordd">Twitter / X</a><br>
+                        <a href="https://charlieashford.com">charlieashford.com</a>
+                    </p>
+                </div>
+                <div>
+                    <div class="colophon__heading">Current Work</div>
+                    <p class="colophon__text">Extension developer and NewStats lead at <a href="https://newstudio.app">NewStudio</a>. Building better YouTube analytics for creators worldwide.</p>
+                </div>
+            </div>
+            <div class="colophon__bottom">
+                <span>&copy; 2025 Charlie Ashford</span>
+                <span>The <span class="red">Ashford</span> Dispatch</span>
+                <span>Sydney, Australia</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ================================================================
+         MODAL
+         ================================================================ -->
+    <div class="modal-bg" id="modalBg">
+        <div class="modal" id="modal">
+            <button class="modal__x" id="modalX">&times;</button>
+            <div class="modal__hero"><img id="mImg" src="" alt=""></div>
+            <div class="modal__body">
+                <div class="modal__date" id="mDate"></div>
+                <h2 class="modal__title" id="mTitle"></h2>
+                <p class="modal__desc" id="mDesc"></p>
+                <div class="modal__links" id="mLinks"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================
+         JAVASCRIPT
+         ================================================================ -->
+    <script>
+    (function(){
+        'use strict';
+
+        /* ---- PROJECT DATA ---- */
+        var P = [
+            { n:'Communitrics Discord Bot', d:'Jan 2024', t:'Discord bot for real-time tracking of YouTube channel milestones. Provides live subscriber counts, milestone alerts, and channel analytics directly within Discord servers.', img:'../images/communitrics.png', link:'https://communitrics.com', code:null },
+            { n:'MrBeast Subscriber Graph', d:'May 2024', t:'Real-time graph of MrBeast\'s subscriber count with live updates, historical data visualization, and growth rate analysis.', img:'../images/mbgraph.png', link:'https://mrbeastgraph.com', code:'https://github.com/charlie-ashford/mrbeast-graph' },
+            { n:'YouTube Data Exporter', d:'Aug 2024', t:'Export comprehensive statistics for any YouTube channel or video. Supports CSV and JSON output formats for data analysis and reporting.', img:'../images/export.png', link:'https://export.communitrics.com', code:'https://github.com/charlie-ashford/data-exporter' },
+            { n:'Communitrics Graphs', d:'Apr 2024', t:'Subscriber and average graphs for YouTube channels. Visualise growth trends with beautiful, interactive charts and historical data.', img:'../images/graphs.png', link:'https://graphs.communitrics.com', code:'https://github.com/charlie-ashford/channel-graphs' },
+            { n:'SCTools', d:'Sept 2024', t:'A comprehensive toolkit built specifically for stats creators, providing essential utilities and resources for content creation.', img:'../images/sctools.png', link:'https://sctools.org', code:null },
+            { n:'Video Data', d:'Aug 2024', t:'Hourly statistics tracking for MrBeast, Taylor Swift, and other major YouTube channels with granular data views and trend analysis.', img:'../images/videos.png', link:'https://videostats.communitrics.com', code:'https://github.com/charlie-ashford/video-stats' },
+            { n:'SocialStats.app', d:'Jan 2025', t:'Cross-platform analytics dashboard aggregating social media statistics from multiple platforms into a unified, beautiful interface.', img:'../images/socialstats.png', link:'https://socialstats.app', code:null },
+            { n:'My Portfolio', d:'Jan 2025', t:'Personal portfolio website showcasing projects, skills, and creative work. Features multiple design variants and live Discord integration.', img:'../images/portfolio.png', link:'https://charlieashford.com', code:'https://github.com/charlie-ashford/my-portfolio' },
+            { n:'MrBeast Hourly Stats Bot', d:'May 2024', t:'Discord bot delivering hourly subscriber updates and growth analytics for MrBeast\'s YouTube channel to Discord servers.', img:'../images/hourly.png', link:null, code:null },
+            { n:'Top YouTube Channels', d:'Apr 2024', t:'A comprehensive, real-time list of the 1,000 most-subscribed YouTube channels with live ranking updates and historical position tracking.', img:'../images/top.png', link:'https://top.communitrics.com', code:'https://github.com/charlie-ashford/top-channels' },
+            { n:'Old YouTube Channels', d:'Oct 2024', t:'Explore the earliest YouTube channels from 2005. A digital archaeology project uncovering the platform\'s origins and first creators.', img:'../images/oldtube.png', link:'https://oldtube.communitrics.com', code:'https://github.com/charlie-ashford/old-youtube' },
+            { n:'Color Extractor', d:'Apr 2025', t:'Extract dominant color palettes from any image. Generates harmonious color schemes for design and development use cases.', img:'../images/colors.png', link:'https://colors.communitrics.com', code:'https://github.com/charlie-ashford/color-extractor' },
+            { n:'Communitrics Counting', d:'Jul 2024', t:'Analytics and tracking for Discord counting channels. Monitors participation, streaks, leaderboards, and community engagement metrics.', img:'../images/counting.png', link:'https://counting.communitrics.com', code:'https://github.com/charlie-ashford/counting-data' },
+            { n:'MrBeast Subs Twitter Bot', d:'Feb 2025', t:'Automated Twitter bot posting real-time MrBeast subscriber count updates and milestone announcements to followers.', img:'../images/twitter.png', link:'https://twitter.com/MrBeast_Count', code:null },
+            { n:'Reminder Discord Bot', d:'Feb 2025', t:'A periodic reminder system for Discord servers. Set custom recurring reminders to keep your community informed and on schedule.', img:'../images/remind.png', link:'https://discord.com/oauth2/authorize?client_id=1339020731052331058', code:null },
+            { n:'Global Clicker', d:'May 2024', t:'A collaborative global counter where everyone contributes clicks. Simple, addictive, and community-driven.', img:'../images/clicker.png', link:'https://clicker.communitrics.com', code:'https://github.com/charlie-ashford/global-clicker' },
+            { n:'YTB Discord XP Leaderboard', d:'Sept 2024', t:'Custom XP tracking and leaderboard system built for the YTBattles Discord server with competitive rankings and activity rewards.', img:'../images/ytb.png', link:null, code:null },
+            { n:'Bluesky Statistics', d:'Nov 2024', t:'User count analytics and growth tracking for the Bluesky social network, charting the platform\'s expansion with daily data.', img:'../images/bluesky.png', link:'https://bluesky.communitrics.com', code:'https://github.com/charlie-ashford/bluesky-stats' }
+        ];
+
+        /* ---- LOADER ---- */
+        window.addEventListener('load', function(){
+            setTimeout(function(){ document.getElementById('loader').classList.add('done'); }, 1150);
+        });
+
+        /* ---- MASTHEAD DATE ---- */
+        (function(){
+            var now = luxon.DateTime.now().setZone('Australia/Sydney');
+            var el = document.getElementById('topDate');
+            if(el) el.textContent = now.toFormat("EEEE, MMMM d, yyyy");
+        })();
+
+        /* ---- SYDNEY CLOCK ---- */
+        function tick(){
+            var now = luxon.DateTime.now().setZone('Australia/Sydney');
+            var c = document.getElementById('clock');
+            var cd = document.getElementById('clockDate');
+            if(c) c.textContent = now.toFormat('hh:mm:ss a');
+            if(cd) cd.textContent = now.toFormat('EEE, dd MMM yyyy');
+        }
+        tick();
+        setInterval(tick, 1000);
+
+        /* ---- LANYARD / DISCORD PRESENCE ---- */
+        function fetchPresence(){
+            fetch('https://api.lanyard.rest/v1/users/1158588351943811142')
+            .then(function(r){ return r.json(); })
+            .then(function(j){
+                if(!j.success) return;
+                var d = j.data;
+
+                // Status dot
+                var dot = document.getElementById('statusDot');
+                var lbl = document.getElementById('statusLabel');
+                var s = d.discord_status || 'offline';
+                dot.className = 'status-dot ' + s;
+                var map = { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+                lbl.textContent = map[s] || 'Offline';
+
+                // Activity (non-spotify)
+                var ab = document.getElementById('actBlock');
+                var al = document.getElementById('actLabel');
+                var an = document.getElementById('actName');
+                var act = null;
+                var acts = d.activities || [];
+                for(var i=0;i<acts.length;i++){ if(acts[i].type !== 2){ act = acts[i]; break; } }
+                if(act){
+                    ab.style.display = 'block';
+                    var tl = {0:'Playing',1:'Streaming',3:'Watching',4:'Custom Status',5:'Competing'};
+                    if(act.type === 4){ al.textContent = 'Status'; an.textContent = act.state || ''; }
+                    else { al.textContent = tl[act.type]||'Activity'; an.textContent = act.name || ''; }
+                } else { ab.style.display = 'none'; }
+
+                // Spotify
+                var sb = document.getElementById('spotBlock');
+                if(d.spotify){
+                    sb.style.display = 'block';
+                    document.getElementById('spotSong').textContent = d.spotify.song || '';
+                    document.getElementById('spotArtist').textContent = 'by ' + (d.spotify.artist || '');
+                } else { sb.style.display = 'none'; }
+            })
+            .catch(function(){});
+        }
+        fetchPresence();
+        setInterval(fetchPresence, 30000);
+
+        /* ---- INTERSECTION OBSERVER ---- */
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.anim').forEach(function(el){ io.observe(el); });
+
+        document.querySelectorAll('.proj').forEach(function(el, idx){
+            el.style.transitionDelay = (idx * 0.055) + 's';
+            io.observe(el);
+        });
+
+        /* ---- MODAL ---- */
+        var bg = document.getElementById('modalBg');
+        var modal = document.getElementById('modal');
+
+        function openModal(i){
+            var p = P[i];
+            if(!p) return;
+            document.getElementById('mImg').src = p.img;
+            document.getElementById('mImg').alt = p.n;
+            document.getElementById('mDate').textContent = p.d;
+            document.getElementById('mTitle').textContent = p.n;
+            document.getElementById('mDesc').textContent = p.t;
+            var box = document.getElementById('mLinks');
+            box.innerHTML = '';
+            if(p.link){
+                var a = document.createElement('a');
+                a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
+                a.className = 'modal__btn modal__btn--primary';
+                a.innerHTML = '<i class="fas fa-external-link-alt"></i> Visit Project';
+                box.appendChild(a);
+            }
+            if(p.code){
+                var b = document.createElement('a');
+                b.href = p.code; b.target = '_blank'; b.rel = 'noopener';
+                b.className = 'modal__btn';
+                b.innerHTML = '<i class="fab fa-github"></i> View Source';
+                box.appendChild(b);
+            }
+            bg.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(){
+            bg.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.proj').forEach(function(el){
+            el.addEventListener('click', function(){ openModal(parseInt(this.getAttribute('data-i'))); });
+        });
+
+        document.getElementById('modalX').addEventListener('click', closeModal);
+        bg.addEventListener('click', function(e){ if(e.target === bg) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+        modal.addEventListener('click', function(e){ e.stopPropagation(); });
+
+    })();
+    </script>
+
+</body>
+</html>

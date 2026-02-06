@@ -1,6 +1,11 @@
 {
   "version": 2,
   "routes": [
+    { "src": "/1", "dest": "/1/index.html" },
+    { "src": "/2", "dest": "/2/index.html" },
+    { "src": "/3", "dest": "/3/index.html" },
+    { "src": "/4", "dest": "/4/index.html" },
+    { "src": "/5", "dest": "/5/index.html" },
     { "src": "/uploads", "dest": "/uploads/index.html" },
     { "src": "/estimate", "dest": "/estimate/index.html" },
     { "src": "/upload", "dest": "/api/img/upload.js" },

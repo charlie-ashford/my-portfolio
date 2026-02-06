@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlie Ashford - Portfolio</title>
+    <meta name="description" content="Charlie Ashford - Extension developer, NewStats lead at NewStudio. Sydney, Australia.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <style>
+        /* =============================================
+           RESET & VARIABLES
+           ============================================= */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --peach: #FFECD2;
+            --lavender: #E8D5F5;
+            --mint: #D5F5E3;
+            --clay-card: #FFFAF6;
+            --clay-card-pink: #FFF0F5;
+            --clay-card-mint: #F0FFF4;
+            --clay-card-lavender: #F8F0FF;
+            --clay-card-blue: #F0F4FF;
+            --clay-card-yellow: #FFFDE0;
+            --shadow-dark: rgba(120, 80, 60, 0.12);
+            --shadow-light: rgba(255, 255, 255, 0.8);
+            --text-primary: #2D2A3E;
+            --text-secondary: #6B6580;
+            --text-muted: #9B95A8;
+            --accent-orange: #FF8C42;
+            --accent-pink: #FF6B9D;
+            --accent-purple: #A855F7;
+            --accent-green: #34D399;
+            --accent-blue: #60A5FA;
+            --accent-yellow: #FBBF24;
+            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --spring-soft: cubic-bezier(0.25, 1.2, 0.5, 1);
+            --smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 24px;
+            --radius-sm: 16px;
+            --radius-pill: 50px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: var(--peach);
+        }
+
+        /* =============================================
+           ANIMATED GRADIENT BACKGROUND
+           ============================================= */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, var(--peach) 0%, var(--lavender) 50%, var(--mint) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 16s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            25%  { background-position: 100% 0%; }
+            50%  { background-position: 100% 100%; }
+            75%  { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* =============================================
+           FLOATING DECORATIVE SHAPES
+           ============================================= */
+        .floating-shapes {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.13;
+            filter: blur(1px);
+            animation: floatShape linear infinite;
+        }
+
+        .shape--blob { border-radius: 42% 58% 62% 38% / 58% 32% 68% 42%; }
+
+        .shape--star {
+            border-radius: 0;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0.1;
+        }
+
+        .shape--ring {
+            background: transparent !important;
+            border: 4px solid;
+            opacity: 0.09;
+        }
+
+        .shape-1 { width:200px; height:200px; background:var(--accent-pink);   top:8%;  left:4%;   animation-duration:20s; }
+        .shape-2 { width:150px; height:150px; background:var(--accent-purple); top:58%; right:8%;  animation-duration:26s; animation-delay:-5s; }
+        .shape-3 { width:100px; height:100px; background:var(--accent-orange); top:28%; right:18%; animation-duration:18s; animation-delay:-3s; }
+        .shape-4 { width:240px; height:240px; background:var(--accent-green);  bottom:8%; left:12%; animation-duration:23s; animation-delay:-8s; }
+        .shape-5 { width:80px;  height:80px;  background:var(--accent-yellow); top:14%; right:34%; animation-duration:16s; animation-delay:-2s; }
+        .shape-6 { width:120px; height:120px; border-color:var(--accent-blue); top:44%; left:6%;   animation-duration:28s; animation-delay:-10s; }
+        .shape-7 { width:60px;  height:60px;  background:var(--accent-pink);   bottom:28%; right:4%; animation-duration:15s; animation-delay:-6s; }
+        .shape-8 { width:180px; height:180px; background:var(--accent-blue);   top:72%; left:42%;  animation-duration:24s; animation-delay:-12s; }
+
+        @keyframes floatShape {
+            0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25%  { transform: translate(30px, -40px) rotate(90deg) scale(1.1); }
+            50%  { transform: translate(-20px, -80px) rotate(180deg) scale(0.95); }
+            75%  { transform: translate(40px, -30px) rotate(270deg) scale(1.05); }
+            100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+
+        /* =============================================
+           MAIN CONTAINER
+           ============================================= */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 20px 60px;
+        }
+
+        /* =============================================
+           BACK BUTTON (PILL)
+           ============================================= */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: var(--radius-pill);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.4s var(--spring);
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 8px var(--shadow-light),
+                inset 0 1px 2px rgba(255,255,255,0.6);
+            margin-bottom: 28px;
+            cursor: pointer;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            background: rgba(255,255,255,0.9);
+            color: var(--accent-purple);
+            box-shadow:
+                6px 6px 20px var(--shadow-dark),
+                -3px -3px 12px var(--shadow-light),
+                inset 0 1px 3px rgba(255,255,255,0.8);
+        }
+
+        .back-btn:active {
+            transform: translateY(1px) scale(0.97);
+            box-shadow:
+                2px 2px 6px var(--shadow-dark),
+                inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        /* =============================================
+           BENTO GRID
+           ============================================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            grid-auto-rows: minmax(180px, auto);
+        }
+
+        .span-2-col { grid-column: span 2; }
+        .span-2-row { grid-row: span 2; }
+        .span-2x2   { grid-column: span 2; grid-row: span 2; }
+
+        /* =============================================
+           CLAY CARD BASE
+           ============================================= */
+        .clay-card {
+            background: var(--clay-card);
+            border-radius: var(--radius);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s var(--spring);
+            transform-style: preserve-3d;
+            perspective: 800px;
+            box-shadow:
+                8px 8px 24px var(--shadow-dark),
+                -4px -4px 16px var(--shadow-light),
+                inset 0 2px 4px rgba(255,255,255,0.9),
+                inset 0 -2px 4px rgba(0,0,0,0.03);
+            border: 1.5px solid rgba(255,255,255,0.6);
+            cursor: default;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+        }
+
+        .clay-card.entered {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition: opacity 0.7s var(--spring), transform 0.7s var(--spring);
+        }
+
+        .clay-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .clay-card:hover {
+            box-shadow:
+                12px 12px 32px var(--shadow-dark),
+                -6px -6px 20px var(--shadow-light),
+                inset 0 2px 4px rgba(255,255,255,0.9),
+                inset 0 -2px 4px rgba(0,0,0,0.03);
+        }
+
+        .clay-card:active {
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 8px var(--shadow-light),
+                inset 0 3px 8px rgba(0,0,0,0.06);
+            transition-duration: 0.15s;
+        }
+
+        .clay-card--pink     { background: var(--clay-card-pink); }
+        .clay-card--mint     { background: var(--clay-card-mint); }
+        .clay-card--lavender { background: var(--clay-card-lavender); }
+        .clay-card--blue     { background: var(--clay-card-blue); }
+        .clay-card--yellow   { background: var(--clay-card-yellow); }
+
+        /* =============================================
+           HERO CARD
+           ============================================= */
+        .hero-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .wave-emoji {
+            font-size: 42px;
+            display: inline-block;
+            animation: wave 2.2s ease-in-out infinite;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+        }
+
+        .hero-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-pink) 50%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            line-height: 1.55;
+        }
+
+        .hero-tagline strong { color: var(--text-primary); }
+
+        /* =============================================
+           DISCORD PRESENCE CARD
+           ============================================= */
+        .presence-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .presence-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .discord-avatar-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 6px var(--shadow-light);
+            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+
+        .discord-avatar-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .presence-user-info { flex: 1; }
+
+        .presence-username {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .presence-custom-status {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .presence-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .presence-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #747F8D;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .presence-dot.online  { background: #3BA55D; }
+        .presence-dot.idle    { background: #FAA81A; }
+        .presence-dot.dnd     { background: #ED4245; }
+        .presence-dot.offline { background: #747F8D; }
+
+        .presence-dot.online::after,
+        .presence-dot.dnd::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.3;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .presence-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .activity-section {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 2px solid rgba(0,0,0,0.04);
+        }
+
+        .activity-type {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .spotify-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .spotify-art {
+            width: 48px; height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 3px 3px 8px var(--shadow-dark);
+        }
+
+        .spotify-text .song-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .spotify-text .artist-name {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* =============================================
+           TIME CARD
+           ============================================= */
+        .time-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .time-icon { font-size: 32px; margin-bottom: 8px; }
+
+        .time-display {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+        }
+
+        .time-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .time-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* =============================================
+           ABOUT CARD
+           ============================================= */
+        .about-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .about-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .about-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .pill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .pill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 14px;
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s var(--spring);
+            cursor: default;
+        }
+
+        .pill-tag:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: rgba(168, 85, 247, 0.18);
+        }
+
+        .pill-tag--orange { background: rgba(255,140,66,0.1); color: var(--accent-orange); }
+        .pill-tag--orange:hover { background: rgba(255,140,66,0.18); }
+        .pill-tag--pink   { background: rgba(255,107,157,0.1); color: var(--accent-pink); }
+        .pill-tag--pink:hover   { background: rgba(255,107,157,0.18); }
+        .pill-tag--green  { background: rgba(52,211,153,0.1);  color: #059669; }
+        .pill-tag--green:hover  { background: rgba(52,211,153,0.18); }
+        .pill-tag--blue   { background: rgba(96,165,250,0.1);  color: #2563EB; }
+        .pill-tag--blue:hover   { background: rgba(96,165,250,0.18); }
+
+        /* =============================================
+           LOCATION CARD
+           ============================================= */
+        .location-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+        }
+
+        .location-icon { font-size: 40px; margin-bottom: 4px; }
+
+        .location-name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .location-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* =============================================
+           AGE CARD
+           ============================================= */
+        .age-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .age-emoji { font-size: 36px; margin-bottom: 6px; }
+
+        .age-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .age-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* =============================================
+           STATS CARD
+           ============================================= */
+        .stats-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .stats-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* =============================================
+           WORK CARD
+           ============================================= */
+        .work-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .work-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .work-logo {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 6px var(--shadow-light);
+            border: 2px solid rgba(255,255,255,0.7);
+        }
+
+        .work-info h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .work-role {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .work-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 4px 12px;
+            background: rgba(52,211,153,0.1);
+            border-radius: var(--radius-pill);
+            width: fit-content;
+        }
+
+        .pulse-dot {
+            width: 6px; height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .work-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .work-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 600;
+            width: fit-content;
+            transition: all 0.4s var(--spring);
+            box-shadow:
+                4px 4px 12px rgba(168,85,247,0.25),
+                inset 0 1px 2px rgba(255,255,255,0.3);
+        }
+
+        .work-link:hover {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow:
+                6px 6px 20px rgba(168,85,247,0.35),
+                inset 0 1px 2px rgba(255,255,255,0.3);
+        }
+
+        .work-link:active { transform: translateY(1px) scale(0.97); }
+
+        /* =============================================
+           SOCIALS CARD
+           ============================================= */
+        .socials-card {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .socials-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px; height: 52px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.4s var(--spring);
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 6px var(--shadow-light),
+                inset 0 1px 2px rgba(255,255,255,0.5);
+            border: 1.5px solid rgba(255,255,255,0.5);
+        }
+
+        .social-link:hover { transform: translateY(-4px) scale(1.1); }
+        .social-link:active { transform: translateY(1px) scale(0.95); }
+
+        .social-link--discord { background: #E8E0FF; color: #5865F2; }
+        .social-link--github  { background: #F0F0F0; color: #333; }
+        .social-link--twitter { background: #E0F0FF; color: #1DA1F2; }
+
+        /* =============================================
+           TECH STACK CARD
+           ============================================= */
+        .tech-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .tech-icons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.6);
+            font-size: 20px;
+            transition: all 0.4s var(--spring);
+            box-shadow:
+                3px 3px 8px var(--shadow-dark),
+                -1px -1px 4px var(--shadow-light),
+                inset 0 1px 1px rgba(255,255,255,0.5);
+            cursor: default;
+            position: relative;
+        }
+
+        .tech-icon:hover { transform: translateY(-4px) scale(1.15) rotate(-5deg); }
+
+        .tech-icon .tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            padding: 4px 10px;
+            background: var(--text-primary);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s var(--spring);
+        }
+
+        .tech-icon:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* =============================================
+           FUN CARD
+           ============================================= */
+        .fun-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .fun-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* =============================================
+           PROJECTS SECTION
+           ============================================= */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 48px 0 24px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .project-card {
+            background: var(--clay-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.4s var(--spring);
+            cursor: pointer;
+            box-shadow:
+                6px 6px 18px var(--shadow-dark),
+                -3px -3px 12px var(--shadow-light),
+                inset 0 2px 3px rgba(255,255,255,0.8),
+                inset 0 -1px 3px rgba(0,0,0,0.02);
+            border: 1.5px solid rgba(255,255,255,0.5);
+            transform-style: preserve-3d;
+            perspective: 600px;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--spring), transform 0.6s var(--spring), box-shadow 0.4s var(--spring);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        .project-card:hover {
+            box-shadow:
+                10px 10px 28px var(--shadow-dark),
+                -5px -5px 16px var(--shadow-light),
+                inset 0 2px 3px rgba(255,255,255,0.8),
+                inset 0 -1px 3px rgba(0,0,0,0.02);
+        }
+
+        .project-card:active {
+            box-shadow:
+                3px 3px 8px var(--shadow-dark),
+                inset 0 3px 6px rgba(0,0,0,0.05);
+            transition-duration: 0.12s;
+        }
+
+        .project-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #f0e6ff, #ffe6f0);
+        }
+
+        .project-body { padding: 18px 20px 20px; }
+
+        .project-body h4 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .project-body p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .project-date {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        /* =============================================
+           PROJECT MODAL
+           ============================================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(45,42,62,0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s var(--smooth);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--clay-card);
+            border-radius: var(--radius);
+            max-width: 560px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.45s var(--spring);
+            box-shadow:
+                16px 16px 48px rgba(120,80,60,0.2),
+                -8px -8px 24px rgba(255,255,255,0.5),
+                inset 0 2px 4px rgba(255,255,255,0.8);
+            border: 2px solid rgba(255,255,255,0.5);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.7);
+            color: var(--text-secondary);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: all 0.3s var(--spring);
+            box-shadow:
+                3px 3px 8px var(--shadow-dark),
+                -1px -1px 4px var(--shadow-light);
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: white;
+        }
+
+        .modal-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: block;
+            background: linear-gradient(135deg, #f0e6ff, #ffe6f0);
+        }
+
+        .modal-content { padding: 28px; }
+
+        .modal-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .modal-date-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.4s var(--spring);
+            box-shadow:
+                4px 4px 12px var(--shadow-dark),
+                -2px -2px 6px var(--shadow-light),
+                inset 0 1px 2px rgba(255,255,255,0.4);
+        }
+
+        .modal-link--primary {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: white;
+        }
+
+        .modal-link--secondary {
+            background: rgba(255,255,255,0.7);
+            color: var(--text-primary);
+            border: 1.5px solid rgba(0,0,0,0.06);
+        }
+
+        .modal-link:hover { transform: translateY(-2px) scale(1.04); }
+        .modal-link:active { transform: translateY(1px) scale(0.97); }
+
+        /* =============================================
+           CONFETTI CANVAS
+           ============================================= */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            pointer-events: none;
+        }
+
+        /* =============================================
+           FOOTER
+           ============================================= */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer .heart {
+            color: var(--accent-pink);
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            14%  { transform: scale(1.2); }
+            28%  { transform: scale(1); }
+            42%  { transform: scale(1.15); }
+            56%  { transform: scale(1); }
+        }
+
+        /* =============================================
+           SCROLLBAR
+           ============================================= */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(168,85,247,0.35); }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .span-2x2 { grid-column: span 2; grid-row: span 1; }
+            .hero-name { font-size: 34px; }
+        }
+
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .span-2-col, .span-2x2 { grid-column: span 1; }
+            .span-2-row { grid-row: span 1; }
+            .hero-name { font-size: 28px; }
+            .section-title { font-size: 24px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .clay-card { padding: 22px; }
+            .main-container { padding: 16px 14px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Gradient Background -->
+    <div class="bg-gradient"></div>
+
+    <!-- Floating Decorative Shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape--blob shape-1"></div>
+        <div class="shape shape--star shape-2"></div>
+        <div class="shape shape--blob shape-3"></div>
+        <div class="shape shape--blob shape-4"></div>
+        <div class="shape shape--star shape-5"></div>
+        <div class="shape shape--ring shape-6"></div>
+        <div class="shape shape--blob shape-7"></div>
+        <div class="shape shape--blob shape-8"></div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Back Button -->
+        <a href="/" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to designs
+        </a>
+
+        <!-- ============================================
+             BENTO GRID
+             ============================================ -->
+        <div class="bento-grid">
+
+            <!-- 1. HERO (2 col) -->
+            <div class="clay-card clay-card--pink hero-card span-2-col" data-tilt>
+                <span class="wave-emoji">&#x1F44B;</span>
+                <h1 class="hero-name">Charlie Ashford</h1>
+                <p class="hero-tagline">
+                    Extension developer &amp; <strong>NewStats</strong> lead at <strong>NewStudio</strong>.<br>
+                    Building cool things on the internet from Sydney &#x1F1E6;&#x1F1FA;
+                </p>
+            </div>
+
+            <!-- 2. DISCORD PRESENCE (1 col, 2 rows) -->
+            <div class="clay-card clay-card--lavender presence-card span-2-row" data-tilt id="presence-card">
+                <div>
+                    <div class="presence-top">
+                        <div class="discord-avatar-wrap">
+                            <img id="discord-avatar" src="" alt="Avatar" style="display:none;">
+                            <div id="avatar-placeholder" style="width:100%;height:100%;background:linear-gradient(135deg,#a855f7,#ec4899);display:flex;align-items:center;justify-content:center;color:white;font-size:20px;font-weight:700;">C</div>
+                        </div>
+                        <div class="presence-user-info">
+                            <div class="presence-username" id="discord-username">Loading...</div>
+                            <div class="presence-custom-status" id="discord-custom-status"></div>
+                        </div>
+                    </div>
+                    <div class="presence-header">
+                        <div class="presence-dot" id="presence-dot"></div>
+                        <span class="presence-label" id="presence-label">Checking status...</span>
+                    </div>
+                </div>
+                <div class="activity-section" id="activity-section" style="display:none;">
+                    <div class="activity-type" id="activity-type">LISTENING TO SPOTIFY</div>
+                    <div class="spotify-info" id="activity-info"></div>
+                </div>
+            </div>
+
+            <!-- 3. TIME (1 col) -->
+            <div class="clay-card clay-card--mint time-card" data-tilt data-confetti>
+                <div class="time-icon">&#x1F570;&#xFE0F;</div>
+                <div class="time-display" id="sydney-time">--:--</div>
+                <div class="time-label">Sydney, Australia</div>
+                <div class="time-date" id="sydney-date"></div>
+            </div>
+
+            <!-- 4. ABOUT (2 col) -->
+            <div class="clay-card about-card span-2-col" data-tilt>
+                <h3>&#x1F31F; About Me</h3>
+                <p class="about-text">
+                    I'm a 19-year-old developer from Sydney who loves building creative tools and data-driven applications.
+                    Currently working at <strong>NewStudio</strong> as an extension developer and leading the <strong>NewStats</strong> project.
+                    Passionate about YouTube analytics, open source, and making the web more fun!
+                </p>
+                <div class="pill-tags">
+                    <span class="pill-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+                    <span class="pill-tag pill-tag--orange"><i class="fa-brands fa-node-js"></i> Node.js</span>
+                    <span class="pill-tag pill-tag--pink"><i class="fa-solid fa-chart-line"></i> Analytics</span>
+                    <span class="pill-tag pill-tag--green"><i class="fa-brands fa-youtube"></i> YouTube API</span>
+                    <span class="pill-tag pill-tag--blue"><i class="fa-brands fa-discord"></i> Discord Bots</span>
+                </div>
+            </div>
+
+            <!-- 5. LOCATION (1 col) -->
+            <div class="clay-card clay-card--yellow location-card" data-tilt data-confetti>
+                <div class="location-icon">&#x1F3D6;&#xFE0F;</div>
+                <div class="location-name">Sydney</div>
+                <div class="location-sub">Australia &#x1F1E6;&#x1F1FA;</div>
+            </div>
+
+            <!-- 6. AGE (1 col) -->
+            <div class="clay-card clay-card--pink age-card" data-tilt data-confetti>
+                <div class="age-emoji">&#x1F382;</div>
+                <div class="age-number" id="age-number">19</div>
+                <div class="age-label">years old</div>
+            </div>
+
+            <!-- 7. STATS (2 col) -->
+            <div class="clay-card clay-card--mint stats-card span-2-col" data-tilt>
+                <h3>&#x1F4CA; By the Numbers</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="18">0</div>
+                        <div class="stat-label">Projects Built</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="5" style="background:linear-gradient(135deg,var(--accent-purple),var(--accent-blue));-webkit-background-clip:text;background-clip:text;">0</div>
+                        <div class="stat-label">Discord Bots</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="12" style="background:linear-gradient(135deg,var(--accent-green),var(--accent-blue));-webkit-background-clip:text;background-clip:text;">0</div>
+                        <div class="stat-label">Open Source Repos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="2024" style="background:linear-gradient(135deg,var(--accent-yellow),var(--accent-orange));-webkit-background-clip:text;background-clip:text;">0</div>
+                        <div class="stat-label">Coding Since</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. WORK (2 col) -->
+            <div class="clay-card clay-card--lavender work-card span-2-col" data-tilt>
+                <div class="work-header">
+                    <img src="../images/newstudio.png" alt="NewStudio" class="work-logo" onerror="this.style.display='none'">
+                    <div class="work-info">
+                        <h3>NewStudio</h3>
+                        <span class="work-role">Extension Developer &amp; NewStats Lead</span>
+                    </div>
+                </div>
+                <div class="work-date">
+                    <span class="pulse-dot"></span>
+                    Oct 2025 &ndash; Present
+                </div>
+                <p class="work-description">
+                    NewStats offers better YouTube analytics integrated with NewStudio, a better YouTube Studio experience.
+                    Leading the development of analytics features and building browser extensions.
+                </p>
+                <a href="https://newstudio.app" target="_blank" rel="noopener" class="work-link">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Visit NewStudio
+                </a>
+            </div>
+
+            <!-- 9. SOCIALS (1 col) -->
+            <div class="clay-card socials-card" data-tilt>
+                <h3>&#x1F517; Links</h3>
+                <div class="social-links">
+                    <a href="https://discord.com/users/1158588351943811142" target="_blank" rel="noopener" class="social-link social-link--discord" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://github.com/charlie-ashford" target="_blank" rel="noopener" class="social-link social-link--github" title="GitHub">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com/charlieashfordd" target="_blank" rel="noopener" class="social-link social-link--twitter" title="Twitter">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 10. TECH STACK (1 col) -->
+            <div class="clay-card clay-card--blue tech-card" data-tilt>
+                <h3>&#x1F6E0;&#xFE0F; Tech</h3>
+                <div class="tech-icons">
+                    <div class="tech-icon"><i class="fa-brands fa-js" style="color:#F7DF1E"></i><span class="tooltip">JavaScript</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-node-js" style="color:#68A063"></i><span class="tooltip">Node.js</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-html5" style="color:#E34F26"></i><span class="tooltip">HTML</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-css3-alt" style="color:#1572B6"></i><span class="tooltip">CSS</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-react" style="color:#61DAFB"></i><span class="tooltip">React</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-discord" style="color:#5865F2"></i><span class="tooltip">Discord.js</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-git-alt" style="color:#F05032"></i><span class="tooltip">Git</span></div>
+                    <div class="tech-icon"><i class="fa-brands fa-chrome" style="color:#4285F4"></i><span class="tooltip">Extensions</span></div>
+                </div>
+            </div>
+
+            <!-- 11. FUN CARD (1 col) -->
+            <div class="clay-card clay-card--yellow fun-card" data-tilt data-confetti>
+                <div class="fun-text">&#x1F680; Building the future,<br>one project at a time &#x2728;</div>
+            </div>
+
+        </div>
+
+        <!-- ============================================
+             PROJECTS SECTION
+             ============================================ -->
+        <h2 class="section-title">&#x1F3AF; Projects</h2>
+        <div class="projects-grid" id="projects-grid"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Made with <span class="heart">&#x2764;&#xFE0F;</span> by <a href="https://github.com/charlie-ashford" target="_blank" rel="noopener">Charlie Ashford</a>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <img class="modal-image" id="modal-image" src="" alt="">
+            <div class="modal-content">
+                <h2 id="modal-title"></h2>
+                <p class="modal-desc" id="modal-desc"></p>
+                <p class="modal-date-text" id="modal-date"></p>
+                <div class="modal-links" id="modal-links"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        /* ======================
+           PROJECT DATA
+           ====================== */
+        const projects = [
+            { name:"Communitrics Discord Bot", date:"Jan 2024", desc:"Discord bot for real-time tracking of YouTube channel milestones.", link:"https://communitrics.com", code:null, image:"../images/communitrics.png", emoji:"\u{1F916}" },
+            { name:"MrBeast Subscriber Graph", date:"May 2024", desc:"Real-time graph of MrBeast's subscriber count with live updates.", link:"https://mrbeastgraph.com", code:"https://github.com/charlie-ashford/mrbeast-graph", image:"../images/mbgraph.png", emoji:"\u{1F4C8}" },
+            { name:"YouTube Data Exporter", date:"Aug 2024", desc:"Export statistics for any YouTube channel or video into structured data.", link:"https://export.communitrics.com", code:"https://github.com/charlie-ashford/data-exporter", image:"../images/export.png", emoji:"\u{1F4E6}" },
+            { name:"Communitrics Graphs", date:"Apr 2024", desc:"Subscriber and average view count graphs for YouTube channels.", link:"https://graphs.communitrics.com", code:"https://github.com/charlie-ashford/channel-graphs", image:"../images/graphs.png", emoji:"\u{1F4CA}" },
+            { name:"SCTools", date:"Sept 2024", desc:"Suite of tools built for stats community creators.", link:"https://sctools.org", code:null, image:"../images/sctools.png", emoji:"\u{1F6E0}\u{FE0F}" },
+            { name:"Video Data", date:"Aug 2024", desc:"Hourly statistics and tracking for YouTube channels and videos.", link:"https://videostats.communitrics.com", code:"https://github.com/charlie-ashford/video-stats", image:"../images/videos.png", emoji:"\u{1F3AC}" },
+            { name:"SocialStats.app", date:"Jan 2025", desc:"Cross-platform social media analytics and statistics.", link:"https://socialstats.app", code:null, image:"../images/socialstats.png", emoji:"\u{1F4F1}" },
+            { name:"My Portfolio", date:"Jan 2025", desc:"Personal portfolio website showcasing projects and experience.", link:"https://charlieashford.com", code:"https://github.com/charlie-ashford/my-portfolio", image:"../images/portfolio.png", emoji:"\u{1F310}" },
+            { name:"MrBeast Hourly Stats Bot", date:"May 2024", desc:"Discord bot providing hourly subscriber and view updates for MrBeast.", link:null, code:null, image:"../images/hourly.png", emoji:"\u{23F0}" },
+            { name:"Top YouTube Channels", date:"Apr 2024", desc:"A live list of the 1,000 most-subscribed YouTube channels.", link:"https://top.communitrics.com", code:"https://github.com/charlie-ashford/top-channels", image:"../images/top.png", emoji:"\u{1F3C6}" },
+            { name:"Old YouTube Channels", date:"Oct 2024", desc:"Explore YouTube channels from 2005 and the early days of the platform.", link:"https://oldtube.communitrics.com", code:"https://github.com/charlie-ashford/old-youtube", image:"../images/oldtube.png", emoji:"\u{1F4FC}" },
+            { name:"Color Extractor", date:"Apr 2025", desc:"Extract beautiful color palettes from any image.", link:"https://colors.communitrics.com", code:"https://github.com/charlie-ashford/color-extractor", image:"../images/colors.png", emoji:"\u{1F3A8}" },
+            { name:"Communitrics Counting", date:"Jul 2024", desc:"Analytics and data tracking for YouTube counting channels.", link:"https://counting.communitrics.com", code:"https://github.com/charlie-ashford/counting-data", image:"../images/counting.png", emoji:"\u{1F522}" },
+            { name:"MrBeast Subs Twitter Bot", date:"Feb 2025", desc:"Automated Twitter bot posting MrBeast subscriber milestones.", link:"https://twitter.com/MrBeast_Count", code:null, image:"../images/twitter.png", emoji:"\u{1F426}" },
+            { name:"Reminder Discord Bot", date:"Feb 2025", desc:"Periodic reminder system for Discord with customizable schedules.", link:"https://discord.com/oauth2/authorize?client_id=1339020731052331058", code:null, image:"../images/remind.png", emoji:"\u{23F1}\u{FE0F}" },
+            { name:"Global Clicker", date:"May 2024", desc:"A collaborative global counter \u2014 click together with everyone!", link:"https://clicker.communitrics.com", code:"https://github.com/charlie-ashford/global-clicker", image:"../images/clicker.png", emoji:"\u{1F5B1}\u{FE0F}" },
+            { name:"YTB Discord XP Leaderboard", date:"Sept 2024", desc:"Custom XP and leveling system with leaderboard tracking for Discord.", link:null, code:null, image:"../images/ytb.png", emoji:"\u{1F3C5}" },
+            { name:"Bluesky Statistics", date:"Nov 2024", desc:"Analytics and statistics dashboard for the Bluesky social platform.", link:"https://bluesky.communitrics.com", code:"https://github.com/charlie-ashford/bluesky-stats", image:"../images/bluesky.png", emoji:"\u{1F98B}" }
+        ];
+
+        /* ======================
+           RENDER PROJECT CARDS
+           ====================== */
+        var projectsGrid = document.getElementById('projects-grid');
+
+        projects.forEach(function(project, index) {
+            var card = document.createElement('div');
+            card.className = 'project-card';
+            card.setAttribute('data-tilt', '');
+            card.style.transitionDelay = (index * 0.04) + 's';
+            card.innerHTML =
+                '<img class="project-thumb" src="' + project.image + '" alt="' + project.name + '" onerror="this.style.display=\'block\'" loading="lazy">' +
+                '<div class="project-body">' +
+                    '<h4>' + project.emoji + ' ' + project.name + '</h4>' +
+                    '<p>' + project.desc + '</p>' +
+                    '<div class="project-date">' + project.date + '</div>' +
+                '</div>';
+            card.addEventListener('click', function() { openModal(project); });
+            projectsGrid.appendChild(card);
+        });
+
+        /* ======================
+           BENTO CARD ENTRY ANIMATION
+           ====================== */
+        var bentoCards = document.querySelectorAll('.clay-card');
+        var bentoObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var delay = Array.prototype.indexOf.call(bentoCards, entry.target) * 80;
+                    setTimeout(function() {
+                        entry.target.classList.add('entered');
+                    }, delay);
+                    bentoObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        bentoCards.forEach(function(card) { bentoObserver.observe(card); });
+
+        /* ======================
+           PROJECT CARD REVEAL
+           ====================== */
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.project-card').forEach(function(card) {
+            revealObserver.observe(card);
+        });
+
+        /* ======================
+           PROJECT MODAL
+           ====================== */
+        var modalOverlay = document.getElementById('modal-overlay');
+        var modalClose = document.getElementById('modal-close');
+        var modalImage = document.getElementById('modal-image');
+        var modalTitle = document.getElementById('modal-title');
+        var modalDesc = document.getElementById('modal-desc');
+        var modalDate = document.getElementById('modal-date');
+        var modalLinks = document.getElementById('modal-links');
+
+        function openModal(project) {
+            modalImage.src = project.image;
+            modalImage.alt = project.name;
+            modalTitle.textContent = project.emoji + ' ' + project.name;
+            modalDesc.textContent = project.desc;
+            modalDate.textContent = project.date;
+
+            var linksHtml = '';
+            if (project.link) {
+                linksHtml += '<a href="' + project.link + '" target="_blank" rel="noopener" class="modal-link modal-link--primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Project</a>';
+            }
+            if (project.code) {
+                linksHtml += '<a href="' + project.code + '" target="_blank" rel="noopener" class="modal-link modal-link--secondary"><i class="fa-brands fa-github"></i> Source Code</a>';
+            }
+            if (!project.link && !project.code) {
+                linksHtml = '<span style="font-size:13px;color:var(--text-muted);">No public links available</span>';
+            }
+            modalLinks.innerHTML = linksHtml;
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            burstConfetti(window.innerWidth / 2, window.innerHeight / 3, 35);
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        /* ======================
+           3D CARD TILT EFFECT
+           ====================== */
+        document.querySelectorAll('[data-tilt]').forEach(function(card) {
+            card.addEventListener('mousemove', function(e) {
+                var rect = card.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var y = e.clientY - rect.top;
+                var centerX = rect.width / 2;
+                var centerY = rect.height / 2;
+                var rotateX = ((y - centerY) / centerY) * -8;
+                var rotateY = ((x - centerX) / centerX) * 8;
+                card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
+                card.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+
+            card.addEventListener('mouseenter', function() {
+                card.style.transition = 'transform 0.15s ease-out';
+            });
+        });
+
+        /* ======================
+           STATS COUNTER ANIMATION
+           ====================== */
+        var counters = document.querySelectorAll('[data-count]');
+        var counterDone = false;
+
+        var counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !counterDone) {
+                    counterDone = true;
+                    animateCounters();
+                    counterObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        counters.forEach(function(c) { counterObserver.observe(c); });
+
+        function animateCounters() {
+            counters.forEach(function(counter) {
+                var target = parseInt(counter.getAttribute('data-count'), 10);
+                var duration = target > 100 ? 2000 : 1200;
+                var startTime = performance.now();
+
+                function tick(now) {
+                    var elapsed = now - startTime;
+                    var progress = Math.min(elapsed / duration, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.round(eased * target).toLocaleString();
+                    if (progress < 1) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        counter.textContent = target.toLocaleString();
+                    }
+                }
+
+                requestAnimationFrame(tick);
+            });
+        }
+
+        /* ======================
+           LANYARD DISCORD PRESENCE
+           ====================== */
+        var DISCORD_ID = '1158588351943811142';
+
+        function fetchPresence() {
+            fetch('https://api.lanyard.rest/v1/users/' + DISCORD_ID)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.success) return;
+
+                    var user = data.data;
+                    var status = user.discord_status;
+                    var activities = user.activities || [];
+                    var du = user.discord_user;
+
+                    // Avatar
+                    var avatarEl = document.getElementById('discord-avatar');
+                    var placeholderEl = document.getElementById('avatar-placeholder');
+                    if (du.avatar) {
+                        var ext = du.avatar.startsWith('a_') ? 'gif' : 'png';
+                        avatarEl.src = 'https://cdn.discordapp.com/avatars/' + du.id + '/' + du.avatar + '.' + ext + '?size=128';
+                        avatarEl.style.display = 'block';
+                        placeholderEl.style.display = 'none';
+                    }
+
+                    // Username
+                    document.getElementById('discord-username').textContent = du.global_name || du.username;
+
+                    // Status dot
+                    document.getElementById('presence-dot').className = 'presence-dot ' + status;
+
+                    // Status label
+                    var labels = { online:'Online', idle:'Idle', dnd:'Do Not Disturb', offline:'Offline' };
+                    document.getElementById('presence-label').textContent = labels[status] || 'Offline';
+
+                    // Custom status
+                    var custom = activities.find(function(a) { return a.type === 4; });
+                    var csEl = document.getElementById('discord-custom-status');
+                    if (custom) {
+                        var t = '';
+                        if (custom.emoji && custom.emoji.name) t += custom.emoji.name + ' ';
+                        t += custom.state || '';
+                        csEl.textContent = t;
+                    } else {
+                        csEl.textContent = '';
+                    }
+
+                    // Activity / Spotify
+                    var actSection = document.getElementById('activity-section');
+                    var actType = document.getElementById('activity-type');
+                    var actInfo = document.getElementById('activity-info');
+
+                    if (user.listening_to_spotify && user.spotify) {
+                        actSection.style.display = 'block';
+                        actType.textContent = 'LISTENING TO SPOTIFY';
+                        actInfo.innerHTML =
+                            '<img class="spotify-art" src="' + user.spotify.album_art_url + '" alt="Album" onerror="this.style.display=\'none\'">' +
+                            '<div class="spotify-text">' +
+                                '<div class="song-name">' + user.spotify.song + '</div>' +
+                                '<div class="artist-name">by ' + user.spotify.artist + '</div>' +
+                            '</div>';
+                    } else {
+                        var game = activities.find(function(a) { return a.type === 0; });
+                        if (game) {
+                            actSection.style.display = 'block';
+                            actType.textContent = 'PLAYING';
+                            actInfo.innerHTML =
+                                '<div class="spotify-text">' +
+                                    '<div class="song-name">' + game.name + '</div>' +
+                                    (game.details ? '<div class="artist-name">' + game.details + '</div>' : '') +
+                                '</div>';
+                        } else {
+                            actSection.style.display = 'none';
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    console.warn('Lanyard fetch failed:', err);
+                    document.getElementById('discord-username').textContent = 'charlie';
+                    document.getElementById('presence-label').textContent = 'Could not fetch status';
+                });
+        }
+
+        fetchPresence();
+        setInterval(fetchPresence, 30000);
+
+        /* ======================
+           SYDNEY TIME (Luxon)
+           ====================== */
+        function updateTime() {
+            try {
+                var now = luxon.DateTime.now().setZone('Australia/Sydney');
+                document.getElementById('sydney-time').textContent = now.toFormat('h:mm:ss a');
+                document.getElementById('sydney-date').textContent = now.toFormat('EEEE, d MMMM');
+            } catch(e) {
+                document.getElementById('sydney-time').textContent = new Date().toLocaleTimeString('en-AU', { timeZone:'Australia/Sydney' });
+            }
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        /* ======================
+           AGE CALCULATION
+           ====================== */
+        function calcAge() {
+            var birth = new Date(2005, 9, 25);
+            var now = new Date();
+            var age = now.getFullYear() - birth.getFullYear();
+            var m = now.getMonth() - birth.getMonth();
+            if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+            document.getElementById('age-number').textContent = age;
+        }
+        calcAge();
+
+        /* ======================
+           CONFETTI SYSTEM
+           ====================== */
+        var canvas = document.getElementById('confetti-canvas');
+        var ctx = canvas.getContext('2d');
+        var particles = [];
+        var animating = false;
+        var colors = ['#FF8C42','#FF6B9D','#A855F7','#34D399','#60A5FA','#FBBF24','#EC4899','#8B5CF6'];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function burstConfetti(x, y, count) {
+            count = count || 40;
+            for (var i = 0; i < count; i++) {
+                var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+                var speed = 3 + Math.random() * 6;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 3,
+                    size: 4 + Math.random() * 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 15,
+                    gravity: 0.12 + Math.random() * 0.06,
+                    opacity: 1,
+                    shape: Math.random() > 0.5 ? 'rect' : 'circle'
+                });
+            }
+            if (!animating) {
+                animating = true;
+                tickConfetti();
+            }
+        }
+
+        function tickConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (var i = particles.length - 1; i >= 0; i--) {
+                var p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.vx *= 0.99;
+                p.rotation += p.rotSpeed;
+                p.opacity -= 0.008;
+
+                if (p.opacity <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle = p.color;
+
+                if (p.shape === 'rect') {
+                    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            if (particles.length > 0) {
+                requestAnimationFrame(tickConfetti);
+            } else {
+                animating = false;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Confetti on click for marked elements
+        document.querySelectorAll('[data-confetti]').forEach(function(el) {
+            el.addEventListener('click', function() {
+                var rect = el.getBoundingClientRect();
+                burstConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
+            });
+        });
+
+        // Celebration confetti on page load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                burstConfetti(window.innerWidth / 2, window.innerHeight / 3, 50);
+            }, 1200);
+        });
+
+    })();
+    </script>
+
+</body>
+</html>

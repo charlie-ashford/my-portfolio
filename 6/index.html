@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charlie Ashford — Signal Garden</title>
+    <meta
+      name="description"
+      content="Charlie Ashford — data visualization developer building tools for YouTube statistics and internet culture."
+    />
+    <meta name="theme-color" content="#f4efe7" />
+
+    <link rel="icon" href="https://charlieashford.com/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background">
+      <div class="mesh"></div>
+      <div class="grain"></div>
+      <div class="floaters" aria-hidden="true">
+        <span class="floater" data-speed="0.015" style="--size: 160px; --x: 10%; --y: 20%;"></span>
+        <span class="floater" data-speed="0.03" style="--size: 120px; --x: 70%; --y: 12%;"></span>
+        <span class="floater" data-speed="0.02" style="--size: 220px; --x: 80%; --y: 60%;"></span>
+        <span class="floater" data-speed="0.025" style="--size: 140px; --x: 15%; --y: 70%;"></span>
+      </div>
+    </div>
+
+    <main class="page">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Sydney, Australia · Data visualization + YouTube metrics</p>
+          <h1>Charlie Ashford</h1>
+          <p class="lede">
+            I design internet tools that make massive YouTube data feel intimate.
+            From live milestone tracking to exportable analytics, I build
+            experiences that let communities see themselves clearly.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#projects">Browse projects</a>
+            <a
+              class="btn ghost"
+              href="/cdn-cgi/l/email-protection#aacbcec7c3c4eac9c5c7c7dfc4c3ded8c3c9d984c9c5c7"
+              >Email me</a>
+          </div>
+          <div class="meta">
+            <div>
+              <span class="meta-label">Local time</span>
+              <span id="local-time" class="meta-value"></span>
+            </div>
+            <div>
+              <span class="meta-label">Age</span>
+              <span id="age" class="meta-value"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-cards">
+          <article class="mini-card">
+            <h3>Signal Garden</h3>
+            <p>Soft systems, crisp metrics, lively UI.</p>
+            <div class="tag-row">
+              <span>Realtime</span>
+              <span>Community</span>
+              <span>Storytelling</span>
+            </div>
+          </article>
+          <article class="mini-card">
+            <h3>Focus areas</h3>
+            <ul>
+              <li>Live metrics dashboards</li>
+              <li>Beautiful data exports</li>
+              <li>Creator economy tooling</li>
+            </ul>
+          </article>
+          <article class="mini-card">
+            <h3>Current rhythm</h3>
+            <p>
+              Building tools at NewStudio while exploring new ways to visualize
+              social growth.
+            </p>
+          </article>
+        </div>
+      </header>
+
+      <section id="projects" class="section">
+        <div class="section-header">
+          <h2>Selected projects</h2>
+          <p>Carefully crafted products for creators, analysts, and communities.</p>
+        </div>
+        <div id="projects-grid" class="projects-grid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Professional work</h2>
+          <p>Studio roles and collaborations that shaped my craft.</p>
+        </div>
+        <div id="work-grid" class="work-grid"></div>
+      </section>
+
+      <section class="section manifesto">
+        <h2>Design north star</h2>
+        <p>
+          Every dashboard is a story. I build with empathy for the audience, and
+          I keep the signal clean so the community can celebrate the moment.
+        </p>
+        <div class="pill-row">
+          <span>Human-first</span>
+          <span>Delightful motion</span>
+          <span>Precise data</span>
+          <span>Careful craft</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="https://github.com/charlie-ashford" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://twitter.com/charlieashfordd" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://discord.com/users/1158588351943811142" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <p>Built with care, curiosity, and a love of internet lore.</p>
+    </footer>
+
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>

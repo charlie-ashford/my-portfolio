@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charlie Ashford — Obsidian Systems</title>
+    <meta
+      name="description"
+      content="Charlie Ashford — builder of data-rich tools for YouTube communities."
+    />
+    <meta name="theme-color" content="#0b0b0b" />
+
+    <link rel="icon" href="https://charlieashford.com/images/logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grid-overlay" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <aside class="rail">
+      <div class="rail-mark">
+        <span>/07</span>
+        <span>Obsidian</span>
+      </div>
+      <nav class="rail-nav">
+        <a href="#projects">Projects</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="rail-meta">
+        <span>Signal</span>
+        <span>Systems</span>
+      </div>
+    </aside>
+
+    <main class="wrap">
+      <header class="hero">
+        <div class="hero-top">
+          <span class="badge">Data Systems Builder</span>
+          <div class="time-card">
+            <span>Sydney</span>
+            <strong id="local-time"></strong>
+          </div>
+        </div>
+        <h1>Charlie Ashford</h1>
+        <p class="lede">
+          I build high-pressure interfaces for internet-scale moments: live
+          milestone tracking, creator analytics, and tools that keep communities
+          synced to the signal.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">View projects</a>
+          <a
+              class="btn ghost"
+              href="/cdn-cgi/l/email-protection#aacbcec7c3c4eac9c5c7c7dfc4c3ded8c3c9d984c9c5c7"
+              >Email me</a>
+          </div>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-label">Age</span>
+            <span class="stat-value" id="age"></span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Location</span>
+            <span class="stat-value">Sydney, AU</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Focus</span>
+            <span class="stat-value">Realtime analytics</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="projects" class="section">
+        <div class="section-title">
+          <h2>Project grid</h2>
+          <p>High-signal products for creators, communities, and culture tracking.</p>
+        </div>
+        <div id="project-grid" class="project-grid"></div>
+      </section>
+
+      <section id="work" class="section">
+        <div class="section-title">
+          <h2>Professional work</h2>
+          <p>Long-term collaborations focused on creator analytics and UX.</p>
+        </div>
+        <div id="work-list" class="work-list"></div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <div>
+          <h2>Signal me</h2>
+          <p>
+            Available for bold data visualization projects and experimental
+            dashboard concepts.
+          </p>
+        </div>
+        <a
+          class="btn primary"
+          href="/cdn-cgi/l/email-protection#aacbcec7c3c4eac9c5c7c7dfc4c3ded8c3c9d984c9c5c7"
+          >Start a project</a>
+      </section>
+    </main>
+
+    <div class="ticker" aria-hidden="true">
+      <div id="ticker-track" class="ticker-track"></div>
+    </div>
+
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
